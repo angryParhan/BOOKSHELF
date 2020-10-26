@@ -81,6 +81,8 @@
 </script>
 
 <style lang="scss">
+  @import '../assets/scss/globals.scss';
+
   .login {
     font-family: 'Quicksand', sans-serif;
     position: fixed;
@@ -139,7 +141,7 @@
   }
 
   .btn {
-    background: #e1a73b;
+    background: $orange;
     border: none;
     border-radius: 30px;
     padding: 15px 59px;
