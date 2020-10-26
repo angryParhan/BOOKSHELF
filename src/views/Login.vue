@@ -47,7 +47,7 @@
         </transition>
       </div>
       <div class="login__footer">
-        <button class="btn login__btn"  @click="login = !login">
+        <button class="btn login__btn get-started__btn"  @click="login = !login">
           <transition name="fade" mode="out-in">
             <span :key="login">{{ login ? 'Sign up' : 'Get started' }}</span>
           </transition>
@@ -98,8 +98,6 @@
 </script>
 
 <style lang="scss">
-  @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-
   .login {
     font-family: 'Quicksand', sans-serif;
     position: fixed;
@@ -135,27 +133,6 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        &__input {
-          font-family: 'Quicksand', sans-serif;
-          width: 50%;
-          margin: 10px 0;
-          background: rgba(0, 0, 0, 0.5);
-          outline: none;
-          border: 3px solid #e1a73b;
-          border-radius: 40px;
-          padding: 14px 26px;
-          font-size: 19px;
-          color: #ffe8bd;
-          text-align: center;
-          box-shadow: 0 0 30px #000000;
-          &::placeholder {
-            font-family: 'Quicksand', sans-serif;
-            color: #e0bfa0;
-          }
-        }
-        .input__error {
-          border: 3px solid #ff5234;
-        }
       }
       &__icon {
         width: 200px;
@@ -163,6 +140,9 @@
     }
     &__footer {
       width: 100%;
+      .get-started__btn {
+          min-width: 232px;
+      }
     }
     &__btn {
       margin: 0 auto;
@@ -216,10 +196,10 @@
   }
 
   .slide-fade-enter-active {
-    transition: all .1s ease;
+    transition: all .2s ease;
   }
   .slide-fade-leave-active {
-    transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
   .slide-fade-enter-from, .slide-fade-leave-to
     /* .slide-fade-leave-active до версии 2.1.8 */ {

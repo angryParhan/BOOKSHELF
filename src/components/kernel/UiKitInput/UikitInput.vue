@@ -50,15 +50,21 @@
 
 <style lang="scss">
   .UiKit-input {
-    max-width: 300px;
+    /*max-width: 300px;*/
+    width: 60%;
     max-height: 80px;
     padding: 0.4rem 0.25rem 0.5rem 0.25rem;
     margin-top: 40px;
     background: rgba(0, 0, 0, 0.5);
-    border: 1px solid #e1a73b;
+    box-shadow: 0 0 30px #000000;
+    border: 3px solid #e1a73b;
+    border-radius: 40px;
+    outline: none;
     position: relative;
-    font-size: 25px;
-
+    font-family: 'Quicksand', sans-serif;
+    font-size: 19px;
+    text-align: center;
+    color: #ffe8bd;
 
     &-active {
       top: -13px !important;
@@ -75,6 +81,8 @@
       border: none;
       background: transparent;
       color: aliceblue;
+      outline: none;
+      padding: 3px 13px;
     }
 
     input:focus + label {
