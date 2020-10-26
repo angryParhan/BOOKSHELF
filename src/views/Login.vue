@@ -1,20 +1,3 @@
-<!--<template>-->
-<!--  <div class="login">-->
-<!--    <div class="login__wrapper">-->
-<!--      <div class="login__header">-->
-<!--        <h1 class="app-name login__name">Bookshelf</h1>-->
-<!--      </div>-->
-<!--      <div class="login__body">-->
-<!--        <img v-if="!login" class="login__icon" src="../assets/login-imgs/icon.png" alt="" />-->
-<!--      </div>-->
-<!--      <div class="login__footer">-->
-<!--        <button class="btn login__btn" @click="login = true">Get started</button>-->
-<!--        <UiKitInput v-model="textTest" />-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</template>-->
-
 <template>
   <div class="login">
     <div class="login__wrapper">
