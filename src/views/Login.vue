@@ -118,7 +118,9 @@
         align-items: center;
       }
       &__icon {
-        width: 200px;
+          width: 200px;
+          border-radius: 100px;
+          box-shadow: 0 0px 550px 20px #000000;
       }
     }
     &__footer {
@@ -155,7 +157,7 @@
     }
   }
   .app-name {
-    color: #ffe8bd;
+    color: #fccd67;
     font-size: 75px;
     text-shadow: 0 0 0 black, 0 0 1em black;
     text-transform: uppercase;
