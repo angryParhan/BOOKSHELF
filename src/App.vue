@@ -35,4 +35,5 @@
   @import './assets/scss/globals.scss';
 
 
+
 </style>

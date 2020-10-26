@@ -4,6 +4,8 @@ import router from './router'
 import store from './store.js'
 import kernel from './components/kernel/index'
 
+import "normalize.css"
+
 
 Vue.config.productionTip = false
 

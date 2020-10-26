@@ -9,7 +9,7 @@
       </div>
       <div class="login__footer">
         <button class="btn login__btn" @click="login = true">Get started</button>
-        <UiKitInput />
+        <UiKitInput v-model="textTest" />
       </div>
     </div>
   </div>
@@ -22,7 +22,8 @@
   export default {
     data () {
       return {
-        login: false
+        login: false,
+        textTest: 'sdvsdv'
       }
     },
     computed: {
@@ -32,6 +33,8 @@
       ...mapGetters({
         isLogin: 'isLogin'
       })
+    },
+    methods: {
     }
   }
 </script>

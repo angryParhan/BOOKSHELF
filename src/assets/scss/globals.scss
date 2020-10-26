@@ -1,7 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+input[type="text"], input[type="password"], textarea, select {
+  outline: none;
+}
+
 .base-dk-yellow {
   color: #e1a73b;
 }
 
 .base-dk-yellow {
   color: #fbcc67;
+}
+
+.d-none {
+  display: none;
+}
+
+.op-1 {
+  opacity: 1;
 }
