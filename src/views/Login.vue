@@ -42,6 +42,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+  import axios from 'axios'
 
 
   export default {
@@ -76,6 +77,10 @@
           this.formValues[type].error = false
         }
       }
+    },
+    async mounted () {
+      const res = await axios.get('http://localhost:8081/server')
+      console.log(res)
     }
   }
 </script>
