@@ -24,7 +24,8 @@
                     :class="{input__error: formValues.password.error}"
                     class="login__body__form__input"
                     placeholder="Password"
-                    type="email"
+                    type="password"
+                    style="margin-top: 65px"
             ></UiKitInput>
           </div>
         </transition>
@@ -118,7 +119,15 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        &__input {
+          width: 550px;
+        }
+
       }
+
+
+
       &__icon {
           width: 200px;
           border-radius: 100px;
@@ -163,6 +172,10 @@
     font-size: 75px;
     text-shadow: 0 0 0 black, 0 0 1em black;
     text-transform: uppercase;
+
+    @media all and (max-width: 600px) {
+      font-size: 47px;
+    }
   }
   .fade-enter-active, .fade-leave-active {
     transition: opacity .3s ease;
