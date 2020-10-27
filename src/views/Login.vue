@@ -69,6 +69,11 @@
         isLogin: 'isLogin'
       })
     },
+    watch: {
+      '$breakpoint.xsOnly' (nv) {
+        console.log('change', nv)
+      }
+    },
     methods: {
       formValidate (type) {
         if (!this.formValues[type].value) {

@@ -1,8 +1,8 @@
 <template>
-  <section class="UiKit-input" :class="customClass" :style="{'border-color': error !== '' ? '#FB6868' : '#e1a73b'}">
-    <input v-model="localInputValue" :type="type" :maxlength="maxlength" id="uiKitInput" @focus="$emit('input-focus', $event)" @blur="$emit('input-blur', $event)">
+  <section class="UiKit-input" :class="customClass" :style="{'border-color': error !== '' && error !== false ? '#FB6868' : '#e1a73b'}">
+    <input v-model="localInputValue" :type="type" :maxlength="maxlength" id="uiKitInput" @focus="$emit('on-focus', $event)" @blur="$emit('on-blur', $event)">
     <label for="uiKitInput" :class="{'UiKit-input-active' : localInputValue.length}">{{ placeholder }}</label>
-    <span class="UiKit-input__error">{{ error }}</span>
+    <span class="UiKit-input__error" v-show="typeof error !== 'boolean'">{{ error }}</span>
   </section>
 
 </template>
@@ -35,7 +35,7 @@
         default: ' '
       },
       error: {
-        type: String,
+        type: [String,Boolean],
         default: ''
       }
     },
