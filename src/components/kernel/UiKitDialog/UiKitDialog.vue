@@ -1,6 +1,6 @@
 <template>
   <section
-      v-if="isOpen"
+      v-show="isOpen"
       class="ui-kit-dialog"
   >
     <transition name="fade">
@@ -107,10 +107,10 @@
     }
 
     &__content {
-      width: 400px;
+      width: 600px;
       position: absolute;
       z-index: inherit;
-      background: #ffffff;
+      background: #272727;
       overflow: auto;
       //box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.13);
       border-radius: 10px;

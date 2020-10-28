@@ -16,7 +16,7 @@
                     class="login__body__form__input"
                     placeholder="Email"
                     type="email"
-            ></UiKitInput>
+            />
             <UiKitInput
                     v-model="formValues.password.value"
                     @focus="formValues.password.error"
@@ -26,7 +26,7 @@
                     placeholder="Password"
                     type="password"
                     style="margin-top: 65px"
-            ></UiKitInput>
+            />
           </div>
         </transition>
       </div>

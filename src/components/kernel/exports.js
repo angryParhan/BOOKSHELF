@@ -4,3 +4,7 @@ export const UiKitInput = () => import( /* webpackChunkName: 'input' */ './UiKit
 
 //dialog
 export const UiKitDialog = () => import( /* webpackChunkName: 'dialog' */ './UiKitDialog')
+
+
+//button
+export const UiKitBtn = () => import( /* webpackChunkName: 'button' */ './UiKitBtn')

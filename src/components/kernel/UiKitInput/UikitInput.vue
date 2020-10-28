@@ -62,7 +62,7 @@
     padding: 0.4rem 0.25rem 0.5rem 0.25rem;
     background: rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 30px #000000;
-    border: 3px solid #e1a73b;
+    border: 2px solid #e1a73b;
     border-radius: 40px;
     outline: none;
     position: relative;
