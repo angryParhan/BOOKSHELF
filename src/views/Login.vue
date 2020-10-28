@@ -31,11 +31,11 @@
         </transition>
       </div>
       <div class="login__footer">
-        <button class="btn login__btn get-started__btn"  @click="login = !login">
-          <transition name="fade" mode="out-in">
-            <span :key="login">{{ login ? 'Sign up' : 'Get started' }}</span>
-          </transition>
-        </button>
+<!--        <button class="btn login__btn get-started__btn"  @click="login = !login">-->
+<!--          <transition name="fade" mode="out-in">-->
+<!--            <span :key="login">{{ login ? 'Sign up' : 'Get started' }}</span>-->
+<!--          </transition>-->
+<!--        </button>-->
       </div>
     </div>
   </section>
