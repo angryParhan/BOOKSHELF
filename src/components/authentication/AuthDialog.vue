@@ -23,7 +23,7 @@
 
 <style lang="scss">
   .auth-dialog {
-    width: 300px;
+    width: 100%;
     background: #FB6868;
     height: 300px;
   }

@@ -107,11 +107,15 @@
     }
 
     &__content {
+      width: 400px;
       position: absolute;
       z-index: inherit;
       background: #ffffff;
       overflow: auto;
       //box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.13);
+      border-radius: 10px;
+      max-height: 90vh;
+      box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
 
       &--mobile {
         //width: 100vw;
