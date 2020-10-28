@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <section class="login">
     <div class="login__wrapper">
       <div class="login__header">
         <h1 class="app-name login__name">Bookshelf</h1>
@@ -38,7 +38,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

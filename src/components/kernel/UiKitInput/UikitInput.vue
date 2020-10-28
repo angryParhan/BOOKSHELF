@@ -121,7 +121,6 @@
       left: 12px;
       pointer-events: none;
       transition: all 0.3s;
-
     }
 
     &__error {
