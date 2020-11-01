@@ -6,7 +6,7 @@
     >
       <div class="auth-dialog">
 
-        <div class="auth-dialog__tabs">
+        <div class="auth-dialog__tabs" :class="{'auth-dialog__tabs-disable' : loading}">
           <div class="auth-dialog__tabs-wrapper" :class="{ 'slide-left' : activeTab === 'sign-in', 'slide-right' : activeTab === 'sign-up' }">
             <p class="tabs-item" :class="{'tabs-item-active' : activeTab === 'sign-in'}" @click="activeTab = 'sign-in'">Sign in</p>
             <p class="tabs-item" :class="{'tabs-item-active' : activeTab === 'sign-up'}" @click="activeTab = 'sign-up'">Sign up</p>
@@ -14,11 +14,16 @@
         </div>
 
         <section class="auth-dialog__active-tab">
-          <SignIn />
+          <transition name="slide-fade" mode="out-in">
+            <SignIn v-if="activeTab === 'sign-in'" @auth-result="loading = false"/>
+            <SignUp v-else @auth-result="loading = false"/>
+          </transition>
+
+
         </section>
 
         <div class="auth-dialog__btn">
-          <UiKitBtn text="Log In" style="width: 200px"/>
+          <UiKitBtn text="Log In" style="width: 200px" :loading="loading" @click="authHandler"/>
         </div>
 
 
@@ -29,16 +34,25 @@
 
 <script>
 import SignIn from './SignIn'
+import SignUp from './SignUp'
 
   export default {
     name: "AuthDialog",
     components: {
-      SignIn
+      SignIn,
+      SignUp
     },
     data() {
       return {
         activeDialog: true,
-        activeTab: 'sign-in'
+        activeTab: 'sign-in',
+        loading: false
+      }
+    },
+    methods: {
+      authHandler () {
+        this.loading = true
+        this.$root.$emit('auth')
       }
     }
   }
@@ -46,7 +60,12 @@ import SignIn from './SignIn'
 
 <style lang="scss">
   .auth-dialog {
-    width: 100%;
+    width: 500px;
+
+    @media all and (max-width: 600px) {
+      width: 100%;
+    }
+
     background: #272727;
     color: #ffe8bd;
 
@@ -54,6 +73,11 @@ import SignIn from './SignIn'
       padding-top: 30px;
       display: flex;
       justify-content: center;
+
+      &-disable {
+        pointer-events: none;
+        
+      }
 
       &-wrapper {
         display: flex;
@@ -90,32 +114,24 @@ import SignIn from './SignIn'
         padding: 20px 0;
         user-select: none;
         margin-bottom: 0;
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(0, 0, 0, 0.1);
 
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.05);
-        }
 
         &-active {
-          background: rgba(0, 0, 0, 0.1);
-        }
-
-        &-active::after {
-
+          background: rgba(0, 0, 0, 0.2);
         }
       }
 
     }
 
     &__active-tab {
-      margin-top: 100px;
+      margin-top: 55px;
     }
 
     &__btn {
       display: flex;
       justify-content: center;
-      margin-top: 80px;
+      margin-top: 55px;
       margin-bottom: 40px;
     }
   }

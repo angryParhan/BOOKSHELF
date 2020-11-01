@@ -2,11 +2,21 @@
   <section class="sign-in">
     <div>
       <UiKitInput
+          v-model="formValues.username.value"
+          :class="{input__error: formValues.username.error}"
+          class="sign-in__input"
+          placeholder="Username"
+          type="text"
+      />
+    </div>
+    <div>
+      <UiKitInput
           v-model="formValues.login.value"
           :class="{input__error: formValues.login.error}"
           class="sign-in__input"
           placeholder="Email"
           type="email"
+          style="margin-top: 55px"
       />
     </div>
     <div>
@@ -16,7 +26,17 @@
           class="sign-in__input"
           placeholder="Password"
           type="password"
-          style="margin-top: 65px"
+          style="margin-top: 55px"
+      />
+    </div>
+    <div>
+      <UiKitInput
+          v-model="formValues.confirmPassword.value"
+          :class="{input__error: formValues.confirmPassword.error}"
+          class="sign-in__input"
+          placeholder="Confirm password"
+          type="password"
+          style="margin-top: 55px"
       />
     </div>
 
@@ -26,10 +46,14 @@
 
 <script>
   export default {
-    name: "SignIn",
+    name: "SignUp",
     data () {
       return {
         formValues: {
+          username: {
+            value: '',
+            error: false
+          },
           login: {
             value: '',
             error: false
@@ -37,25 +61,29 @@
           password: {
             value: '',
             error: false
+          },
+          confirmPassword: {
+            value: '',
+            error: false
           }
         }
       }
     },
     mounted () {
-      console.log('parent', this.$parent)
-      this.$root.$on('auth', this.signInHandler)
+      this.$root.$on('auth', this.signUpHandler)
     },
     beforeDestroy() {
-      this.$root.$off('auth', this.signInHandler)
+      this.$root.$off('auth', this.signUpHandler)
     },
     methods: {
-      signInHandler () {
-        console.log('sign in')
+      signUpHandler () {
+        console.log('sign up')
         setTimeout(() => {
           this.$emit('auth-result', false)
         }, 3000)
       }
     }
+
   }
 </script>
 

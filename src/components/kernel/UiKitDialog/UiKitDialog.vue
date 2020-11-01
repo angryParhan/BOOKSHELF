@@ -14,6 +14,7 @@
     <transition name="fade">
       <section
           :class="contentClasses"
+          :style="{'border-radius' : fullscreen ? '0' : '10px'}"
       >
         <div
           v-show="closeBtn"
@@ -101,19 +102,27 @@
       height: 15px;
       position: absolute;
       cursor: pointer;
-      right: 12px;
-      top: 12px;
+      right: 5px;
+      top: 5px;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      transition: background-color 0.1s linear;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        transition: background-color 0.1s linear;
+      }
 
     }
 
     &__content {
-      width: 600px;
       position: absolute;
       z-index: inherit;
       background: #272727;
       overflow: auto;
-      //box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.13);
-      border-radius: 10px;
       max-height: 90vh;
       box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
 

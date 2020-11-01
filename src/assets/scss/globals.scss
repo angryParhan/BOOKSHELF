@@ -9,6 +9,7 @@ $red: #FB6868;
 * {
   box-sizing: border-box;
   font-family: 'Quicksand', sans-serif;
+  color: #fff8dc;
 }
 
 input[type="text"], input[type="password"], textarea, select {
@@ -41,4 +42,8 @@ select:-webkit-autofill:focus {
 
 .op-1 {
   opacity: 1;
+}
+
+.no-ptr-events {
+  pointer-events: none;
 }

@@ -72,7 +72,7 @@
     color: #ffe8bd;
 
     &-active {
-      top: -13px !important;
+      top: -17px !important;
       color: #e1a73b !important;
     }
 
@@ -107,7 +107,7 @@
 
 
     input:focus + label {
-      top: -13px;
+      top: -17px;
       color: #e1a73b;
       transition: all 0.3s;
     }
