@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const mysql = require('mysql')
+const passport = require('passport')
 const authRoutes = require('./routes/auth')
 // const {sequelize} = require('./models')
 // const config = require('./config/config')
@@ -11,8 +12,11 @@ const authRoutes = require('./routes/auth')
 const app = express()
 app.use(morgan('combined'))
 app.use(bodyParser.json())
+app.use(passport.initialize())
 app.use(cors())
 app.use('/api/auth', authRoutes)
+
+require('./middleware/passport')(passport)
 
 const connection = mysql.createConnection({
   host: 'localhost',
