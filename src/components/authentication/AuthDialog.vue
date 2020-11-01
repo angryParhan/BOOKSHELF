@@ -14,7 +14,7 @@
         </div>
 
         <section class="auth-dialog__active-tab">
-          <transition name="slide-fade" mode="out-in">
+          <transition name="fadeHeight" mode="out-in">
             <SignIn v-if="activeTab === 'sign-in'" @auth-result="loading = false"/>
             <SignUp v-else @auth-result="loading = false"/>
           </transition>
@@ -76,7 +76,7 @@ import SignUp from './SignUp'
 
       &-disable {
         pointer-events: none;
-        
+
       }
 
       &-wrapper {
@@ -134,6 +134,18 @@ import SignUp from './SignUp'
       margin-top: 55px;
       margin-bottom: 40px;
     }
+  }
+
+  .fadeHeight-enter-active,
+  .fadeHeight-leave-active {
+    transition: all 0.3s;
+    max-height: 600px;
+  }
+  .fadeHeight-enter,
+  .fadeHeight-leave-to
+  {
+    max-height: 200px;
+    opacity: 0;
   }
 
 </style>
