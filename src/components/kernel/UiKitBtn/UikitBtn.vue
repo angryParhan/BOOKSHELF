@@ -45,7 +45,7 @@
 
    &__disabled {
      pointer-events: none;
-     background: rgba(241, 174, 72, 0.8);
+     background: rgba(241, 174, 72, 0.6);
    }
 
    &:hover {
