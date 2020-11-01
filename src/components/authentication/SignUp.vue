@@ -3,7 +3,7 @@
     <div>
       <UiKitInput
           v-model="formValues.username.value"
-          :class="{input__error: formValues.username.error}"
+          :error="formValues.username.error"
           class="sign-in__input"
           placeholder="Username"
           type="text"
@@ -12,7 +12,7 @@
     <div>
       <UiKitInput
           v-model="formValues.login.value"
-          :class="{input__error: formValues.login.error}"
+          :error="formValues.login.error"
           class="sign-in__input"
           placeholder="Email"
           type="email"
@@ -22,7 +22,7 @@
     <div>
       <UiKitInput
           v-model="formValues.password.value"
-          :class="{input__error: formValues.password.error}"
+          :error="formValues.password.error"
           class="sign-in__input"
           placeholder="Password"
           type="password"
@@ -32,7 +32,7 @@
     <div>
       <UiKitInput
           v-model="formValues.confirmPassword.value"
-          :class="{input__error: formValues.confirmPassword.error}"
+          :error="formValues.confirmPassword.error"
           class="sign-in__input"
           placeholder="Confirm password"
           type="password"
@@ -49,6 +49,7 @@
     name: "SignUp",
     data () {
       return {
+        errorCheck: false,
         formValues: {
           username: {
             value: '',
@@ -77,10 +78,57 @@
     },
     methods: {
       signUpHandler () {
-        console.log('sign up')
-        setTimeout(() => {
-          this.$emit('auth-result', false)
-        }, 3000)
+        this.errorCheck = false
+
+        this.validateUsername()
+        this.validateEmail()
+        this.validatePassword()
+        this.validateConfirmPassword()
+
+
+        if (!this.errorCheck) {
+          //signInFunction
+          console.log('sign up')
+          setTimeout(() => {
+            this.$emit('auth-result', 'success')
+          }, 1000)
+        } else {
+          this.$emit('auth-result', 'validation-error')
+        }
+      },
+      validateUsername () {
+        if (this.formValues.username.value.length <= 3) {
+          this.errorCheck = true
+          this.formValues.username.error = 'Username must be longer then 3 characters'
+        } else {
+          this.formValues.username.error = false
+        }
+      },
+      validateEmail() {
+        const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        if (!re.test(String(this.formValues.login.value).toLowerCase())) {
+          this.errorCheck = true
+          this.formValues.login.error = 'invalid email'
+        } else {
+          this.formValues.login.error = false
+        }
+      },
+      validatePassword () {
+        if (this.formValues.password.value.length <= 6) {
+          this.errorCheck = true
+          this.formValues.password.error = 'Password must be longer than 6 characters'
+        } else {
+          this.formValues.password.error = false
+        }
+      },
+      validateConfirmPassword () {
+        if (this.formValues.password.error) return
+        if (this.formValues.confirmPassword.value !== this.formValues.password.value) {
+          this.errorCheck = true
+          this.formValues.confirmPassword.error = 'passwords are not the same'
+        } else {
+          this.formValues.confirmPassword.error = false
+        }
       }
     }
 

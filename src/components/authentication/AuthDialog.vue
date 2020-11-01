@@ -15,8 +15,8 @@
 
         <section class="auth-dialog__active-tab">
           <transition name="fadeHeight" mode="out-in">
-            <SignIn v-if="activeTab === 'sign-in'" @auth-result="loading = false"/>
-            <SignUp v-else @auth-result="loading = false"/>
+            <SignIn v-if="activeTab === 'sign-in'" @auth-result="handleAuthResult"/>
+            <SignUp v-else @auth-result="handleAuthResult"/>
           </transition>
 
 
@@ -53,6 +53,13 @@ import SignUp from './SignUp'
       authHandler () {
         this.loading = true
         this.$root.$emit('auth')
+      },
+      handleAuthResult (result) {
+        if (result === 'validation-error') {
+          this.loading = false
+        } else if (result === 'success') {
+          this.loading = false
+        }
       }
     }
   }
@@ -71,6 +78,10 @@ import SignUp from './SignUp'
 
     &__tabs {
       padding-top: 30px;
+      @media all and (max-width: 600px) {
+        padding-top: 45px;
+      }
+
       display: flex;
       justify-content: center;
 

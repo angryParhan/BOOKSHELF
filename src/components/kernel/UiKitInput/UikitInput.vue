@@ -128,6 +128,8 @@
       position: absolute;
       bottom: -25px;
       left: 14px;
+      font-size: 13px;
+      width: fit-content;
     }
   }
 
