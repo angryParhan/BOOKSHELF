@@ -16,7 +16,7 @@
           class="sign-in__input"
           placeholder="Email"
           type="email"
-          style="margin-top: 55px"
+          style="margin-top: 50px"
       />
     </div>
     <div>
@@ -26,7 +26,7 @@
           class="sign-in__input"
           placeholder="Password"
           type="password"
-          style="margin-top: 55px"
+          style="margin-top: 50px"
       />
     </div>
     <div>
@@ -36,7 +36,7 @@
           class="sign-in__input"
           placeholder="Confirm password"
           type="password"
-          style="margin-top: 55px"
+          style="margin-top: 50px"
       />
     </div>
 

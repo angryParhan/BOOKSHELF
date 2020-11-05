@@ -1,7 +1,7 @@
 <template>
   <section>
     <UiKitDialog
-        v-model="activeDialog"
+        v-model="app.authDialog"
         :fullscreen="$breakpoint.xsOnly"
     >
       <div class="auth-dialog">
@@ -35,6 +35,7 @@
 <script>
 import SignIn from './SignIn'
 import SignUp from './SignUp'
+import { mapState } from 'vuex'
 
   export default {
     name: "AuthDialog",
@@ -48,6 +49,11 @@ import SignUp from './SignUp'
         activeTab: 'sign-in',
         loading: false
       }
+    },
+    computed: {
+      ...mapState({
+        app: 'app'
+      })
     },
     methods: {
       authHandler () {
