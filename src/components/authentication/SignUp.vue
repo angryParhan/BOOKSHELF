@@ -45,6 +45,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: "SignUp",
     data () {
@@ -77,7 +79,7 @@
       this.$root.$off('auth', this.signUpHandler)
     },
     methods: {
-      signUpHandler () {
+      async signUpHandler () {
         this.errorCheck = false
 
         this.validateUsername()
@@ -89,6 +91,16 @@
         if (!this.errorCheck) {
           //signInFunction
           console.log('sign up')
+          const data = (await axios({
+            method: 'post',
+            url: '//localhost:8090/api/auth/registration',
+            data: {
+              login: this.formValues.login.value,
+              password: this.formValues.password.value,
+              user_name: this.formValues.username.value,
+            }
+          }))
+          console.log(data)
           setTimeout(() => {
             this.$emit('auth-result', 'success')
           }, 1000)

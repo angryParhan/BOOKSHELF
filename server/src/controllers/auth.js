@@ -93,9 +93,9 @@ const auth = {
         console.log(uid)
         connection.query(`
           INSERT INTO bookshelf.users 
-          (user_id, user_email, user_password, user_login)
+          (user_name, user_id, user_email, user_password, user_login)
           VALUES 
-          ('${uid}', '${req.body.email}', '${password}', '${req.body.login}')`, (er) => {
+          ('${req.body.user_name}', '${uid}', '${req.body.email}', '${password}', '${req.body.login}')`, (er) => {
             if (er) {
               errorHandler(res, er)
               return

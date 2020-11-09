@@ -25,7 +25,7 @@
 </template>
 
 <script>
-
+  import axios from 'axios'
 
   export default {
     name: "SignIn",
@@ -51,7 +51,7 @@
       this.$root.$off('auth', this.signInHandler)
     },
     methods: {
-      signInHandler () {
+      async signInHandler () {
         this.errorCheck = false
         this.validateEmail()
         this.validatePassword()
@@ -59,6 +59,15 @@
         if(!this.errorCheck) {
           //start auth Function
           console.log('ok')
+          const data = (await axios({
+            method: 'post',
+            url: '//localhost:8090/api/auth/login',
+            data: {
+              value: this.formValues.login.value,
+              password: this.formValues.password.value,
+            }
+          }))
+          console.log(data)
           setTimeout(() => {
             this.$emit('auth-result', 'success')
           }, 1000)
