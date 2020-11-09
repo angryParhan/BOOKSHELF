@@ -4,13 +4,28 @@ $orange: #f1ae48;
 $grey: #535353;
 $black: #272727;
 $white: #ffffff;
+$red: #FB6868;
 
 * {
   box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+  color: #fff8dc;
 }
 
 input[type="text"], input[type="password"], textarea, select {
   outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  background: transparent;
 }
 
 .base-dk-yellow {
@@ -27,4 +42,8 @@ input[type="text"], input[type="password"], textarea, select {
 
 .op-1 {
   opacity: 1;
+}
+
+.no-ptr-events {
+  pointer-events: none;
 }
