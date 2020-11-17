@@ -46,7 +46,7 @@ import { mapState } from 'vuex'
     data() {
       return {
         activeDialog: true,
-        activeTab: 'sign-up',
+        activeTab: 'sign-in',
         loading: false,
         errorDialog: false
       }
