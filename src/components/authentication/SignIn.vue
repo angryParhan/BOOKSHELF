@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import UserModel from '../../models/user/UserModel'
 
   export default {
     name: "SignIn",
@@ -50,6 +50,11 @@
     beforeDestroy() {
       this.$root.$off('auth', this.signInHandler)
     },
+    watch: {
+      'formValues.password.value' (nv) {
+        console.log('pass', nv)
+      }
+    },
     methods: {
       async signInHandler () {
         this.errorCheck = false
@@ -58,19 +63,15 @@
 
         if(!this.errorCheck) {
           //start auth Function
-          console.log('ok')
-          const data = (await axios({
-            method: 'post',
-            url: '//localhost:8090/api/auth/login',
-            data: {
-              value: this.formValues.login.value,
-              password: this.formValues.password.value,
+          try {
+            const res = await UserModel.login(this.formValues.login.value, this.formValues.password.value)
+            if (res) {
+              this.$emit('auth-result', 'success')
             }
-          }))
-          console.log(data)
-          setTimeout(() => {
-            this.$emit('auth-result', 'success')
-          }, 1000)
+          } catch (e) {
+            this.$emit('auth-result', 'api-error')
+            console.error(e)
+          }
         } else {
           this.$emit('auth-result', 'validation-error')
         }

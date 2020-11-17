@@ -46,8 +46,9 @@ import { mapState } from 'vuex'
     data() {
       return {
         activeDialog: true,
-        activeTab: 'sign-in',
-        loading: false
+        activeTab: 'sign-up',
+        loading: false,
+        errorDialog: false
       }
     },
     computed: {
@@ -65,8 +66,11 @@ import { mapState } from 'vuex'
           this.loading = false
         } else if (result === 'success') {
           this.loading = false
+        } else if (result === 'api-error') {
+          this.errorDialog = true
+          this.loading = false
         }
-      }
+       }
     }
   }
 </script>
