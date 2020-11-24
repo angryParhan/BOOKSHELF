@@ -35,7 +35,7 @@
 <script>
 import SignIn from './SignIn'
 import SignUp from './SignUp'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
   export default {
     name: "AuthDialog",
@@ -57,6 +57,9 @@ import { mapState } from 'vuex'
       })
     },
     methods: {
+      ...mapActions({
+        hideAuthDialog: 'app/hideAuthDialog'
+      }),
       authHandler () {
         this.loading = true
         this.$root.$emit('auth')
@@ -66,6 +69,8 @@ import { mapState } from 'vuex'
           this.loading = false
         } else if (result === 'success') {
           this.loading = false
+          this.hideAuthDialog()
+          this.$router.push({ name: 'dashboard' })
         } else if (result === 'api-error') {
           this.errorDialog = true
           this.loading = false

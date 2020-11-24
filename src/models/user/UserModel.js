@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 class UserModel {
-  resource =  '//localhost:8090/api/auth'
+  resource = '//localhost:8090/api/auth'
 
   login (value, password) {
     return axios(`${this.resource}/login`, {
@@ -20,6 +20,18 @@ class UserModel {
         login,
         user_name,
         password
+      }
+    })
+  }
+
+
+  //value - login or email, field - user_login/user_email
+  checkExistance (value, field) {
+    return axios(`${this.resource}/check`, {
+      method: 'POST',
+      data: {
+        value,
+        field
       }
     })
   }
