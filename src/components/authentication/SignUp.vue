@@ -11,8 +11,8 @@
     </div>
     <div>
       <UiKitInput
-          v-model="formValues.login.value"
-          :error="formValues.login.error"
+          v-model="formValues.email.value"
+          :error="formValues.email.error"
           class="sign-in__input"
           placeholder="Email"
           type="email"
@@ -57,7 +57,7 @@
             value: '',
             error: false
           },
-          login: {
+          email: {
             value: '',
             error: false
           },
@@ -89,21 +89,32 @@
 
 
         if (!this.errorCheck) {
-          //signInFunction
-          console.log('sign up')
-          const data = (await axios({
-            method: 'post',
-            url: '//localhost:8090/api/auth/registration',
-            data: {
-              login: this.formValues.login.value,
-              password: this.formValues.password.value,
-              user_name: this.formValues.username.value,
-            }
-          }))
-          console.log(data)
-          setTimeout(() => {
-            this.$emit('auth-result', 'success')
-          }, 1000)
+          try {
+            //signInFunction
+            console.log('sign up')
+            const { uid } = (await axios({
+              method: 'post',
+              url: '//localhost:8090/api/auth/registration',
+              data: {
+                email: this.formValues.email.value,
+                password: this.formValues.password.value,
+                user_name: this.formValues.username.value,
+              }
+            })).data
+            console.log(uid)
+            const { token } = (await axios({
+              method: 'post',
+              url: '//localhost:8090/api/auth/login',
+              data: { uid }
+            })).data
+            console.log(token)
+
+            setTimeout(() => {
+              this.$emit('auth-result', 'success')
+            }, 1000)
+          } catch (e) {
+            console.error(e);
+          }
         } else {
           this.$emit('auth-result', 'validation-error')
         }
@@ -118,11 +129,11 @@
       },
       validateEmail() {
         const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        if (!re.test(String(this.formValues.login.value).toLowerCase())) {
+        if (!re.test(String(this.formValues.email.value).toLowerCase())) {
           this.errorCheck = true
-          this.formValues.login.error = 'invalid email'
+          this.formValues.email.error = 'invalid email'
         } else {
-          this.formValues.login.error = false
+          this.formValues.email.error = false
         }
       },
       validatePassword () {

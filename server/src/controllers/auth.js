@@ -19,21 +19,22 @@ const auth = {
         errorHandler(res, e)
         return
       }
-      connection.query(`SELECT * FROM bookshelf.users WHERE user_email = '${req.body.value}' OR user_login = '${req.body.value}'`, (error, rows) => {
+      connection.query(`SELECT * FROM bookshelf.users WHERE user_email = '${req.body.value}' OR user_login = '${req.body.value}' OR user_id = '${req.body.uid}'`, (error, rows) => {
         if (error) {
           errorHandler(res, error)
           return
         } else if (!(rows||[]).length) {
-          res.status(404).json({ message: 'There is no user with this data' })
-          return
+          return res.send({ message: 'There is no user with this data' })
         }
         const user = rows[0]
-        const isPasswordEqual = bycrypt.compareSync(req.body.password, user.user_password)
-        if (!isPasswordEqual) {
-          res.status(401).json({
-            message: 'Password is not equial!'
-          })
-          return
+        if (!req.body.uid) {
+          // check password
+          const isPasswordEqual = bycrypt.compareSync(req.body.password, user.user_password)
+          if (!isPasswordEqual) {
+            return res.send({
+              message: 'Password is not equial!'
+            })
+          }
         }
         const token = jwt.sign({
           email: user.user_email,
@@ -41,7 +42,8 @@ const auth = {
         }, keys.jwt, {
           expiresIn: 60 * 60
         })
-        res.status(200).json({
+        console.log(token);
+        return res.send({
           token: 'Bearer ' + token
         })
       })
@@ -53,18 +55,16 @@ const auth = {
         errorHandler(res, e)
         return
       } else if (!req.body.field) {
-        res.send(400).json({ error: 'There is no fields to check.' })
-        return
+        return res.send({ error: 'There is no fields to check.' })
       } else if (!req.body.value) {
-        res.send(400).json({ error: 'Value is empty.' })
-        return
+        return res.send({ error: 'Value is empty.' })
       }
       connection.query(`SELECT * FROM bookshelf.users WHERE ${(req.body.field || 'user_email')} = '${(req.body.value || '')}'`, (error, rows) => {
         if (error) {
           errorHandler(res, error)
           return
         }
-        res.send(!!rows.length)
+        return res.send(!!rows.length)
       })
     });
   },
@@ -74,17 +74,19 @@ const auth = {
         errorHandler(res, e)
         return
       }
-      let sql = ''
-      if (req.body.login) {
-        sql = `OR user_login = '${req.body.login}'`
+      let sql = 'WHERE'
+      if (req.body.email) {
+        sql += ` user_email='${req.body.email}' ${req.body.login ? 'OR' : ''}`
+      } else if (req.body.login) {
+        sql += ` user_login='${req.body.login}'`
       }
-      connection.query(`SELECT * FROM bookshelf.users WHERE user_email = '${req.body.email}' ` + sql, (error, rows) => {
+      console.log(sql);
+      connection.query(`SELECT * FROM bookshelf.users ${sql}`, (error, rows) => {
         if (error) {
           errorHandler(res, error)
           return
         } else if (rows.length) { // check user existing
-          res.send(409).json({ error: 'Row with same value exist!' })
-          return
+          return res.send({ error: 'Row with same value exist!', rows })
         }
         // create password
         const salt = bycrypt.genSaltSync(10)
@@ -95,12 +97,12 @@ const auth = {
           INSERT INTO bookshelf.users 
           (user_name, user_id, user_email, user_password, user_login)
           VALUES 
-          ('${req.body.user_name}', '${uid}', '${req.body.email}', '${password}', '${req.body.login}')`, (er) => {
+          ('${req.body.user_name}', '${uid}', '${req.body.email || req.body.login}', '${password}', '${req.body.login || req.body.email}')`, (er) => {
             if (er) {
               errorHandler(res, er)
               return
             }
-            res.send({ uid })
+            return res.send({ uid })
         })
       })
     });
