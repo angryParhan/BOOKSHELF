@@ -91,8 +91,9 @@
         if (!this.errorCheck) {
           //signInFunction
           try {
-            const res = await UserModel.register(this.formValues.email.value, this.formValues.username.value, this.formValues.password.value)
-            if (res) {
+            const { uid } = (await UserModel.register(this.formValues.email.value, this.formValues.username.value, this.formValues.password.value)).data
+            const { token } = (await UserModel.login(uid)).data
+            if (token) {
               this.$emit('auth-result', 'success')
             }
           } catch (e) {

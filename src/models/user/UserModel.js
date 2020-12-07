@@ -3,12 +3,13 @@ import axios from 'axios'
 class UserModel {
   resource = '//localhost:8090/api/auth'
 
-  login (value, password) {
+  login (value = null, password = null, uid = null) {
     return axios(`${this.resource}/login`, {
       method: 'POST',
       data: {
         value,
-        password
+        password,
+        uid
       }
     })
   }
