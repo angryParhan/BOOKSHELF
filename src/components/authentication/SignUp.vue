@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import UserModel from '../../models/user/UserModel'
 
   export default {
     name: "SignUp",
@@ -89,31 +89,15 @@
 
 
         if (!this.errorCheck) {
+          //signInFunction
           try {
-            //signInFunction
-            console.log('sign up')
-            const { uid } = (await axios({
-              method: 'post',
-              url: '//localhost:8090/api/auth/registration',
-              data: {
-                email: this.formValues.email.value,
-                password: this.formValues.password.value,
-                user_name: this.formValues.username.value,
-              }
-            })).data
-            console.log(uid)
-            const { token } = (await axios({
-              method: 'post',
-              url: '//localhost:8090/api/auth/login',
-              data: { uid }
-            })).data
-            console.log(token)
-
-            setTimeout(() => {
+            const res = await UserModel.register(this.formValues.email.value, this.formValues.username.value, this.formValues.password.value)
+            if (res) {
               this.$emit('auth-result', 'success')
-            }, 1000)
+            }
           } catch (e) {
-            console.error(e);
+            this.$emit('auth-result', 'api-error')
+            console.error(e)
           }
         } else {
           this.$emit('auth-result', 'validation-error')

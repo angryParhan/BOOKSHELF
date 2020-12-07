@@ -25,7 +25,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import UserModel from '../../models/user/UserModel'
+  import { mapActions } from 'vuex'
 
   export default {
     name: "SignIn",
@@ -44,13 +45,27 @@
         }
       }
     },
+
+
+    computed: {
+
+    },
+
+
     mounted () {
       this.$root.$on('auth', this.signInHandler)
     },
+
+
     beforeDestroy() {
       this.$root.$off('auth', this.signInHandler)
     },
+
+
     methods: {
+      ...mapActions({
+        login: 'user/login'
+      }),
       async signInHandler () {
         this.errorCheck = false
         this.validateEmail()
@@ -58,24 +73,33 @@
 
         if(!this.errorCheck) {
           //start auth Function
-          console.log('ok')
-          const data = (await axios({
-            method: 'post',
-            url: '//localhost:8090/api/auth/login',
-            data: {
-              value: this.formValues.login.value,
-              password: this.formValues.password.value,
+          try {
+            const res = await UserModel.login(this.formValues.login.value, this.formValues.password.value)
+            console.log('ok', res)
+            if (res?.data?.token) {
+              this.login({ token: res.data.token })
+              this.$emit('auth-result', 'success')
+            } else {
+              this.$emit('auth-result', 'api-error')
             }
-          }))
-          console.log(data)
-          setTimeout(() => {
-            this.$emit('auth-result', 'success')
-          }, 1000)
+          } catch (e) {
+            console.error(e)
+            if (e?.response?.data?.message) {
+              if (e.response.data.message === 'Password is not equial!') {
+                this.formValues.password.error = 'Incorrect password'
+              } else if (e.response.data.message === 'There is no user with this data') {
+                this.formValues.login.error = 'There is no such user'
+              }
+              this.$emit('auth-result', 'validation-error')
+              return
+            }
+            this.$emit('auth-result', 'api-error')
+          }
         } else {
           this.$emit('auth-result', 'validation-error')
         }
-
       },
+
       validateEmail() {
         const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
         if (!re.test(String(this.formValues.login.value).toLowerCase())) {
@@ -85,6 +109,7 @@
           this.formValues.login.error = false
         }
       },
+
       validatePassword () {
         if (this.formValues.password.value.length < 6) {
           this.errorCheck = true

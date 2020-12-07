@@ -9,8 +9,11 @@ export default {
     }
   },
   actions: {
-    showAuthDialog ({commit}) {
+    showAuthDialog ({ commit }) {
       commit('SET_AUTH_DIALOG', true)
+    },
+    hideAuthDialog( { commit }) {
+      commit('SET_AUTH_DIALOG', false)
     }
   },
   getters: {

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
 
   export default {
@@ -27,12 +27,8 @@
       }
     },
     computed: {
-      ...mapState({
-        userStore: 'user',
-        app: 'app'
-      }),
       ...mapGetters({
-        isLogin: 'app/isLogin'
+        isLogin: 'user/isLogin'
       })
     },
     watch: {

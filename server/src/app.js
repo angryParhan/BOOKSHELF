@@ -21,7 +21,7 @@ require('./middleware/passport')(passport)
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '1111',
+  password: '111111111111',
   database: 'bookshelf'
 })
 

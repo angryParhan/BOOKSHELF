@@ -1,30 +1,42 @@
 <template>
-  <section class="UiKit-input" :class="customClass" :style="{'border-color': error !== '' && error !== false ? '#FB6868' : '#e1a73b'}">
-    <input v-model="localInputValue" :type="type" :maxlength="maxlength" id="uiKitInput" @focus="$emit('on-focus', $event)" @blur="$emit('on-blur', $event)">
-    <label for="uiKitInput" :class="{'UiKit-input-active' : localInputValue.length}">{{ placeholder }}</label>
-    <span class="UiKit-input__error" v-show="typeof error !== 'boolean'">{{ error }}</span>
+  <section
+      class="UiKit-input"
+      :class="customClass"
+      :style="{'border-color': error !== '' && error !== false ? '#FB6868' : '#e1a73b'}"
+  >
+    <input
+        :value="value"
+        v-bind="$attrs"
+        id="uiKitInput"
+        autocomplete="off"
+        @input="updateInput"
+        @focus="onFocus"
+        @blur="onBlur"
+        @keyup="onKeyup"
+    >
+    <label
+        for="uiKitInput"
+        :class="{'UiKit-input-active' : value.length}"
+    >
+      {{ placeholder }}
+    </label>
+    <span
+        class="UiKit-input__error"
+        v-show="typeof error !== 'boolean'"
+    >
+      {{ error }}
+    </span>
   </section>
 
 </template>
 
 <script>
   export default {
-    model: {
-      prop: 'inputValue',
-      event: 'change'
-    },
+    inheritAttrs: false,
     props: {
-      inputValue: {
+      value: {
         type: String,
         default: ''
-      },
-      type: {
-        type: String,
-        default: 'text'
-      },
-      maxlength: {
-        type: Number,
-        default: 500
       },
       placeholder: {
         type: String,
@@ -35,21 +47,27 @@
         default: ' '
       },
       error: {
-        type: [String,Boolean],
+        type: [String, Boolean],
         default: ''
       }
     },
     data() {
       return {
-        localInputValue: this.inputValue
-      }
-    },
-    watch: {
-      localInputValue (nv) {
-        this.$emit('change', nv)
       }
     },
     methods: {
+      updateInput (e) {
+        this.$emit('input', e.target.value)
+      },
+      onFocus(e) {
+        this.$emit('focus', e)
+      },
+      onBlur(e) {
+        this.$emit('blur', e)
+      },
+      onKeyup(e) {
+        this.$emit('keyup', e)
+      },
     }
 
   }
@@ -97,6 +115,7 @@
       -webkit-transition-delay: 99999s;
       transition-delay: 99999s;
     }
+
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
