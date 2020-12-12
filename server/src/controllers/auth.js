@@ -1,8 +1,6 @@
 const uuid = require('uuid')
 const bycrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const jwtDecode = require('jwt-decode');
-const keys = require('../config/keys')
+const token = require('../utils/token')
 const errorHandler = require('../utils/errorHandler')
 const callProcedure = require('../utils/callDBProcedure')
 const { connection } = require('../utils/connectionPool')
@@ -10,12 +8,12 @@ const { connection } = require('../utils/connectionPool')
 const auth = {
   login (req, res) {
     connection.then(connection => {
-      if (req.body.token) {
-        const decoded = jwtDecode(req.body.token.replace('Bearer ', ''));
+      const decoded = token.decode((req.cookies||{}).token);
+      if (decoded) {
         req.body.value = req.body.value || decoded.email
-        req.body.uid = req.body.uid || decoded.user_id
+        req.body.uid = req.body.uid || decoded.uid
       }
-      connection.query(`SELECT * FROM bookshelf.users WHERE user_email = '${req.body.value}' OR user_login = '${req.body.value}' OR user_id = '${req.body.uid}'`)
+      connection.query(`SELECT * FROM bookshelf.users WHERE user_email='${req.body.value}' OR user_login='${req.body.value}' OR user_id='${req.body.uid}'`)
         .then(rows => {
           if (!(rows||[]).length) {
             return errorHandler(res, 'There is no user with this data')
@@ -25,26 +23,26 @@ const auth = {
             // check password
             const isPasswordEqual = bycrypt.compareSync(req.body.password, user.user_password)
             if (!isPasswordEqual) {
-              return errorHandler(res, 'Password is not equial!')
+              return errorHandler(res, 'Password is not equal!')
             }
           }
-          const token = jwt.sign({
-            email: user.user_email,
-            user_id: user.user_id
-          }, keys.jwt, {
-            expiresIn: 60 * 60
+          res.cookie('token', token.create(user.user_email, user.user_id));
+          delete user.user_password
+          return res.send({
+            success: true,
+            user
           })
-          return res.send({ token: 'Bearer ' + token })
         })
         .catch(e => errorHandler(res, e))
     }).catch(e => errorHandler(res, e))
   },
   registration (req, res) {
     connection.then(connection => {
-      let sql = 'WHERE'
+      let sql = req.body.email || req.body.login ? 'WHERE' : ''
       if (req.body.email) {
         sql += ` user_email='${req.body.email}' ${req.body.login ? 'OR' : ''}`
-      } else if (req.body.login) {
+      }
+      if (req.body.login) {
         sql += ` user_login='${req.body.login}'`
       }
       connection.query(`SELECT * FROM bookshelf.users ${sql}`)
@@ -70,12 +68,13 @@ const auth = {
       } else if (!req.body.value) {
         return errorHandler(res, 'Value is empty.')
       }
-      connection.query(`SELECT * FROM bookshelf.users WHERE ${(req.body.field || 'user_email')} = '${(req.body.value || '')}'`)
-        .then(rows => res.send(!!rows.length))
+      connection.query(`SELECT * FROM bookshelf.users WHERE ${(req.body.field || 'user_email')}='${(req.body.value || '')}'`)
+        .then(rows => res.send({ success: true, exist: !!rows.length }))
         .catch(e => errorHandler(res, e))
     }).catch(e => errorHandler(res, e))
   },
 }
 
-
 module.exports = auth
+
+
