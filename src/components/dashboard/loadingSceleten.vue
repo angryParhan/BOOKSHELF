@@ -20,6 +20,7 @@
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: center;
+    margin-bottom: 100px;
 
 
 

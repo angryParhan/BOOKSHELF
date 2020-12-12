@@ -136,9 +136,7 @@
       scroll () {
         window.onscroll = () => {
           let bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
-          console.log(bottomOfWindow)
           if (bottomOfWindow) {
-            console.log(this.loading, this.apiOffset, this.categoriesList.length)
             if (!this.loading && this.apiOffset < this.categoriesList.length) {
               this.getBestSellersByCategory()
             }
