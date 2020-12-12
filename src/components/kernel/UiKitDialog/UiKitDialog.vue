@@ -1,6 +1,6 @@
 <template>
   <section
-      v-show="isOpen"
+      v-if="isOpen"
       class="ui-kit-dialog"
   >
     <transition name="fade">

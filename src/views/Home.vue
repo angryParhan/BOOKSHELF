@@ -56,6 +56,7 @@
     justify-content: center;
     box-shadow: inset 0 0 550px #000000;
     background-image: url("../assets/login-imgs/login_background.jpg");
+    z-index: 100;
 
     &__wrapper {
       display: flex;

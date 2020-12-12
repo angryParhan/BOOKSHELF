@@ -35,7 +35,6 @@
    min-height: 50px;
    max-width: 300px;
    font-size: 22px;
-   font-weight: 700;
    width: 260px;
    cursor: pointer;
    transition: background 0.3s linear;
