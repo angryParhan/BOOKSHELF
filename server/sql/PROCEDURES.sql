@@ -36,3 +36,5 @@ BEGIN
     INSERT INTO bookshelf.library_book (book_id, library_id) VALUES (id, lib_id); -- Add relation with lib
 END $
 DELIMITER ;
+
+SELECT * FROM users

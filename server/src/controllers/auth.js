@@ -7,6 +7,7 @@ const { connection } = require('../utils/connectionPool')
 
 const auth = {
   login (req, res) {
+    console.log(connection);
     connection.then(connection => {
       const decoded = token.decode((req.cookies||{}).token);
       if (decoded) {
