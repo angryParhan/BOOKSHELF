@@ -1,18 +1,11 @@
-const mysql = require('mysql')
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const keys = require('../config/keys');
+const { pool } = require('../utils/connectionPool')
 const opts = {};
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.jwt;
-
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '111111111111',
-  database: 'bookshelf'
-});
 
 module.exports = passport => {
   // console.log(' use', passport.use);
