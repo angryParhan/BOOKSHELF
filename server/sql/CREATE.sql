@@ -47,4 +47,4 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`books` (
   PRIMARY KEY (`book_id`));
 
 
-select * from books;
+select * from libraries;

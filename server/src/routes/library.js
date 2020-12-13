@@ -5,5 +5,7 @@ const controller = require('../controllers/library')
 
 router.post('/create', passport.authenticate('jwt', { session: false }), controller.create)
 router.post('/add', passport.authenticate('jwt', { session: false }), controller.add)
+router.delete('/delete', passport.authenticate('jwt', { session: false }), controller.delete)
+router.put('/edit', passport.authenticate('jwt', { session: false }), controller.edit)
 
 module.exports = router
