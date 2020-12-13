@@ -1,29 +1,28 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const mysql = require('mysql')
 const passport = require('passport')
 const authRoutes = require('./routes/auth')
-// const {sequelize} = require('./models')
-// const config = require('./config/config')
-
+const libraryRoutes = require('./routes/library')
+const bookRoutes = require('./routes/book')
+const dbConfig = require('./config/db.json')
 
 const app = express()
 app.use(morgan('combined'))
 app.use(bodyParser.json())
+app.use(cookieParser())
 app.use(passport.initialize())
 app.use(cors())
 app.use('/api/auth', authRoutes)
+app.use('/api/library', libraryRoutes)
+app.use('/api/book', bookRoutes)
 
 require('./middleware/passport')(passport)
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '111111111111',
-  database: 'bookshelf',
-})
+const connection = mysql.createConnection(dbConfig)
 
 connection.connect((error) => {
   if (error) {

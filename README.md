@@ -1,4 +1,4 @@
-# book-app
+# library-app
 
 ## Project setup
 ```
