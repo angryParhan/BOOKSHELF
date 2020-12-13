@@ -1,10 +1,8 @@
 const JwtStrategy = require('passport-jwt').Strategy
-// const ExtractJwt = require('passport-jwt').ExtractJwt;
 const keys = require('../config/keys');
 const { connection } = require('../utils/connectionPool')
 const opts = {};
 
-// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.jwtFromRequest = req => (((req||{}).cookies||{}).token || '').replace('Bearer ', '')
 opts.secretOrKey = keys.jwt;
 
