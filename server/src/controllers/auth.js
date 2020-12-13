@@ -40,6 +40,10 @@ const auth = {
         .catch(e => errorHandler(res, e))
     }).catch(e => errorHandler(res, e))
   },
+  logout (req, res) {
+    res.cookie('token', '', { expires: Date.now(), domain: 'localhost', httpOnly: true })
+    res.send({ success: true })
+  },
   registration (req, res) {
     connection.then(connection => {
       let sql = req.body.email || req.body.login ? 'WHERE' : ''
