@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 class UserModel {
   resource = '//localhost:8090/api/auth'
 
@@ -10,7 +9,8 @@ class UserModel {
         value,
         password,
         uid
-      }
+      },
+      withCredentials: true
     })
   }
 

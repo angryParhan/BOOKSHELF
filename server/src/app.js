@@ -15,7 +15,14 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(passport.initialize())
-app.use(cors())
+app.use(cors({
+  origin: [
+    'http://localhost:8080',
+    'https://localhost:8080'
+  ],
+  credentials: true,
+  exposedHeaders: ['set-cookie']
+}));
 app.use('/api/auth', authRoutes)
 app.use('/api/library', libraryRoutes)
 app.use('/api/book', bookRoutes)

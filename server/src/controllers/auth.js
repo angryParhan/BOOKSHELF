@@ -7,12 +7,15 @@ const { connection } = require('../utils/connectionPool')
 
 const auth = {
   login (req, res) {
-    console.log(connection);
     connection.then(connection => {
-      const decoded = token.decode((req.cookies||{}).token);
-      if (decoded) {
-        req.body.value = req.body.value || decoded.email
-        req.body.uid = req.body.uid || decoded.uid
+      try {
+        const decoded = token.decode((req.cookies||{}).token);
+        if (decoded) {
+          req.body.value = req.body.value || decoded.email
+          req.body.uid = req.body.uid || decoded.uid
+        }
+      } catch (e) {
+        console.error(e)
       }
       connection.query(`SELECT * FROM bookshelf.users WHERE user_email='${req.body.value}' OR user_login='${req.body.value}' OR user_id='${req.body.uid}'`)
         .then(rows => {
@@ -27,7 +30,7 @@ const auth = {
               return errorHandler(res, 'Password is not equal!')
             }
           }
-          res.cookie('token', token.create(user.user_email, user.user_id));
+          res.cookie('token', token.create(user.user_email, user.user_id), { domain: 'localhost', httpOnly: true });
           delete user.user_password
           return res.send({
             success: true,

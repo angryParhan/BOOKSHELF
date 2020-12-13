@@ -15,7 +15,8 @@
   import app from '../src/store/app'
   import UiHeader from './components/header/Header'
   import sidebar from './components/SideBar/Sidebar'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
+  import UserModel from '@/models/user/UserModel';
 
 
   export default {
@@ -36,9 +37,11 @@
       if (!this.$store.state.user) {
         this.$store.registerModule('user', user)
       }
+
     },
-    mounted () {
+    async mounted () {
       console.log('app', this.app)
+      await UserModel.login()
     },
     beforeDestroy () {
       if (this.$store.state.app) {
@@ -47,6 +50,11 @@
       if (this.$store.state.user) {
         this.$store.unregisterModule('user')
       }
+    },
+    methods: {
+      ...mapActions({
+        login: 'user/login'
+      })
     }
   }
 </script>
