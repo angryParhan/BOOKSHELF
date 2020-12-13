@@ -7,6 +7,7 @@
           class="sign-in__input"
           placeholder="Email"
           type="email"
+          name="sdgsgkllrgnk"
       />
     </div>
     <div>

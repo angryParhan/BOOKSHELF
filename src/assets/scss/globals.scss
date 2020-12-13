@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 $orange: #f1ae48;
 $grey: #535353;
@@ -9,6 +10,9 @@ $red: #FB6868;
 * {
   box-sizing: border-box;
   font-family: 'Quicksand', sans-serif;
+}
+
+div,h1,h2,h3,h4,h5,h6,section,aside {
   color: #fff8dc;
 }
 
@@ -46,4 +50,23 @@ select:-webkit-autofill:focus {
 
 .no-ptr-events {
   pointer-events: none;
+}
+
+.ripple {
+  background-position: center;
+  transition: background 0.8s;
+}
+.ripple:hover {
+  background: #777777 radial-gradient(circle, transparent 1%, #343434 1%) center/15000%;
+}
+.ripple:active {
+  outline: none;
+  background-color: #646464;
+  background-size: 100%;
+  transition: background 0s;
+
+  img {
+    user-select: none;
+    outline: none;
+  }
 }
