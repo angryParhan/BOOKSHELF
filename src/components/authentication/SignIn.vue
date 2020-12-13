@@ -5,9 +5,8 @@
           v-model="formValues.login.value"
           :error="formValues.login.error"
           class="sign-in__input"
-          placeholder="Email"
-          type="email"
-          name="sdgsgkllrgnk"
+          placeholder="Login"
+          type="text"
       />
     </div>
     <div>
@@ -75,10 +74,10 @@
         if(!this.errorCheck) {
           //start auth Function
           try {
-            const res = await UserModel.login(this.formValues.login.value, this.formValues.password.value)
-            console.log('ok', res)
-            if (res?.data?.token) {
-              this.login({ token: res.data.token })
+            const res = await UserModel.login({value: this.formValues.login.value, password: this.formValues.password.value})
+            console.log('ok', res.data.user)
+            if (res?.data?.user) {
+              this.login({ ...res.data.user })
               this.$emit('auth-result', 'success')
             } else {
               this.$emit('auth-result', 'api-error')

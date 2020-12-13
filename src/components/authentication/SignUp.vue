@@ -91,11 +91,9 @@
         if (!this.errorCheck) {
           //signInFunction
           try {
-            const { uid } = (await UserModel.register(this.formValues.email.value, this.formValues.username.value, this.formValues.password.value)).data
-            const { token } = (await UserModel.login(uid)).data
-            if (token) {
-              this.$emit('auth-result', 'success')
-            }
+            const { uid } = (await UserModel.register({email: this.formValues.email.value, user_name: this.formValues.username.value, password: this.formValues.password.value})).data
+            await UserModel.login({uid})
+            this.$emit('auth-result', 'success')
           } catch (e) {
             this.$emit('auth-result', 'api-error')
             console.error(e)

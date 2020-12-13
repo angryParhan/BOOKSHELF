@@ -25,8 +25,8 @@
 
 
     &__item {
-      height: 600px;
-      width: 390px;
+      height: 520px;
+      width: 340px;
       background: #3e3e3d;
       padding: 20px;
       border-radius: 5px;
@@ -42,7 +42,7 @@
         width: 60%;
         background: #6c6c69;
         border-radius: 15px;
-        margin-top: 16px;
+        margin-top: 12px;
         height: 15px;
       }
 
