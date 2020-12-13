@@ -45,6 +45,3 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`books` (
   `book_description` VARCHAR(5000) NULL,
   `book_artwork` LONGBLOB,
   PRIMARY KEY (`book_id`));
-
-
-select * from books;

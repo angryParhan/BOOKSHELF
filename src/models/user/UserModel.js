@@ -2,25 +2,24 @@ import axios from 'axios'
 class UserModel {
   resource = '//localhost:8090/api/auth'
 
-  login (value = null, password = null, uid = null) {
+  login (params) {
     return axios(`${this.resource}/login`, {
       method: 'POST',
       data: {
-        value,
-        password,
-        uid
+        ...params
       },
       withCredentials: true
     })
   }
 
-  register(login, user_name, password) {
+  // login,
+  // user_name,
+  // password
+  register(params) {
     return axios(`${this.resource}/registration`, {
       method: 'POST',
       data: {
-        login,
-        user_name,
-        password
+        ...params
       }
     })
   }

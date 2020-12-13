@@ -40,8 +40,16 @@
 
     },
     async mounted () {
-      console.log('app', this.app)
-      await UserModel.login()
+      try {
+        const res = await UserModel.login()
+        if (res?.data?.user) {
+          this.login(res.data.user)
+        }
+        console.log(res.data.user)
+      } catch (e) {
+        console.log(e.response?.status)
+      }
+
     },
     beforeDestroy () {
       if (this.$store.state.app) {

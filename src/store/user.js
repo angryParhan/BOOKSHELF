@@ -3,26 +3,35 @@ export default {
   state: {
     user: null,
     isLogin: false,
-    token: null
+    username: '',
+    userFavoritesId: '',
+    userId: '',
+    userEmail: ''
+
   },
   mutations: {
-    SET_USER_LOGIN (state, value) {
-      state.isLogin = value
+    SET_USER_LOGIN_DATA (state, payload) {
+      state.isLogin = true
+      state.username = payload.user_name
+      state.userFavoritesId = payload.user_library_id
+      state.userId = payload.user_id
+      state.userEmail = payload.user_email
     },
-    SET_TOKEN (state, token) {
-      state.token = token
-    }
   },
   actions: {
     login ({ commit }, payload) {
-      localStorage.setItem('token', payload.token)
-      commit('SET_TOKEN', payload.token)
-      commit('SET_USER_LOGIN', true)
+      commit('SET_USER_LOGIN_DATA', payload)
     }
   },
   getters: {
     isLogin (state) {
       return state.isLogin
+    },
+    getUsername (state) {
+      return state.username
+    },
+    getUserEmail (state) {
+      return state.userEmail
     }
   }
 }

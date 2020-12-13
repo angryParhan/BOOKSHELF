@@ -46,12 +46,12 @@
   }
 
   &__img {
-    width: 330px;
-    height: 500px;
+    width: 300px;
+    height: 420px;
   }
 
   &__title {
-    width: 330px;
+    width: 300px;
     word-break: break-word;
   }
 }

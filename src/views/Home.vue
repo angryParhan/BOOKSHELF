@@ -8,7 +8,7 @@
         <img class="login__body__icon" src="../assets/login-imgs/icon.png" alt=""/>
       </div>
       <div class="login__footer">
-        <router-link class="login__footer__link" to="/dashboard">
+        <router-link class="login__footer__link" tag="span" to="/dashboard">
           Continue without SignUp
         </router-link>
         <UiKitBtn text="Sign In" style="width: 200px; border-radius: 30px;" @click="showAuthDialog"/>
@@ -32,6 +32,16 @@
       })
     },
     watch: {
+      isLogin (nv) {
+        if (nv) {
+          this.$router.push({name: 'dashboard'})
+        }
+      }
+    },
+    mounted () {
+      if (this.isLogin) {
+        this.$router.push({name: 'dashboard'})
+      }
     },
     methods: {
       ...mapActions({
@@ -106,8 +116,13 @@
       flex-direction: column;
 
       &__link {
+        cursor: pointer;
         margin-bottom: 5px;
         width: fit-content;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
 
       .get-started__btn {
