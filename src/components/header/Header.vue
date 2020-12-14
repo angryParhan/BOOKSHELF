@@ -8,18 +8,26 @@
     </div>
 
 
-    <div class="header__user-popover" @click="showAuthDialog">
-      <div class="unregister-popover" v-if="!isLogin">
+    <div class="header__user-popover">
+      <div class="unregister-popover" v-if="!isLogin" @click="showAuthDialog">
         <span>Login or register</span>
 
         <img class="unregister-popover__user-img" src="./images/user.svg" alt="user">
       </div>
       <div v-else class="logged-in-popover">
-        <div class="logged-in-popover__personal-data">
-          <span class="logged-in-popover__personal-data__username">Zevs</span>
-          <span class="logged-in-popover__personal-data__email">andrewparhomchuk@gmail.com</span>
+        <div class="logged-in-popover-wrapper" @click="changeDropDown" v-clickOutside="hideDropDown">
+          <div class="logged-in-popover__personal-data">
+            <span class="logged-in-popover__personal-data__username">{{ userName }}</span>
+            <span class="logged-in-popover__personal-data__email">{{ email }}</span>
+          </div>
+          <img class="logged-in-popover__user-img" src="./images/profile.svg" alt="user">
         </div>
-        <img class="logged-in-popover__user-img" src="./images/profile.svg" alt="user">
+
+
+
+        <div class="logged-in-popover__dropdown" v-show="showDropDown">
+          <p>Log out</p>
+        </div>
       </div>
     </div>
   </header>
@@ -27,20 +35,44 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
+  import clickOutside from '@/directives/clickOutside'
 
   export default {
     name: "Header",
+    directives: {
+      clickOutside
+    },
+    data () {
+      return {
+        showDropDown: false
+      }
+    },
     computed: {
       ...mapGetters({
-        isLogin: 'user/isLogin'
+        isLogin: 'user/isLogin',
+        email: 'user/getUserEmail',
+        userName: 'user/getUsername',
       })
     },
+
+    watch: {
+      showDropDown (nv) {
+        console.log('menu', nv)
+      }
+    },
+
     methods: {
       ...mapActions({
         showAuthDialog: 'app/showAuthDialog'
       }),
       changeSidebar () {
         this.$store.commit('app/SET_SIDEBAR_OPPOSITE')
+      },
+      changeDropDown () {
+        this.showDropDown = !this.showDropDown
+      },
+      hideDropDown () {
+        this.showDropDown = false
       }
     }
   }
@@ -112,10 +144,14 @@
 
 
       .logged-in-popover {
-        display: flex;
         border-radius: 11px;
         background: rgba(0, 0, 0, 0.2);
         padding: 3px 10px;
+        position: relative;
+
+        &-wrapper {
+          display: flex;
+        }
 
         &:hover {
           background: rgba(0, 0, 0, 0.3);
@@ -139,6 +175,21 @@
           height: 50px;
           width: 50px;
           margin-left: 10px;
+        }
+
+
+        &__dropdown {
+          position: absolute;
+          bottom: -37px;
+          border-radius: 11px;
+          left: 0;
+          background: #333333;
+          width: 100%;
+          text-align: center;
+
+          p {
+            margin: 7px 0;
+          }
         }
       }
     }

@@ -17,7 +17,7 @@
 
       </div>
     </template>
-    <skeletonLoader v-if="loading"/>
+    <skeletonLoader v-if="true"/>
 
 
   </section>
