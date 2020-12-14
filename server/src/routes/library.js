@@ -7,5 +7,6 @@ router.post('/create', passport.authenticate('jwt', { session: false }), control
 router.post('/add', passport.authenticate('jwt', { session: false }), controller.add)
 router.delete('/delete', passport.authenticate('jwt', { session: false }), controller.delete)
 router.put('/edit', passport.authenticate('jwt', { session: false }), controller.edit)
+router.get('/get', passport.authenticate('jwt', { session: false }), controller.get)
 
 module.exports = router

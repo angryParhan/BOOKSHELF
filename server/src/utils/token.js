@@ -22,5 +22,6 @@ function decode (token) {
   return null
 }
 
+
 module.exports.create = create
 module.exports.decode = decode
