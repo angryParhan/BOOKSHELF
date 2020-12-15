@@ -12,12 +12,13 @@
               :book="book"
               :key="book.title"
               :data-catagery="list.listName"
+              show-rank
           />
         </div>
 
       </div>
     </template>
-    <skeletonLoader v-if="true"/>
+    <skeletonLoader v-if="loading"/>
 
 
   </section>
@@ -112,13 +113,16 @@
               const response = res.data.results
               const bestSellingItem = {}
               bestSellingItem.listName = response.display_name
+              bestSellingItem.listId = category
               bestSellingItem.books = response.books.map((book) => {
                 return {
                   author: book.author,
                   img: book?.book_image && book?.book_image !== '' ? book.book_image : 'empty',
                   title: book.title,
                   description: book.description,
-                  rank: book.rank
+                  rank: book.rank,
+                  favorite: false,
+                  category
                 }
               })
               this.$store.commit('bestSellersBooks/SET_BESTSELING', bestSellingItem)

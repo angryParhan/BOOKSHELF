@@ -1,3 +1,6 @@
+import userModel from '../models/user/UserModel'
+
+
 export default {
   namespaced: true,
   state: {
@@ -21,7 +24,17 @@ export default {
   actions: {
     login ({ commit }, payload) {
       commit('SET_USER_LOGIN_DATA', payload)
-    }
+
+    },
+    async logout ({state }) {
+      console.log('here', userModel)
+      //await userModel.logout()
+      state.isLogin = false
+      state.username = ''
+      state.userFavoritesId = ''
+      state.userId = ''
+      state.userEmail = ''
+    },
   },
   getters: {
     isLogin (state) {

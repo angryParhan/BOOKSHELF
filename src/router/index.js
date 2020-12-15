@@ -14,6 +14,11 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: () => import(/* webpackChunkName: "dashboard"*/ '../views/Dashboard.vue')
+  },
+  {
+    path: '/favorites',
+    name: 'favorites',
+    component: () => import(/* webpackChunkName: "favorites"*/ '../views/Favorites.vue')
   }
 ]
 

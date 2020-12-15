@@ -25,7 +25,7 @@
 
 
 
-        <div class="logged-in-popover__dropdown" v-show="showDropDown">
+        <div class="logged-in-popover__dropdown" v-show="showDropDown" @click="logout">
           <p>Log out</p>
         </div>
       </div>
@@ -63,7 +63,8 @@
 
     methods: {
       ...mapActions({
-        showAuthDialog: 'app/showAuthDialog'
+        showAuthDialog: 'app/showAuthDialog',
+        logout: 'user/logout'
       }),
       changeSidebar () {
         this.$store.commit('app/SET_SIDEBAR_OPPOSITE')
