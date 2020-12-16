@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     user: null,
-    isLogin: true,
+    isLogin: false,
     username: '',
     userFavoritesId: '',
     userId: '',
@@ -28,7 +28,7 @@ export default {
     },
     async logout ({state }) {
       console.log('here', userModel)
-      //await userModel.logout()
+      await userModel.logout()
       state.isLogin = false
       state.username = ''
       state.userFavoritesId = ''

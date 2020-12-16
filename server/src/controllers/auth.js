@@ -41,7 +41,8 @@ const auth = {
     }).catch(e => errorHandler(res, e))
   },
   logout (req, res) {
-    res.cookie('token', '', { expires: Date.now(), domain: 'localhost', httpOnly: true })
+    // req.session.cookie.expires = false;
+    res.cookie('token', '')
     res.send({ success: true })
   },
   registration (req, res) {

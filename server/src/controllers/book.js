@@ -53,14 +53,15 @@ const book = {
       .catch(e => errorHandler(res, e))
   },
   async charts (req, res) {
+    let data = null
     try {
-      const data = (await chartsModel.getBestSellersByCategory(req.body.category)).data.results
-      data.books = data.books.map(item => {
+      data = (await chartsModel.getBestSellersByCategory(req.query.category)).data
+      data.results.books = data.results.books.map(item => {
         item.id = item.primary_isbn10 + item.primary_isbn13 + (item.title||'').replace(/[ '"`]/g, '')
         return item
       })
     } catch (e) {
-      return errorHandler(res, e, e.status)
+      return errorHandler(res, e, (e.response||{}).status)
     }
     if (!(req.cookies||{}).token) {
       return res.send(data);
