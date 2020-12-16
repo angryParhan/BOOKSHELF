@@ -94,7 +94,7 @@
       left: 0;
       right: 0;
       z-index: 200;
-      background: rgba(#191919, 0.5);
+      background: rgba(#505050, 0.5);
     }
 
     &__close {
@@ -124,7 +124,6 @@
       background: #272727;
       overflow: auto;
       max-height: 90vh;
-      box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
 
       &--mobile {
         //width: 100vw;

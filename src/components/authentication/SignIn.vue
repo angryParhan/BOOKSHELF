@@ -75,7 +75,6 @@
           //start auth Function
           try {
             const res = await UserModel.login({value: this.formValues.login.value, password: this.formValues.password.value})
-            console.log('ok', res.data.user)
             if (res?.data?.user) {
               this.login({ ...res.data.user })
               this.$emit('auth-result', 'success')

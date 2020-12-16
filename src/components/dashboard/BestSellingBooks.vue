@@ -12,12 +12,13 @@
               :book="book"
               :key="book.title"
               :data-catagery="list.listName"
+              show-rank
           />
         </div>
 
       </div>
     </template>
-    <skeletonLoader v-if="true"/>
+    <skeletonLoader v-if="loading"/>
 
 
   </section>
@@ -91,6 +92,7 @@
           this.loading = true
           const apiCallItem = []
           for(let i = 0; i < this.apiCallLimit; i++) {
+            console.log(this.categoriesList[i + this.apiOffset].listName)
             apiCallItem.push(this.setEachCategory(this.categoriesList[i + this.apiOffset].listName))
           }
           await Promise.allSettled(apiCallItem)
@@ -112,13 +114,16 @@
               const response = res.data.results
               const bestSellingItem = {}
               bestSellingItem.listName = response.display_name
+              bestSellingItem.listId = category
               bestSellingItem.books = response.books.map((book) => {
                 return {
                   author: book.author,
                   img: book?.book_image && book?.book_image !== '' ? book.book_image : 'empty',
                   title: book.title,
                   description: book.description,
-                  rank: book.rank
+                  rank: book.rank,
+                  favorite: false,
+                  category
                 }
               })
               this.$store.commit('bestSellersBooks/SET_BESTSELING', bestSellingItem)

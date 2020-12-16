@@ -8,3 +8,7 @@ export const UiKitDialog = () => import( /* webpackChunkName: 'dialog' */ './UiK
 
 //button
 export const UiKitBtn = () => import( /* webpackChunkName: 'button' */ './UiKitBtn')
+
+
+//stubs
+export const UiKitStub = () => import(/* webpackChunkName: 'stub' */ './UiKitStub')

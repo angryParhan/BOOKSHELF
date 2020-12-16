@@ -12,6 +12,13 @@ class UserModel {
     })
   }
 
+  logout () {
+    return axios(`${this.resource}/logout`, {
+      method: 'POST',
+      withCredentials: true
+    })
+  }
+
   // login,
   // user_name,
   // password

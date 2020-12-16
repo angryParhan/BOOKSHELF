@@ -39,9 +39,9 @@
             routeName: 'favorites'
           },
           {
-            text: 'Favorites1',
+            text: 'Find book',
             icon: '',
-            routeName: 'favorites1'
+            routeName: 'book-search'
           }
         ]
       }
@@ -83,7 +83,9 @@
         this.$store.commit('app/SET_SIDEBAR', false)
       },
       changeRoute (name) {
-        this.$router.push({ name }).catch(()=>{})
+        this.$router.push({ name }).catch((e)=>{
+          console.log(e)
+        })
       }
     }
   }

@@ -13,6 +13,7 @@
   import AuthDialog from './components/authentication/AuthDialog'
   import user from '../src/store/user'
   import app from '../src/store/app'
+  import library from '../src/store/library'
   import UiHeader from './components/header/Header'
   import sidebar from './components/SideBar/Sidebar'
   import { mapGetters, mapActions } from 'vuex'
@@ -36,6 +37,9 @@
       }
       if (!this.$store.state.user) {
         this.$store.registerModule('user', user)
+      }
+      if (!this.$store.state.library) {
+        this.$store.registerModule('library', library)
       }
 
     },
