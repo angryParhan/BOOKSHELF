@@ -92,6 +92,7 @@
           this.loading = true
           const apiCallItem = []
           for(let i = 0; i < this.apiCallLimit; i++) {
+            console.log(this.categoriesList[i + this.apiOffset].listName)
             apiCallItem.push(this.setEachCategory(this.categoriesList[i + this.apiOffset].listName))
           }
           await Promise.allSettled(apiCallItem)

@@ -15,11 +15,13 @@ export default {
     }
   },
   actions: {
-    async addFavoriteBook ({ commit, rootGetters }, payload) {
+    async addFavoriteBook ({ commit, rootGetters, state }, payload) {
       if (!rootGetters['user/isLogin']) {
         commit('app/SET_AUTH_DIALOG', true, { root: true })
         return
       }
+      const checkSameBook = state.favorites.findIndex(item => item.title === payload.title)
+      if (checkSameBook !== -1) return
       commit('bestSellersBooks/SET_BOOK_FAVORITE', payload, { root: true })
       commit('ADD_FAVORITE', payload)
     },
