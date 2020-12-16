@@ -19,6 +19,12 @@ const routes = [
     path: '/favorites',
     name: 'favorites',
     component: () => import(/* webpackChunkName: "favorites"*/ '../views/Favorites.vue')
+  },
+  {
+    path: '/books/find',
+    name: 'book-search',
+    component: () => import(/* webpackChunkName: "book-search"*/ '../views/BookSearch.vue')
+
   }
 ]
 

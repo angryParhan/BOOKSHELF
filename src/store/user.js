@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     user: null,
-    isLogin: false,
+    isLogin: true,
     username: '',
     userFavoritesId: '',
     userId: '',
