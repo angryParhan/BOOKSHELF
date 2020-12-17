@@ -8,7 +8,7 @@
           :class="{'sidebar__item-active' : $route.name === item.routeName}"
           @click="changeRoute(item.routeName)"
       >
-        {{ item.text }}
+        <font-awesome-icon :icon="item.icon" class="sidebar__item-icon" /> {{ item.text }}
       </div>
     </aside>
     <div
@@ -30,17 +30,17 @@
         items: [
           {
             text: 'Dashboard',
-            icon: '',
+            icon: 'home',
             routeName: 'dashboard'
           },
           {
             text: 'Favorites',
-            icon: '',
+            icon: 'heart',
             routeName: 'favorites'
           },
           {
             text: 'Find book',
-            icon: '',
+            icon: 'search',
             routeName: 'book-search'
           }
         ]
@@ -104,14 +104,14 @@
     top: 70px;
     height: calc(100vh - 70px);
     background: #3e3e3d;
-    width: 300px;
+    width: 250px;
     border-top: 2px solid #2c2c2b;
     transition: left 0.3s linear;
     z-index: 20;
     padding-top: 15px;
 
     &__close {
-      left: -350px;
+      left: -300px;
     }
 
     &__opened {
@@ -130,10 +130,11 @@
 
     &__item {
       cursor: pointer;
-      padding: 15px 0 15px 40px;
+      padding: 10px 0 10px 40px;
       user-select: none;
       font-weight: 500;
-
+      margin: 10px 5px;
+      border-radius: 5px;
       &:hover {
         background: rgba(0, 0, 0, 0.2);
       }
@@ -142,20 +143,13 @@
         position: relative;
         color: #f1ae48;
         font-weight: 600;
-
-        &:before {
-          content: '';
-          display: block;
-          width: 30px;
-          height: 3px;
-          position: absolute;
-          background: #f1ae48;
-          top: 23px;
-          left: 0;
-        }
+      }
+      &-icon {
+        font-size: 13px;
+        margin-bottom: 1px;
+        margin-right: 5px;
       }
     }
-
   }
 
 </style>

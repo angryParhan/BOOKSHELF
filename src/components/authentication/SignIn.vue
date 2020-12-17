@@ -64,7 +64,7 @@
 
     methods: {
       ...mapActions({
-        login: 'user/login'
+        login: 'user/login',
       }),
       async signInHandler () {
         this.errorCheck = false

@@ -22,9 +22,8 @@ export default {
     },
   },
   actions: {
-    login ({ commit }, payload) {
+    async login ({ commit }, payload) {
       commit('SET_USER_LOGIN_DATA', payload)
-
     },
     async logout ({state }) {
       console.log('here', userModel)

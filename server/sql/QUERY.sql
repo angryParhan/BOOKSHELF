@@ -1,1 +1,1 @@
-SELECT * from libraries;
+drop schema bookshelf;

@@ -6,9 +6,29 @@ const token = require('../utils/token')
 const chartsModel = require('../utils/chartsModel')
 
 const book = {
-  create (req, res) {
-    const book_id = uuid.v4()
-    callProcedure('createBook', [book_id, req.body.library_id, req.body.name, req.body.author, req.body.description, req.body.artwork])
+  async create (req, res) {
+    if (!req.body.library_id) {
+      try {
+        const decoded = token.decode((req.cookies||{}).token);
+        if (decoded) {
+          req.body.library_id = (req.body.uid || decoded.uid) + '-fav'
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    if (req.body.id) {
+      const { query } = await connection
+      const book = await query(`SELECT book_id FROM bookshelf.books WHERE book_id='${req.body.id}';`)
+      if (book.length) {
+        return res.send({
+          book_id: req.body.id,
+          exist: true
+        })
+      }
+    }
+    const book_id = req.body.id || uuid.v4()
+    callProcedure('createBook', [book_id, req.body.library_id, req.body.title, req.body.author, req.body.description, req.body.artwork])
       .then(() => res.send({ book_id }))
       .catch(e => errorHandler(res, e))
   },
@@ -30,7 +50,7 @@ const book = {
           AND lb.library_id = l.library_id 
           AND lb.book_id = b.book_id;
     `)
-      .then((data) => res.send({ success: true, data1: data, ddd: 'ddd' }))
+      .then((data) => res.send({ success: true, data }))
       .catch(e => errorHandler(res, e))
   },
   async add (req, res) {
@@ -48,7 +68,15 @@ const book = {
       return errorHandler(res, 'Bad request!')
     }
     const { query } = await connection
-    query(`INSERT INTO bookshelf.library_book (book_id, library_id) VALUES (${req.body.book_id}, ${req.body.lib_id});`)
+    const relation = await query(`SELECT library_book_id FROM bookshelf.library_book WHERE book_id='${req.body.book_id}' AND library_id='${req.body.lib_id}';`)
+    if (relation.length) {
+      errorHandler(res, 'This relation exist.')
+    }
+    const book = await query(`SELECT book_id FROM bookshelf.books WHERE book_id='${req.body.book_id}';`)
+    if (!book.length) {
+      errorHandler(res, 'Create book before adding to library.')
+    }
+    query(`INSERT INTO bookshelf.library_book (book_id, library_id) VALUES ('${req.body.book_id}', '${req.body.library_id}');`)
       .then(() => res.send({ success: true }))
       .catch(e => errorHandler(res, e))
   },
@@ -63,24 +91,7 @@ const book = {
     } catch (e) {
       return errorHandler(res, e, (e.response||{}).status)
     }
-    if (!(req.cookies||{}).token) {
-      return res.send(data);
-    }
-    try {
-      const decoded = token.decode((req.cookies||{}).token);
-      if (decoded) {
-        req.body.uid = (req.body.uid || decoded.uid)
-      }
-    } catch (e) {
-      console.error(e)
-    }
-    if (!req.body.library_id || !req.body.book_id) {
-      return errorHandler(res, 'Bad request!')
-    }
-    const { query } = await connection
-    query(`INSERT INTO bookshelf.library_book (book_id, library_id) VALUES (${req.body.book_id}, ${req.body.lib_id});`)
-      .then(() => res.send({ success: true }))
-      .catch(e => errorHandler(res, e))
+    return res.send(data);
   }
 }
 

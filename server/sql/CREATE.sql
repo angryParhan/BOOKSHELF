@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`user_library` (
 CREATE TABLE IF NOT EXISTS `bookshelf`.`libraries` (
   `cdate` TIMESTAMP NOT NULL,
   `library_id` VARCHAR(100) NOT NULL,
-  `library_artwork` LONGBLOB NULL,
+  `library_artwork` LONGTEXT NULL,
   `library_name` VARCHAR(50) NOT NULL,
   `library_description` VARCHAR(5000) NULL,
   `library_visible` BOOLEAN DEFAULT TRUE,
@@ -43,6 +43,6 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`books` (
   `book_name` VARCHAR(150) NOT NULL,
   `book_author` VARCHAR(150) NULL,
   `book_description` VARCHAR(5000) NULL,
-  `book_artwork` LONGBLOB,
+  `book_artwork` LONGTEXT NULL,
   PRIMARY KEY (`book_id`));
 

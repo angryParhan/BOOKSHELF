@@ -5,12 +5,17 @@ import store from './store.js'
 import kernel from './components/kernel/index'
 import breakpoint from './plugins/breakpointPlugin'
 
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faHeart, faSearch, faHome
+} from "@fortawesome/free-solid-svg-icons";
+library.add(faHeart, faSearch, faHome)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import "normalize.css"
 
-
 Vue.config.productionTip = false
-
 
 breakpoint()
 Vue.use(kernel)

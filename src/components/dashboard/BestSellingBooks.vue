@@ -123,7 +123,8 @@
                   description: book.description,
                   rank: book.rank,
                   favorite: false,
-                  category
+                  category,
+                  id: book.id
                 }
               })
               this.$store.commit('bestSellersBooks/SET_BESTSELING', bestSellingItem)
