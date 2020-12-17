@@ -9,6 +9,7 @@
           :key="book.title"
       />
     </section>
+    <UiKitStub v-if="!favoritesList.length"/>
   </section>
 </template>
 
