@@ -4,14 +4,23 @@
        @search-book="startSearching"
    />
 
-   <bookCard
-       v-for="book of booksFound"
-       :key="book.title"
-       :book="book"
+   <section class="book-search__items">
+     <bookCard
+         v-for="book of booksFound"
+         :key="book.title"
+         :book="book"
+     />
+
+     <sceletonLoader v-if="loading"/>
+   </section>
+
+
+
+
+   <UiKitStub
+       v-if="(!loading && !booksFound.length) || error"
+       :description="stubText"
    />
-
-
-   <UiKitStub />
  </section>
 </template>
 
@@ -20,22 +29,36 @@
   import toolbar from '../components/SearchBook/searchBookToolbar'
   import { mapGetters, mapActions } from 'vuex'
   import bookCard from '../components/SearchBook/listedBookCard'
+  import sceletonLoader from '../components/SearchBook/sceletonLoader'
 
   export default {
     name: "BookSearch",
-    components: { toolbar, bookCard },
+    components: { toolbar, bookCard, sceletonLoader },
 
     data () {
       return {
-        searchedValue: ''
+        searchedValue: '',
       }
     },
 
 
+
     computed: {
       ...mapGetters({
-        booksFound: 'bookSearchStore/getFoundBooks'
-      })
+        booksFound: 'bookSearchStore/getFoundBooks',
+        isSearched: 'bookSearchStore/isSearched',
+        loading: 'bookSearchStore/loading',
+        error: 'bookSearchStore/getError'
+      }),
+      stubText () {
+        if (this.error) {
+          return 'Sorry something went wrong'
+        }
+        if (this.isSearched) {
+          return 'Books not found'
+        }
+        return 'To find book, please enter name or description in the input above!'
+      }
     },
 
 
@@ -45,7 +68,9 @@
       }
     },
 
-
+    mounted () {
+      this.scroll()
+    },
 
     beforeDestroy () {
       if (this.$store.state.bookSearchStore) {
@@ -65,14 +90,35 @@
         }
         await this.searchBook({value: this.searchedValue, initial: payload.initial})
         console.log('books', this.booksFound)
-      }
+      },
+      scroll () {
+        window.onscroll = () => {
+          let bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
+          if (bottomOfWindow) {
+            if (!this.loading) {
+              this.startSearching({initial: false})
+            }
+          }
+        }
+      },
     }
   }
 </script>
 
 <style lang="scss">
 .book-search {
-  padding: 0 20px;
+  padding: 0 20px 20px;
+
+  &__items {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+
+  }
 
 
 }

@@ -5,6 +5,7 @@
         class="search-book-toolbar__input"
         placeholder="Search value"
         :error="error"
+        @keyup.enter="searchBook"
     />
     <UiKitBtn
         class="search-book-toolbar__btn"
