@@ -196,4 +196,20 @@
     }
   }
 
+  @media all and (max-width: 600px) {
+    .header {
+
+      .logged-in-popover {
+
+        &__personal-data {
+          display: none;
+        }
+
+        &__user-img {
+          margin: 0;
+        }
+      }
+    }
+  }
+
 </style>

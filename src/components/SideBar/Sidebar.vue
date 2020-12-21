@@ -124,18 +124,18 @@
     top: 70px;
     height: calc(100vh - 70px);
     background: #3e3e3d;
-    width: 250px;
+    width: 300px;
     border-top: 2px solid #2c2c2b;
-    transition: left 0.3s linear;
+    transition: transform 0.3s linear;
     z-index: 20;
     padding-top: 15px;
 
     &__close {
-      left: -300px;
+      transform: translateX(-350px);
     }
 
     &__opened {
-      left: 0;
+      transform: translateX(0);
     }
 
     &__overlayXs {

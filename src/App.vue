@@ -6,6 +6,7 @@
     <main class="main-content" :class="{'main-content__drawer-off' : !draw || !$breakpoint.mdAndUp}">
       <router-view></router-view>
     </main>
+    <upBtn />
   </div>
 </template>
 
@@ -17,14 +18,15 @@
   import UiHeader from './components/header/Header'
   import sidebar from './components/SideBar/Sidebar'
   import { mapGetters, mapActions } from 'vuex'
-  import UserModel from '@/models/user/UserModel';
-
+  import UserModel from '@/models/user/UserModel'
+  import upBtn from './components/kernel/upButton'
 
   export default {
     components: {
       Dialog,
       UiHeader,
-      sidebar
+      sidebar,
+      upBtn
     },
     computed: {
       ...mapGetters({

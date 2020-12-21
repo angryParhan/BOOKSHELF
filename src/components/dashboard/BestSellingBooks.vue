@@ -57,7 +57,11 @@
     },
 
     mounted () {
-      this.scroll()
+      window.addEventListener('scroll', this.handleScroll)
+    },
+
+    beforeDestroy () {
+      window.removeEventListener('scroll', this.handleScroll)
     },
 
     methods: {
@@ -127,13 +131,11 @@
           }
         })
       },
-      scroll () {
-        window.onscroll = () => {
-          let bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
-          if (bottomOfWindow) {
-            if (!this.loading && this.apiOffset < this.categoriesList.length) {
-              this.getBestSellersByCategory()
-            }
+      handleScroll () {
+        let bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
+        if (bottomOfWindow) {
+          if (!this.loading && this.apiOffset < this.categoriesList.length) {
+            this.getBestSellersByCategory()
           }
         }
       },
