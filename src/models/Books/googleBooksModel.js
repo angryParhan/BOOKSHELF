@@ -9,11 +9,12 @@ class GoogleBooksModel {
   //startIndex - offset
 
 
-  getBestSellersByCategory (params) {
+  searchBook (searchedValue, offset) {
     return axios(`${this.resource}/volumes`, {
       method: 'get',
       params: {
-        ...params
+        q: searchedValue,
+        startIndex: offset
       }
     })
   }
