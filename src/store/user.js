@@ -15,16 +15,15 @@ export default {
   mutations: {
     SET_USER_LOGIN_DATA (state, payload) {
       state.isLogin = true
-      state.username = payload.user_name
-      state.userFavoritesId = payload.user_library_id
-      state.userId = payload.user_id
-      state.userEmail = payload.user_email
+      state.username = payload.username
+      state.userFavoritesId = payload.userFavoritesId
+      state.userId = payload.userId
+      state.userEmail = payload.userEmail
     },
   },
   actions: {
-    login ({ commit }, payload) {
+    async login ({ commit }, payload) {
       commit('SET_USER_LOGIN_DATA', payload)
-
     },
     async logout ({state }) {
       console.log('here', userModel)

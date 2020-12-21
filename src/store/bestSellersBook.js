@@ -22,7 +22,7 @@ export default {
     SET_BOOK_FAVORITE (state, book) {
       const index = state.bestSellingItems.findIndex(item => item.listId === book.category)
       if (index !== -1) {
-        const bookIndex = state.bestSellingItems[index].books.findIndex(item => (item.title === book.title && item.category === book.category))
+        const bookIndex = state.bestSellingItems[index].books.findIndex(item => (item.id === book.id && item.category === book.category))
         if (bookIndex !== -1) {
           console.log(book, state.bestSellingItems[index].books[bookIndex])
           state.bestSellingItems[index].books[bookIndex].favorite = true
@@ -32,7 +32,7 @@ export default {
     REMOVE_BOOK_FAVORITE (state, book) {
       const index = state.bestSellingItems.findIndex(item => item.listId === book.category)
       if (index !== -1) {
-        const bookIndex = state.bestSellingItems[index].books.findIndex(item => (item.title === book.title && item.category === book.category))
+        const bookIndex = state.bestSellingItems[index].books.findIndex(item => (item.id === book.id && item.category === book.category))
         if (bookIndex !== -1) {
           console.log(book, state.bestSellingItems[index].books[bookIndex])
           state.bestSellingItems[index].books[bookIndex].favorite = false

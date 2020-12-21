@@ -19,7 +19,8 @@ class NYTmodel {
       method: 'get',
       params: {
         category
-      }
+      },
+      withCredentials: true
     })
   }
 

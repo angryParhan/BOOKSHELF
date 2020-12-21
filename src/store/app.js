@@ -1,12 +1,12 @@
 export default {
   namespaced: true,
   state: {
-    authDialog: false,
-    sideBarOpened: true
+    sideBarOpened: true,
+    activeDialog: null
   },
   mutations: {
-    SET_AUTH_DIALOG (state, value) {
-      state.authDialog = value
+    SET_DIALOG (state, payload) {
+      state.activeDialog = payload
     },
     SET_SIDEBAR_OPPOSITE (state) {
       state.sideBarOpened = !state.sideBarOpened
@@ -16,16 +16,19 @@ export default {
     }
   },
   actions: {
-    showAuthDialog ({ commit }) {
-      commit('SET_AUTH_DIALOG', true)
+    showDialog ({ commit }, payload) {
+      commit('SET_DIALOG', payload)
     },
-    hideAuthDialog( { commit }) {
-      commit('SET_AUTH_DIALOG', false)
+    hideDialog ({ commit }) {
+      commit('SET_DIALOG', null)
     }
   },
   getters: {
     getSideBar (state) {
       return state.sideBarOpened
+    },
+    getActiveDialog (state) {
+      return state.activeDialog
     }
   }
 }

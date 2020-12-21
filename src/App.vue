@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AuthDialog />
+    <Dialog />
     <UiHeader />
     <sidebar />
     <main class="main-content" :class="{'main-content__drawer-off' : !draw || !$breakpoint.mdAndUp}">
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import AuthDialog from './components/authentication/AuthDialog'
+  import Dialog from './components/dialog/Dialog'
   import user from '../src/store/user'
   import app from '../src/store/app'
   import library from '../src/store/library'
@@ -23,7 +23,7 @@
 
   export default {
     components: {
-      AuthDialog,
+      Dialog,
       UiHeader,
       sidebar,
       upBtn
@@ -50,6 +50,7 @@
         const res = await UserModel.login()
         if (res?.data?.user) {
           this.login(res.data.user)
+          this.setFavoritesBooks()
         }
         console.log(res.data.user)
       } catch (e) {
@@ -67,7 +68,8 @@
     },
     methods: {
       ...mapActions({
-        login: 'user/login'
+        login: 'user/login',
+        setFavoritesBooks: 'library/setFavoritesBooks'
       })
     }
   }
@@ -78,7 +80,7 @@
 
   .main-content {
     transition: padding 0.3s linear;
-    padding: 72px 0 0 300px;
+    padding: 72px 0 0 250px;
     transition-delay: 0.3s;
 
     &__drawer-off {

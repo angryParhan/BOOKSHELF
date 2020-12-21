@@ -11,7 +11,7 @@
         <router-link class="login__footer__link" tag="span" to="/dashboard">
           Continue without SignUp
         </router-link>
-        <UiKitBtn text="Sign In" style="width: 200px; border-radius: 30px;" @click="showAuthDialog"/>
+        <UiKitBtn text="Sign In" style="width: 200px; border-radius: 30px;" @click="showDialog('Auth')"/>
       </div>
     </div>
   </section>
@@ -45,7 +45,7 @@
     },
     methods: {
       ...mapActions({
-        showAuthDialog: 'app/showAuthDialog'
+        showDialog: 'app/showDialog'
       })
     }
   }

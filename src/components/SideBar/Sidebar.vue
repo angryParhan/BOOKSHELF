@@ -6,9 +6,9 @@
           :key="item.text"
           class="sidebar__item"
           :class="{'sidebar__item-active' : $route.name === item.routeName}"
-          @click="changeRoute(item.routeName)"
+          @click="onRouteClick(item)"
       >
-        {{ item.text }}
+        <font-awesome-icon :icon="item.icon" class="sidebar__item-icon" /> {{ item.text }}
       </div>
     </aside>
     <div
@@ -20,35 +20,41 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
 
   export default {
-    name: "Sidebar",
+    name: 'Sidebar',
     data () {
       return {
         items: [
           {
+            text: 'Find book',
+            icon: 'search',
+            routeName: 'book-search'
+          },
+          {
             text: 'Dashboard',
-            icon: '',
+            icon: 'home',
             routeName: 'dashboard'
           },
           {
             text: 'Favorites',
-            icon: '',
+            icon: 'heart',
             routeName: 'favorites'
           },
           {
-            text: 'Find book',
-            icon: '',
-            routeName: 'book-search'
+            text: 'Create library',
+            icon: 'plus',
+            dialogName: 'CreateLibrary'
           }
         ]
       }
     },
     computed: {
       ...mapGetters({
-        draw: 'app/getSideBar'
+        draw: 'app/getSideBar',
+        isLogin: 'user/isLogin'
       })
     },
     watch: {
@@ -79,8 +85,22 @@
     },
 
     methods: {
+      ...mapActions({
+        showDialog: 'app/showDialog'
+      }),
       closeSidebar () {
         this.$store.commit('app/SET_SIDEBAR', false)
+      },
+      onRouteClick (menuItem) {
+        if (menuItem.routeName){
+          this.changeRoute(menuItem.routeName)
+        } else if (menuItem.dialogName) {
+          if (!this.isLogin) {
+            this.showDialog('Auth')
+            return
+          }
+          this.showDialog(menuItem.dialogName)
+        }
       },
       changeRoute (name) {
         this.$router.push({ name }).catch((e)=>{
@@ -130,10 +150,11 @@
 
     &__item {
       cursor: pointer;
-      padding: 15px 0 15px 40px;
+      padding: 10px 0 10px 40px;
       user-select: none;
       font-weight: 500;
-
+      margin: 10px 5px;
+      border-radius: 5px;
       &:hover {
         background: rgba(0, 0, 0, 0.2);
       }
@@ -142,20 +163,13 @@
         position: relative;
         color: #f1ae48;
         font-weight: 600;
-
-        &:before {
-          content: '';
-          display: block;
-          width: 30px;
-          height: 3px;
-          position: absolute;
-          background: #f1ae48;
-          top: 23px;
-          left: 0;
-        }
+      }
+      &-icon {
+        font-size: 13px;
+        margin-bottom: 1px;
+        margin-right: 5px;
       }
     }
-
   }
 
 </style>

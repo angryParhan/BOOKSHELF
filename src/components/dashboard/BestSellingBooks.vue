@@ -20,7 +20,6 @@
     </template>
     <skeletonLoader v-if="loading"/>
 
-
   </section>
 </template>
 
@@ -119,17 +118,7 @@
               const bestSellingItem = {}
               bestSellingItem.listName = response.display_name
               bestSellingItem.listId = category
-              bestSellingItem.books = response.books.map((book) => {
-                return {
-                  author: book.author,
-                  img: book?.book_image && book?.book_image !== '' ? book.book_image : 'empty',
-                  title: book.title,
-                  description: book.description,
-                  rank: book.rank,
-                  favorite: false,
-                  category
-                }
-              })
+              bestSellingItem.books = response.books
               this.$store.commit('bestSellersBooks/SET_BESTSELING', bestSellingItem)
               resolve()
             }).catch((e) => {

@@ -9,7 +9,7 @@
 
 
     <div class="header__user-popover">
-      <div class="unregister-popover" v-if="!isLogin" @click="showAuthDialog">
+      <div class="unregister-popover" v-if="!isLogin" @click="showDialog('Auth')">
         <span>Login or register</span>
 
         <img class="unregister-popover__user-img" src="./images/user.svg" alt="user">
@@ -63,7 +63,7 @@
 
     methods: {
       ...mapActions({
-        showAuthDialog: 'app/showAuthDialog',
+        showDialog: 'app/showDialog',
         logout: 'user/logout'
       }),
       changeSidebar () {

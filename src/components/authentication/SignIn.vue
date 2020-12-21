@@ -4,6 +4,7 @@
       <UiKitInput
           v-model="formValues.login.value"
           :error="formValues.login.error"
+          @blur="validateLogin"
           class="sign-in__input"
           placeholder="Login"
           type="text"
@@ -13,15 +14,14 @@
       <UiKitInput
           v-model="formValues.password.value"
           :error="formValues.password.error"
+          @blur="validatePassword"
           class="sign-in__input"
           placeholder="Password"
           type="password"
           style="margin-top: 65px"
       />
     </div>
-
   </section>
-
 </template>
 
 <script>
@@ -64,11 +64,11 @@
 
     methods: {
       ...mapActions({
-        login: 'user/login'
+        login: 'user/login',
       }),
       async signInHandler () {
         this.errorCheck = false
-        this.validateEmail()
+        this.validateLogin()
         this.validatePassword()
 
         if(!this.errorCheck) {
@@ -99,11 +99,10 @@
         }
       },
 
-      validateEmail() {
-        const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        if (!re.test(String(this.formValues.login.value).toLowerCase())) {
+      validateLogin () {
+        if (this.formValues.login.value.length <= 3) {
           this.errorCheck = true
-          this.formValues.login.error = 'invalid email'
+          this.formValues.login.error = 'Login must be longer then 3 characters'
         } else {
           this.formValues.login.error = false
         }
