@@ -6,8 +6,8 @@
 
    <section class="book-search__items">
      <bookCard
-         v-for="book of booksFound"
-         :key="book.title"
+         v-for="(book, index) of booksFound"
+         :key="index"
          :book="book"
      />
 
@@ -69,13 +69,15 @@
     },
 
     mounted () {
-      this.scroll()
+      this.$store.commit('bookSearchStore/SET_INITIAL')
+      window.addEventListener('scroll', this.handleScroll)
     },
 
     beforeDestroy () {
       if (this.$store.state.bookSearchStore) {
         this.$store.unregisterModule('bookSearchStore')
       }
+      window.removeEventListener('scroll', this.handleScroll)
     },
 
 
@@ -88,19 +90,18 @@
           this.searchedValue = payload.value
           this.$store.commit('bookSearchStore/SET_INITIAL')
         }
+        if (!this.searchedValue) return
         await this.searchBook({value: this.searchedValue, initial: payload.initial})
         console.log('books', this.booksFound)
       },
-      scroll () {
-        window.onscroll = () => {
-          let bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
-          if (bottomOfWindow) {
-            if (!this.loading) {
-              this.startSearching({initial: false})
-            }
+      handleScroll () {
+        let bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
+        if (bottomOfWindow) {
+          if (!this.loading) {
+            this.startSearching({initial: false})
           }
         }
-      },
+      }
     }
   }
 </script>

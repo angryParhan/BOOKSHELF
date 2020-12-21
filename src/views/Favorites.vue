@@ -1,6 +1,5 @@
 <template>
   <section class="favorites">
-    <h1 class="favorites__title">Favorites</h1>
 
     <section class="favorites__books">
       <bookCart
@@ -9,7 +8,10 @@
           :key="book.title"
       />
     </section>
-    <UiKitStub v-if="!favoritesList.length"/>
+    <UiKitStub
+        v-if="!favoritesList.length"
+        description="You don't have favorite books yet. Press heart on book card to add book here."
+    />
   </section>
 </template>
 
@@ -32,9 +34,6 @@
 .favorites {
   padding: 0 20px;
 
-  &__title {
-    text-align: center;
-  }
 
   &__books {
     display: flex;

@@ -22,17 +22,17 @@
         ></rect>
         <defs>
           <clipPath id="clip-path">
-            <rect x="310" y="30" rx="3" ry="3" width="10%" height="13" />
-            <rect x="310" y="60" rx="3" ry="3" width="18%" height="13" />
-            <rect x="310" y="150" rx="3" ry="3" width="50%" height="13" />
-            <rect x="310" y="180" rx="3" ry="3" width="52%" height="13" />
-            <rect x="310" y="210" rx="3" ry="3" width="57%" height="13" />
-            <rect x="310" y="240" rx="3" ry="3" width="56%" height="13" />
-            <rect x="310" y="270" rx="3" ry="3" width="33%" height="13" />
-            <rect x="310" y="300" rx="3" ry="3" width="60%" height="13" />
-            <rect x="310" y="330" rx="3" ry="3" width="50%" height="13" />
-            <rect x="310" y="358" rx="3" ry="3" width="64%" height="13" />
-            <rect x="30" y="30" rx="0" ry="0" width="250" height="340" />
+            <rect :x="loaderXoffset" y="30" rx="3" ry="3" width="10%" height="13" />
+            <rect :x="loaderXoffset" y="60" rx="3" ry="3" width="18%" height="13" />
+            <rect :x="loaderXoffset" y="150" rx="3" ry="3" width="50%" height="13" />
+            <rect :x="loaderXoffset" y="180" rx="3" ry="3" width="52%" height="13" />
+            <rect :x="loaderXoffset" y="210" rx="3" ry="3" width="57%" height="13" />
+            <rect :x="loaderXoffset" y="240" rx="3" ry="3" width="56%" height="13" />
+            <rect :x="loaderXoffset" y="270" rx="3" ry="3" width="33%" height="13" />
+            <rect :x="loaderXoffset" y="300" rx="3" ry="3" width="60%" height="13" />
+            <rect :x="loaderXoffset" y="330" rx="3" ry="3" width="50%" height="13" />
+            <rect :x="loaderXoffset" y="358" rx="3" ry="3" width="64%" height="13" />
+            <rect x="30" y="30" rx="0" ry="0" :width="loaderImgWidth" height="342" />
           </clipPath>
           <linearGradient id="fill">
             <stop
@@ -89,6 +89,14 @@
 
   export default {
     name: "sceletonLoader",
+    computed: {
+      loaderXoffset () {
+        return this.$breakpoint.xsOnly ? 620 : 310
+      },
+      loaderImgWidth () {
+        return this.$breakpoint.xsOnly ? '45%' : '250'
+      }
+    }
   }
 </script>
 
