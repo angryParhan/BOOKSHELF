@@ -5,7 +5,17 @@
           v-for="item in items"
           :key="item.text"
           class="sidebar__item"
-          :class="{'sidebar__item-active' : $route.name === item.routeName}"
+          :class="{'sidebar__item-active' : $route.name === item.routeName && (!(item.routeParams||{}) || $route.params.id === (item.routeParams||{}).id)}"
+          @click="onRouteClick(item)"
+      >
+        <font-awesome-icon :icon="item.icon" class="sidebar__item-icon" /> {{ item.text }}
+      </div>
+      <p class="sidebar__divider">Libraries</p>
+      <div
+          v-for="item in libraryRoutes"
+          :key="item.text"
+          class="sidebar__item sidebar__item-library"
+          :class="{'sidebar__item-active' : $route.name === item.routeName && (!(item.routeParams||{}) || $route.params.id === (item.routeParams||{}).id)}"
           @click="onRouteClick(item)"
       >
         <font-awesome-icon :icon="item.icon" class="sidebar__item-icon" /> {{ item.text }}
@@ -43,19 +53,31 @@
             icon: 'heart',
             routeName: 'favorites'
           },
-          {
-            text: 'Create library',
-            icon: 'plus',
-            dialogName: 'CreateLibrary'
-          }
         ]
       }
     },
     computed: {
       ...mapGetters({
         draw: 'app/getSideBar',
-        isLogin: 'user/isLogin'
-      })
+        isLogin: 'user/isLogin',
+        libraries: 'library/getLibraries',
+      }),
+      libraryRoutes () {
+        const routes = this.libraries.map(item => {
+          return {
+            text: item.title,
+            icon: 'book',
+            routeName: 'library-card',
+            routeParams: { id: item.id }
+          }
+        })
+        routes.unshift({
+          text: 'Create library',
+          icon: 'plus',
+          dialogName: 'CreateLibrary'
+        })
+        return routes
+      }
     },
     watch: {
       '$breakpoint.mdAndUp' (nv) {
@@ -93,7 +115,7 @@
       },
       onRouteClick (menuItem) {
         if (menuItem.routeName){
-          this.changeRoute(menuItem.routeName)
+          this.changeRoute(menuItem)
         } else if (menuItem.dialogName) {
           if (!this.isLogin) {
             this.showDialog('Auth')
@@ -102,9 +124,15 @@
           this.showDialog(menuItem.dialogName)
         }
       },
-      changeRoute (name) {
-        this.$router.push({ name }).catch((e)=>{
+      changeRoute (menuItem) {
+        console.log(menuItem)
+        this.$router.push({
+          name: menuItem.routeName,
+          params: menuItem.routeParams || {}
+        }).catch((e)=>{
           console.log(e)
+        }).then(() => {
+          console.log(this.$route);
         })
       }
     }
@@ -124,14 +152,19 @@
     top: 70px;
     height: calc(100vh - 70px);
     background: #3e3e3d;
-    width: 300px;
+    width: 250px;
     border-top: 2px solid #2c2c2b;
     transition: transform 0.3s linear;
     z-index: 20;
     padding-top: 15px;
-
+    user-select: none;
+    &__divider {
+      padding: 0 26px;
+      font-size: 15px;
+      color: #afab99;
+    }
     &__close {
-      transform: translateX(-350px);
+      transform: translateX(-300px);
     }
 
     &__opened {
@@ -151,14 +184,15 @@
     &__item {
       cursor: pointer;
       padding: 10px 0 10px 40px;
-      user-select: none;
       font-weight: 500;
       margin: 10px 5px;
       border-radius: 5px;
       &:hover {
         background: rgba(0, 0, 0, 0.2);
       }
-
+      &-library {
+        margin: 6px 5px;
+      }
       &-active {
         position: relative;
         color: #f1ae48;

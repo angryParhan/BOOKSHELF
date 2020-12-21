@@ -20,7 +20,7 @@ const book = {
     }
     if (req.body.id) {
       const { query } = await connection
-      const book = await query(`SELECT bookId FROM bookshelf.books WHERE book_id='${req.body.id}';`)
+      const book = await query(`SELECT book_id FROM bookshelf.books WHERE book_id='${req.body.id}';`)
       if (book.length) {
         return res.send({
           book_id: req.body.id,

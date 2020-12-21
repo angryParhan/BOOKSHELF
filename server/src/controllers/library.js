@@ -19,12 +19,18 @@ const library = {
         console.error(e)
       }
     }
-    connection.then(() => {
-      const library_id = uuid.v4()
-      callProcedure('createLibrary', [library_id, req.body.uid, req.body.name, req.body.description, req.body.visible, req.body.artwork])
-        .then(() => res.send({ library_id }))
-        .catch(e => errorHandler(res, e))
-    })
+    const library_id = uuid.v4()
+    callProcedure('createLibrary', [library_id, req.body.uid, req.body.name, req.body.description, req.body.visible, req.body.artwork])
+      .then(async () => {
+        const { query } = await connection
+        const library = (await query(`SELECT ${dbSelection.library} FROM libraries as l WHERE library_id='${library_id}'`))[0]
+        res.send({
+          success: true,
+          library
+        })
+      })
+      .catch(e => errorHandler(res, e))
+    return
   },
   delete (req, res) {
     if (!req.body.lib_id || !req.body.book_id) {
