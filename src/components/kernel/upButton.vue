@@ -29,6 +29,11 @@
     },
 
 
+    destroyed() {
+      clearInterval(this.intervalInstance);
+    },
+
+
     methods: {
       scrollTop () {
         window.scroll({top: 0, behavior: 'smooth'})
