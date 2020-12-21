@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`user_library` (
   `user_library_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `library_id` VARCHAR(100) NOT NULL,
   `user_id` VARCHAR(100) NOT NULL,
+  FOREIGN KEY (library_id) REFERENCES libraries(library_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
   PRIMARY KEY (`user_library_id`));
 
 CREATE TABLE IF NOT EXISTS `bookshelf`.`libraries` (
@@ -34,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`library_book` (
   `library_book_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `library_id` VARCHAR(100) NOT NULL,
   `book_id` VARCHAR(100) NOT NULL,
+  FOREIGN KEY (library_id) REFERENCES libraries(library_id),
+  FOREIGN KEY (book_id) REFERENCES books(book_id),
   PRIMARY KEY (`library_book_id`));
 
 CREATE TABLE IF NOT EXISTS `bookshelf`.`books` (
@@ -45,4 +49,3 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`books` (
   `book_description` VARCHAR(5000) NULL,
   `book_artwork` LONGTEXT NULL,
   PRIMARY KEY (`book_id`));
-

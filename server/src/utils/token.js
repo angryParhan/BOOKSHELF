@@ -22,6 +22,20 @@ function decode (token) {
   return null
 }
 
+function getId (token) {
+  let id = null
+  try {
+    const decoded = decode(token);
+    if (decoded) {
+      id = decoded.uid
+    }
+  } catch (e) {
+    console.error(e)
+  }
+  return id
+}
+
 
 module.exports.create = create
 module.exports.decode = decode
+module.exports.getId = getId

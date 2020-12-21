@@ -1,13 +1,14 @@
 const uuid = require('uuid')
 const bycrypt = require('bcryptjs')
 const token = require('../utils/token')
+const dbSelection = require('../config/dbSelection.json')
 const errorHandler = require('../utils/errorHandler')
 const callProcedure = require('../utils/callDBProcedure')
 const { connection } = require('../utils/connectionPool')
 
 const auth = {
   login (req, res) {
-    connection.then(connection => {
+    connection.then(({ query }) => {
       try {
         const decoded = token.decode((req.cookies||{}).token);
         if (decoded) {
@@ -17,21 +18,34 @@ const auth = {
       } catch (e) {
         console.error(e)
       }
-      connection.query(`SELECT * FROM bookshelf.users WHERE user_email='${req.body.value}' OR user_login='${req.body.value}' OR user_id='${req.body.uid}'`)
-        .then(rows => {
+      query(`
+      SELECT
+      ${dbSelection.user}, u.user_password as userPassword
+      FROM bookshelf.users as u
+      WHERE u.user_email='${req.body.value}' OR u.user_login='${req.body.value}' OR u.user_id='${req.body.uid}'
+      `)
+        .then(async rows => {
           if (!(rows||[]).length) {
             return errorHandler(res, 'There is no user with this data')
           }
           const user = rows[0]
           if (!req.body.uid) {
             // check password
-            const isPasswordEqual = bycrypt.compareSync(req.body.password, user.user_password)
+            const isPasswordEqual = bycrypt.compareSync(req.body.password, user.userPassword)
             if (!isPasswordEqual) {
               return errorHandler(res, 'Password is not equal!')
             }
           }
-          res.cookie('token', token.create(user.user_email, user.user_id), { domain: 'localhost', httpOnly: true });
-          delete user.user_password
+          delete user.userPassword
+          const libraries = await query(`
+              SELECT DISTINCT
+              ${dbSelection.library}
+              FROM users as u, libraries as l, user_library as ul 
+              WHERE ul.user_id = '${req.body.uid}'
+                    AND ul.library_id = l.library_id;
+              `)
+          user.libraries = libraries
+          res.cookie('token', token.create(user.userEmail, user.userId), { domain: 'localhost', httpOnly: true });
           return res.send({
             success: true,
             user

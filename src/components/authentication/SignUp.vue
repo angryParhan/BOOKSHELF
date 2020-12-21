@@ -11,6 +11,16 @@
     </div>
     <div>
       <UiKitInput
+          v-model="formValues.login.value"
+          :error="formValues.login.error"
+          class="sign-in__input"
+          placeholder="Login"
+          type="text"
+          style="margin-top: 50px"
+      />
+    </div>
+    <div>
+      <UiKitInput
           v-model="formValues.email.value"
           :error="formValues.email.error"
           class="sign-in__input"
@@ -57,6 +67,10 @@
             value: '',
             error: false
           },
+          login: {
+            value: '',
+            error: false
+          },
           email: {
             value: '',
             error: false
@@ -91,7 +105,12 @@
         if (!this.errorCheck) {
           //signInFunction
           try {
-            const { uid } = (await UserModel.register({email: this.formValues.email.value, user_name: this.formValues.username.value, password: this.formValues.password.value})).data
+            const { uid } = (await UserModel.register({
+              login: this.formValues.login.value,
+              email: this.formValues.email.value,
+              user_name: this.formValues.username.value,
+              password: this.formValues.password.value
+            })).data
             await UserModel.login({uid})
             this.$emit('auth-result', 'success')
           } catch (e) {
@@ -108,6 +127,14 @@
           this.formValues.username.error = 'Username must be longer then 3 characters'
         } else {
           this.formValues.username.error = false
+        }
+      },
+      validateLogin () {
+        if (this.formValues.login.value.length <= 3) {
+          this.errorCheck = true
+          this.formValues.login.error = 'Login must be longer then 3 characters'
+        } else {
+          this.formValues.login.error = false
         }
       },
       validateEmail() {

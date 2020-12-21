@@ -30,9 +30,10 @@ CREATE PROCEDURE createBook
 (IN id VARCHAR(100), IN lib_id VARCHAR(100), IN name VARCHAR(150), IN author VARCHAR(150), IN description VARCHAR(5000), IN artwork LONGTEXT)
 BEGIN
     INSERT INTO bookshelf.books
-    (book_id, book_library_id, book_name, book_author, book_description, book_artwork, cdate)
+    (book_id, book_name, book_author, book_description, book_artwork, cdate)
     VALUES
-    (id, lib_id, name, author, description, artwork, NOW()); -- Create new book
+    (id, name, author, description, artwork, NOW()); -- Create new book
     INSERT INTO bookshelf.library_book (book_id, library_id) VALUES (id, lib_id); -- Add relation with lib
 END $
 DELIMITER ;
+

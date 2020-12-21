@@ -1,7 +1,7 @@
 <template>
   <section>
     <UiKitDialog
-        v-model="app.authDialog"
+        v-model="app.activeDialog"
         :fullscreen="$breakpoint.xsOnly"
     >
       <div class="auth-dialog">
@@ -58,7 +58,7 @@ import { mapState, mapActions } from 'vuex'
     },
     methods: {
       ...mapActions({
-        hideAuthDialog: 'app/hideAuthDialog'
+        hideDialog: 'app/hideDialog'
       }),
       authHandler () {
         this.loading = true
@@ -69,7 +69,7 @@ import { mapState, mapActions } from 'vuex'
           this.loading = false
         } else if (result === 'success') {
           this.loading = false
-          this.hideAuthDialog()
+          this.hideDialog()
           this.$router.push({ name: 'dashboard' })
         } else if (result === 'api-error') {
           this.errorDialog = true

@@ -1,0 +1,5 @@
+{
+  "library": "l.cdate as cdate, l.library_id as id, l.library_creator_id as uid, l.library_name as title, l.library_description as description, l.library_artwork as img",
+  "book": "b.cdate as cdate, b.book_id as id, b.book_author as author, b.book_name as title, b.book_description as description, b.book_artwork as img",
+  "user": "u.cdate as cdate, u.user_login as userLogin, u.user_name as username, u.user_library_id as userFavoritesId, u.user_id as userId, u.user_email as userEmail"
+}

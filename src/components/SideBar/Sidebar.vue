@@ -6,7 +6,7 @@
           :key="item.text"
           class="sidebar__item"
           :class="{'sidebar__item-active' : $route.name === item.routeName}"
-          @click="changeRoute(item.routeName)"
+          @click="onRouteClick(item)"
       >
         <font-awesome-icon :icon="item.icon" class="sidebar__item-icon" /> {{ item.text }}
       </div>
@@ -20,14 +20,19 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
 
   export default {
-    name: "Sidebar",
+    name: 'Sidebar',
     data () {
       return {
         items: [
+          {
+            text: 'Find book',
+            icon: 'search',
+            routeName: 'book-search'
+          },
           {
             text: 'Dashboard',
             icon: 'home',
@@ -39,16 +44,17 @@
             routeName: 'favorites'
           },
           {
-            text: 'Find book',
-            icon: 'search',
-            routeName: 'book-search'
+            text: 'Create library',
+            icon: 'plus',
+            dialogName: 'CreateLibrary'
           }
         ]
       }
     },
     computed: {
       ...mapGetters({
-        draw: 'app/getSideBar'
+        draw: 'app/getSideBar',
+        isLogin: 'user/isLogin'
       })
     },
     watch: {
@@ -79,8 +85,22 @@
     },
 
     methods: {
+      ...mapActions({
+        showDialog: 'app/showDialog'
+      }),
       closeSidebar () {
         this.$store.commit('app/SET_SIDEBAR', false)
+      },
+      onRouteClick (menuItem) {
+        if (menuItem.routeName){
+          this.changeRoute(menuItem.routeName)
+        } else if (menuItem.dialogName) {
+          if (!this.isLogin) {
+            this.showDialog('Auth')
+            return
+          }
+          this.showDialog(menuItem.dialogName)
+        }
       },
       changeRoute (name) {
         this.$router.push({ name }).catch((e)=>{

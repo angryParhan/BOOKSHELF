@@ -22,7 +22,7 @@ export default {
   actions: {
     async addFavoriteBook ({ commit, rootGetters, state }, payload) {
       if (!rootGetters['user/isLogin']) {
-        commit('app/SET_AUTH_DIALOG', true, { root: true })
+        commit('app/SET_DIALOG', 'Auth', { root: true })
         return
       }
       const checkSameBook = state.favorites.findIndex(item => item.id === payload.id)
@@ -30,14 +30,14 @@ export default {
       console.log(payload);
       await localBooksModel.createBook(payload)
       await localBooksModel.addBook({
-        book_id: payload.id
+        id: payload.id
       })
       commit('bestSellersBooks/SET_BOOK_FAVORITE', payload, { root: true })
       commit('ADD_FAVORITE', payload)
     },
     async removeBookFromFavorites ({ commit, rootGetters }, payload) {
       if (!rootGetters['user/isLogin']) {
-        commit('app/SET_AUTH_DIALOG', true, { root: true })
+        commit('app/SET_DIALOG', 'Auth', { root: true })
         return
       }
       commit('bestSellersBooks/REMOVE_BOOK_FAVORITE', payload, { root: true })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AuthDialog />
+    <Dialog />
     <UiHeader />
     <sidebar />
     <main class="main-content" :class="{'main-content__drawer-off' : !draw || !$breakpoint.mdAndUp}">
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import AuthDialog from './components/authentication/AuthDialog'
+  import Dialog from './components/dialog/Dialog'
   import user from '../src/store/user'
   import app from '../src/store/app'
   import library from '../src/store/library'
@@ -22,7 +22,7 @@
 
   export default {
     components: {
-      AuthDialog,
+      Dialog,
       UiHeader,
       sidebar
     },

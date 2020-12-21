@@ -40,11 +40,11 @@
     },
     props: {
       isOpen: {
-        type: Boolean,
+        type: [Boolean, String, null],
         default: false
       },
       fullscreen: {
-        type:Boolean,
+        type: Boolean,
         default: false,
       },
       closeBtn: {
@@ -104,6 +104,7 @@
       cursor: pointer;
       right: 5px;
       top: 5px;
+      z-index: 1;
       padding: 20px;
       display: flex;
       justify-content: center;
