@@ -80,7 +80,7 @@
 
   .main-content {
     transition: padding 0.3s linear;
-    padding: 72px 0 0 250px;
+    padding: 72px 0 0 305px;
     transition-delay: 0.3s;
 
     &__drawer-off {

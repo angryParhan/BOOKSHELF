@@ -23,7 +23,12 @@
         </section>
 
         <div class="auth-dialog__btn">
-          <UiKitBtn text="Log In" style="width: 200px" :loading="loading" @click="authHandler"/>
+          <UiKitBtn
+              text="Log In"
+              style="width: 200px"
+              :loading="loading"
+              @click="authHandler"
+          />
         </div>
 
 

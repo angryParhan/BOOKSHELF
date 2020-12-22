@@ -24,7 +24,11 @@ const routes = [
     path: '/books/find',
     name: 'book-search',
     component: () => import(/* webpackChunkName: "book-search"*/ '../views/BookSearch.vue')
-
+  },
+  {
+    path: '/book',
+    name: 'book-page',
+    component: () => import(/* webpackChunkName: "book-search"*/ '../views/Book.vue')
   }
 ]
 

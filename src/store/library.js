@@ -3,7 +3,8 @@ import localBooksModel from '../models/Books/localBooksModel'
 export default {
   namespaced: true,
   state: {
-    favorites: []
+    favorites: [],
+    currentBook: null
   },
   mutations: {
     ADD_FAVORITE (state, book) {
@@ -17,6 +18,12 @@ export default {
       if (index !== -1) {
         state.favorites.splice(index, 1)
       }
+    },
+    SET_CURRENT_BOOK (state, book) {
+      state.currentBook = {...book}
+    },
+    RESET_CURRENT_BOOK (state) {
+      state.currenBook = null
     }
   },
   actions: {
@@ -55,6 +62,9 @@ export default {
   getters: {
     getFavorites (state) {
       return state.favorites
+    },
+    getCurrentBook (state) {
+      return state.currentBook
     }
   }
 }
