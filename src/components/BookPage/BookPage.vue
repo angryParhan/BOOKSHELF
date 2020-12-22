@@ -69,6 +69,7 @@
 
       img {
         height: 100%;
+        width: 100%;
       }
 
       &-stub {
@@ -95,6 +96,7 @@
     &__rating {
       height: fit-content;
       margin: 0;
+      padding-top: 20px;
     }
 
     &__author {
