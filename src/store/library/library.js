@@ -5,7 +5,8 @@ export default {
   namespaced: true,
   state: {
     favorites: [],
-    libraries: []
+    libraries: [],
+    currentBook: null
   },
   mutations: {
     ADD_FAVORITE (state, book) {
@@ -19,6 +20,12 @@ export default {
       if (index !== -1) {
         state.favorites.splice(index, 1)
       }
+    },
+    SET_CURRENT_BOOK (state, book) {
+      state.currentBook = {...book}
+    },
+    RESET_CURRENT_BOOK (state) {
+      state.currenBook = null
     },
     SET_LIBRARIES (state, payload) {
       state.libraries = payload
@@ -131,6 +138,9 @@ export default {
     },
     getLibraries (state) {
       return state.libraries
+    },
+    getCurrentBook (state) {
+      return state.currentBook
     }
   }
 }
