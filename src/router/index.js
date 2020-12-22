@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -29,6 +30,11 @@ const routes = [
     name: 'library-card',
     component: () => import(/* webpackChunkName: "library-card"*/ '../views/Library.vue'),
     params: true
+  },
+  {
+    path: '/book',
+    name: 'book-page',
+    component: () => import(/* webpackChunkName: "book-search"*/ '../views/Book.vue')
   }
 ]
 

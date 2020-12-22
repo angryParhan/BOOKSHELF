@@ -4,7 +4,7 @@
       <span v-if="!addBtn">{{ book.rank }}</span>
       <span v-else><font-awesome-icon icon="plus" class="" /></span>
     </span>
-    <div class="book-cart__img-wrapper">
+    <div class="book-cart__img-wrapper" @click.self.stop="bookPage(book.id)">
       <img
           :src="book.img"
           :alt="`${book.title}-image`"
@@ -15,17 +15,17 @@
           src="./images/favorite.svg"
           alt="heart"
           class="book-cart__img-favorite"
-          @click="addToFavorites(book)"
+          @click.self.stop="addToFavorites(book)"
       >
       <img
           v-else
           src="./images/favorite-selected.svg"
           alt="heart selected"
           class="book-cart__img-favorite"
-          @click="removeFromFavorites(book)"
+          @click.self.stop="removeFromFavorites(book)"
       >
     </div>
-    <h5 class="book-cart__title">{{ book.title }}</h5>
+    <h5 class="book-cart__title" @click="bookPage(book.id)">{{ book.title }}</h5>
     <p class="book-cart__author">{{ book.author }}</p>
   </section>
 
@@ -58,7 +58,13 @@
         addToFavorites: 'library/addFavoriteBook',
         removeFromFavorites: 'library/removeBookFromFavorites',
         showDialog: 'app/showDialog'
-      })
+      }),
+
+      bookPage (id) {
+        console.log('here')
+        this.$store.commit('library/SET_CURRENT_BOOK', this.book)
+        this.$router.push({path: '/book', query: {id} })
+      }
     }
   }
 </script>
@@ -137,6 +143,10 @@
     word-break: break-word;
     font-size: 16px;
     margin: 15px 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__author {

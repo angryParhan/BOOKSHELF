@@ -1,7 +1,7 @@
 <template>
   <section class="listed-book">
     <div class="listed-book__img">
-      <img v-if="book.img !== 'empty'" :src="book.img" alt="bookTitle">
+      <img v-if="book.img !== 'empty'" :src="book.img" alt="bookTitle" @click="bookPage(book.id)">
       <div v-else class="listed-book__img-stub">
         <img src="../../assets/icons/img-stub-icon.svg" alt="stub">
       </div>
@@ -9,7 +9,7 @@
     <h3 class="listed-book__title">
       <section class="listed-book__title-firstPart">
         <section class="listed-book__title-name">
-          <span class="listed-book__title-name-value">{{ book.title }}</span>
+          <span class="listed-book__title-name-value" @click="bookPage(book.id)">{{ book.title }}</span>
         </section>
 
         <section class="listed-book__title-author">
@@ -52,6 +52,13 @@
         type: Object,
         required: true
       }
+    },
+
+    methods: {
+      bookPage (id) {
+        this.$store.commit('library/SET_CURRENT_BOOK', this.book)
+        this.$router.push({path: '/book', query: {id} })
+      }
     }
   }
 </script>
@@ -72,6 +79,7 @@
     &__img {
       grid-area: 1 / 1 / 4 / 2;
       display: flex;
+      cursor: pointer;
       justify-content: center;
       img {
         height: 340px;
@@ -108,7 +116,12 @@
       }
 
       &-name {
+        cursor: pointer;
         margin-bottom: 5px;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 

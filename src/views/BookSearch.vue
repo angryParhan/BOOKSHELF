@@ -10,7 +10,6 @@
          :key="index"
          :book="book"
      />
-
      <sceletonLoader v-if="loading"/>
    </section>
 
