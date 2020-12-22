@@ -1,6 +1,9 @@
 <template>
-  <section class="book-cart">
-    <span v-show="showRank" class="book-cart__rank"><span>{{ book.rank }}</span></span>
+  <section @mouseover="addBtn = true" @mouseleave="addBtn = false" class="book-cart">
+    <span v-show="showRank" @click="showDialog('AddBook')" class="book-cart__rank">
+      <span v-if="!addBtn">{{ book.rank }}</span>
+      <span v-else><font-awesome-icon icon="plus" class="" /></span>
+    </span>
     <div class="book-cart__img-wrapper">
       <img
           :src="book.img"
@@ -44,10 +47,17 @@
       }
     },
 
+    data () {
+      return {
+        addBtn: false
+      }
+    },
+
     methods: {
       ...mapActions({
         addToFavorites: 'library/addFavoriteBook',
-        removeFromFavorites: 'library/removeBookFromFavorites'
+        removeFromFavorites: 'library/removeBookFromFavorites',
+        showDialog: 'app/showDialog'
       })
     }
   }

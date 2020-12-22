@@ -18,9 +18,11 @@ export default {
   actions: {
     showDialog ({ commit }, payload) {
       commit('SET_DIALOG', payload)
+      document.body.style.overflow = 'hidden'
     },
     hideDialog ({ commit }) {
       commit('SET_DIALOG', null)
+      document.body.style.overflow = null
     }
   },
   getters: {

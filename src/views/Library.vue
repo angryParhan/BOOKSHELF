@@ -1,16 +1,30 @@
 <template>
   <section class="dashboard">
-    <h1>Current library {{ $route.params.id }}</h1>
-
+    <h1>{{ library.title }}</h1>
+    <Library />
   </section>
 </template>
 
 <script>
 import libraryCard from '@/store/library/libraryCard'
-import { mapActions } from 'vuex'
+import Library from '@/components/library/Library';
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Dashboard',
+  components: {
+    Library
+  },
+  watch: {
+    '$route.params.id' (val) {
+      this.setLibrary(val)
+    }
+  },
+  computed: {
+    ...mapGetters({
+      library: 'library/libraryCard/getData'
+    })
+  },
   methods: {
     ...mapActions({
       setLibrary: 'library/libraryCard/setLibrary'

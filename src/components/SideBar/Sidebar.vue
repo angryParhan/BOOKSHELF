@@ -125,14 +125,11 @@
         }
       },
       changeRoute (menuItem) {
-        console.log(menuItem)
         this.$router.push({
           name: menuItem.routeName,
           params: menuItem.routeParams || {}
-        }).catch((e)=>{
+        }).catch(e => {
           console.log(e)
-        }).then(() => {
-          console.log(this.$route);
         })
       }
     }
@@ -158,6 +155,7 @@
     z-index: 20;
     padding-top: 15px;
     user-select: none;
+    overflow-y: auto;
     &__divider {
       padding: 0 26px;
       font-size: 15px;

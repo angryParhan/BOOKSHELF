@@ -41,7 +41,6 @@ export default {
       }
       const checkSameBook = state.favorites.findIndex(item => item.id === payload.id)
       if (checkSameBook !== -1) return
-      console.log(payload);
       await localBooksModel.createBook(payload)
       await localBooksModel.addBook({
         id: payload.id
@@ -54,6 +53,9 @@ export default {
         commit('app/SET_DIALOG', 'Auth', { root: true })
         return
       }
+      await localBooksModel.removeBook({
+        id: payload.id
+      })
       commit('bestSellersBooks/REMOVE_BOOK_FAVORITE', payload, { root: true })
       commit('REMOVE_FAVORITE', payload)
     },
@@ -83,6 +85,21 @@ export default {
         return
       }
       const checkSameBook = state.libraries.findIndex(item => item.id === payload.id)
+      if (checkSameBook !== -1) return
+      try {
+        const { library } = (await LibraryModel.create(payload)).data
+        commit('ADD_LIBRARY', library)
+        return library
+      } catch (e) {
+        console.log(e)
+        return false
+      }
+    },
+    async addBookToLibrary ({ commit, rootGetters, state }, payload) {
+      if (!rootGetters['user/isLogin']) {
+        return
+      }
+      const checkSameBook = state.libraries.findIndex(item => item.id === payload.library)
       if (checkSameBook !== -1) return
       try {
         const { library } = (await LibraryModel.create(payload)).data

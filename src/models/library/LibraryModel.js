@@ -13,9 +13,12 @@ class LibraryModel {
     })
   }
 
-  edit () {
+  edit (params) {
     return axios(`${this.resource}/edit`, {
-      method: 'POST',
+      method: 'PUT',
+      data: {
+        ...params
+      },
       withCredentials: true
     })
   }
@@ -23,8 +26,17 @@ class LibraryModel {
 
   get (params) {
     return axios(`${this.resource}/get`, {
-      method: 'POST',
-      data: {
+      method: 'GET',
+      params: {
+        ...params
+      }
+    })
+  }
+
+  getLibrary (params) {
+    return axios(`${this.resource}/get`, {
+      method: 'GET',
+      params: {
         ...params
       }
     })

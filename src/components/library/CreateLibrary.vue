@@ -26,7 +26,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: "SignIn",
+  name: 'CreateLibrary',
   data () {
     return {
       errorCheck: false,

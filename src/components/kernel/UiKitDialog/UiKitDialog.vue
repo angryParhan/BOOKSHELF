@@ -7,7 +7,7 @@
       <div
           v-if="isOpen && !fullscreen"
           class="ui-kit-dialog__overlay"
-          @click.stop="!persistent ? $emit('update:isOpen', false) : ''"
+          @click.stop="!persistent ? handleHideDialog() : ''"
       />
 
     </transition>
@@ -19,7 +19,7 @@
         <div
           v-show="closeBtn"
           class="ui-kit-dialog__close"
-          @click.stop="$emit('update:isOpen', false)"
+          @click.stop="handleHideDialog"
         >
           <img src="../../../assets/login-imgs/close-icon.svg" width="15" height="15" alt="">
         </div>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
+
   export default {
     name: "UiKitDialog",
     model: {
@@ -70,6 +72,15 @@
           if(this.contentClass) {classes += ' ' + this.contentClass}
           return classes;
         }
+      }
+    },
+    methods: {
+      ...mapActions({
+        hideDialog: 'app/hideDialog'
+      }),
+      handleHideDialog () {
+        this.hideDialog()
+        this.$emit('update:isOpen', false)
       }
     }
   }
