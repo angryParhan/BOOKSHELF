@@ -12,3 +12,7 @@ export const UiKitBtn = () => import( /* webpackChunkName: 'button' */ './UiKitB
 
 //stubs
 export const UiKitStub = () => import(/* webpackChunkName: 'stub' */ './UiKitStub')
+
+
+//slider
+export const UiKitSlider = () => import(/* webpackChunkName: 'slider' */ './UiKitSlider')

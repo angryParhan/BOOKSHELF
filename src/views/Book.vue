@@ -5,6 +5,10 @@
         :id="id"
     />
 
+    <UiKitSlider>
+
+    </UiKitSlider>
+
 
   </section>
 </template>
@@ -36,6 +40,8 @@
 
 <style lang="scss">
   .book-page {
+    max-width: 85%;
+    margin: 0 auto;
 
   }
 </style>

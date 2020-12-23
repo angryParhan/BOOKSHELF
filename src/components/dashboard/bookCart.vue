@@ -84,10 +84,10 @@
   margin-bottom: 20px;
   position: relative;
   cursor: pointer;
-  box-shadow: 0px 0px 10px 0px black;
+  box-shadow: 0 0 10px 0 black;
   &:hover {
     //box-shadow: 0 -2px 5px rgba(0, 0, 0, 1);
-    box-shadow: 0px 0px 20px 0px black;
+    box-shadow: 0 0 20px 0 black;
   }
 
   &__rank {
