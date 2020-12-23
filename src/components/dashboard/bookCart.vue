@@ -1,7 +1,7 @@
 <template>
   <section @mouseover="addBtn = true" @mouseleave="addBtn = false" class="book-cart">
-    <span v-show="showRank" @click="showDialog('AddBook')" class="book-cart__rank">
-      <span v-if="!addBtn">{{ book.rank }}</span>
+    <span v-if="addBtn || showRank" @click="addToLibraryHandler" class="book-cart__rank">
+      <span v-if="!addBtn && showRank">{{ book.rank }}</span>
       <span v-else><font-awesome-icon icon="plus" class="" /></span>
     </span>
     <div class="book-cart__img-wrapper" @click.self.stop="bookPage(book.id)">
@@ -57,8 +57,14 @@
       ...mapActions({
         addToFavorites: 'library/addFavoriteBook',
         removeFromFavorites: 'library/removeBookFromFavorites',
-        showDialog: 'app/showDialog'
+        showDialog: 'app/showDialog',
+        setParams: 'app/setParams'
       }),
+
+      addToLibraryHandler () {
+        this.setParams(this.book)
+        this.showDialog('AddBook')
+      },
 
       bookPage (id) {
         console.log('here')

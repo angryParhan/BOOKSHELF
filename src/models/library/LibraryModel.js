@@ -19,7 +19,6 @@ class LibraryModel {
       data: {
         ...params
       },
-      withCredentials: true
     })
   }
 
@@ -29,7 +28,8 @@ class LibraryModel {
       method: 'GET',
       params: {
         ...params
-      }
+      },
+      withCredentials: true
     })
   }
 

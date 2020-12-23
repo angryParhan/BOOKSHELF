@@ -70,7 +70,7 @@ export default {
   }
 
   &__section {
-    height: 300px;
+    max-height: 300px;
     overflow-y: auto;
     margin: 35px 20px 55px 20px;
   }

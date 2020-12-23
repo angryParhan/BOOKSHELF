@@ -20,7 +20,15 @@ const library = {
       }
     }
     const library_id = uuid.v4()
-    callProcedure('createLibrary', [library_id, req.body.uid, replaceQuotes(req.body.name, changingReplacer), replaceQuotes(req.body.description, changingReplacer), req.body.visible, req.body.artwork])
+    callProcedure('createLibrary', [
+          library_id,
+          req.body.uid,
+          replaceQuotes(req.body.name, changingReplacer),
+          replaceQuotes(req.body.description, changingReplacer),
+          req.body.visible,
+          req.body.artwork,
+          replaceQuotes(req.body.external_info, changingReplacer, /[']/g)
+    ])
       .then(async () => {
         const { query } = await connection
         const library = (await query(`SELECT ${dbSelection.library} FROM libraries as l WHERE library_id='${library_id}'`))[0]
@@ -104,10 +112,8 @@ const library = {
     `)
       .then(data => {
         data = data.map(library => {
-          if (library.library_id === req.body.uid + favSuffix) {
-            library.favorite = true
-          }
-          library.my = true
+          library.favorite = library.id === req.body.uid + favSuffix
+          library.my = library.uid === req.body.uid
           return library
         })
         return res.send({ success: true, data })
@@ -115,21 +121,29 @@ const library = {
       .catch(e => errorHandler(res, e))
   },
   async get (req, res) {
-    if (!req.query.library_id) {
-      if (!req.query.uid) {
-        try {
-          const id = token.getId((req.cookies||{}).token);
-          if (id) {
-            req.query.uid = id
-          }
-        } catch (e) {
-          console.error(e)
+    if (!req.query.uid) {
+      try {
+        const id = token.getId((req.cookies||{}).token);
+        if (id) {
+          req.query.uid = id
         }
+      } catch (e) {
+        console.error(e)
       }
+    }
+    if (!req.query.library_id) {
       req.query.library_id = req.query.uid + favSuffix
     }
     try {
       const { query } = await connection
+      let relation = []
+      if (req.query.uid) {
+        try {
+          relation = (await query(`SELECT book_id FROM bookshelf.library_book WHERE library_id='${req.query.uid + favSuffix}';`)).map(item => item.book_id)
+        } catch (e) {
+          console.log(e);
+        }
+      }
       const library = (await query(`
         SELECT 
         ${dbSelection.library}
@@ -143,6 +157,9 @@ const library = {
         ON lb.book_id=b.book_id
         WHERE lb.library_id='${req.query.library_id}';  
       `)
+      library.books.forEach(book => {
+        book.favorite = relation.includes(book.id)
+      })
       if (library.id === req.query.uid + favSuffix) {
         library.favorite = true
       }
@@ -156,9 +173,10 @@ const library = {
 
 module.exports = library
 
-function replaceQuotes(text, replacer = '') {
-  return text.replace(/['"`]/g, replacer)
+function replaceQuotes(text = '', replacer = '', regEx = /['"`]/g) {
+  return text.replace(regEx, replacer)
 }
+
 
 function changingReplacer (text) {
   return '\\' + text

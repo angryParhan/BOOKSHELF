@@ -1,19 +1,19 @@
 <template>
-  <section class="dashboard">
+  <section class="library">
     <h1>{{ library.title }}</h1>
-    <Library />
+    <LibraryCard />
   </section>
 </template>
 
 <script>
-import libraryCard from '@/store/library/libraryCard'
-import Library from '@/components/library/Library';
+import libraryCardStore from '../store/library/libraryCard'
+import LibraryCard from '../components/library/LibraryCard';
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'Dashboard',
+  name: 'Library',
   components: {
-    Library
+    LibraryCard
   },
   watch: {
     '$route.params.id' (val) {
@@ -32,7 +32,7 @@ export default {
   },
   beforeCreate () {
     if (!this.$store.state.library?.libraryCard) {
-      this.$store.registerModule('library/libraryCard', libraryCard)
+      this.$store.registerModule('library/libraryCard', libraryCardStore)
     }
   },
   created () {
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style lang="scss">
-.dashboard {
+.library {
   padding: 0 20px;
 
   h1 {

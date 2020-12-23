@@ -1,7 +1,7 @@
 <template>
   <section>
     <template v-if="books.length">
-        <div class="best-selling__category__books">
+        <div class="library-card__books">
           <bookCart
               v-for="book of books"
               :book="book"
@@ -37,6 +37,14 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.library-card {
+  &__books {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding-top: 90px;
+  }
+}
 </style>

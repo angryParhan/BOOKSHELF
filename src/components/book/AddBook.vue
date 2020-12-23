@@ -11,7 +11,6 @@
       </div>
     </div>
 
-
     <UiKitStub
         v-else
         description="Create library to add book."
@@ -27,8 +26,12 @@ export default {
 
   computed: {
     ...mapGetters({
-      libraries: 'library/getLibraries'
-    })
+      allLibraries: 'library/getLibraries',
+      book: 'app/getParams'
+    }),
+    libraries () {
+      return this.allLibraries.filter(library => library.my)
+    }
   },
 
   mounted () {
@@ -43,40 +46,23 @@ export default {
 
   methods: {
     ...mapActions({
-      createLibrary: 'library/createLibrary'
+      addBookToLibrary: 'library/addBookToLibrary'
     }),
-    async addHandler () {
-      this.errorCheck = false
-      this.validateAdding()
-
-      if(!this.errorCheck) {
-        //start auth Function
-        try {
-          const res = this.createLibrary({
-            name: this.formValues.name.value,
-            description: this.formValues.description.value
-          })
-          if (res) {
-            this.$emit('result', 'success')
-          } else {
-            this.$emit('result', 'api-error')
-          }
-        } catch (e) {
-          console.error(e)
+    async addHandler (library) {
+      try {
+        const res = this.addBookToLibrary({
+          book: this.book,
+          library: library
+        })
+        if (res) {
+          this.$emit('result', 'success')
+        } else {
+          this.$emit('result', 'api-error')
         }
-      } else {
-        this.$emit('result', 'validation-error')
+      } catch (e) {
+        console.error(e)
       }
-    },
-
-    validateAdding () {
-      if (!this.formValues.name.value.length) {
-        this.errorCheck = true
-        this.formValues.name.error = 'Enter name'
-      } else {
-        this.formValues.name.error = false
-      }
-    },
+    }
 
   }
 }
