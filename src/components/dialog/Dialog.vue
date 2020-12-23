@@ -13,7 +13,8 @@ export default {
   name: 'Dialog',
   components: {
     'AuthDialog': () => import('../authentication/AuthDialog'),
-    'CreateLibraryDialog': () => import('../library/CreateLibraryDialog'),
+    'CreateLibraryDialog': () => import('../library/dialogs/CreateLibraryDialog'),
+    'EditLibraryDialog': () => import('../library/dialogs/EditLibraryDialog'),
     'AddBookDialog': () => import('../book/AddBookDialog')
   },
   computed: {

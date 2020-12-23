@@ -82,12 +82,14 @@ const library = {
     }
   },
   edit (req, res) {
-    if (!req.body.library_id) {
+    if (!req.body.id) {
       return errorHandler(res, 'Bad request!')
     }
     updateQuery({
-      library_name: req.body.library_name
-    }, `library_id='${req.body.library_id}'`, 'libraries')
+      library_name: req.body.title,
+      library_description: req.body.description,
+      library_artwork: req.body.img,
+    }, `library_id='${req.body.id}'`, 'libraries')
       .then(data => res.send({ success: true, data }))
       .catch(e => errorHandler(res, e))
   },

@@ -7,7 +7,7 @@
           class="add-book__list-item"
           @click="addHandler(library)"
       >
-        <font-awesome-icon icon="book" class="add-book__list-icon"/> {{ library.title }}
+        <font-awesome-icon icon="landmark" class="add-book__list-icon"/> {{ library.title }}
       </div>
     </div>
 

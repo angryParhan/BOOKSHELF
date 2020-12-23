@@ -1,19 +1,18 @@
 <template>
   <section class="library">
-    <h1>{{ library.title }}</h1>
-    <LibraryCard />
+    <LibraryPage />
   </section>
 </template>
 
 <script>
 import libraryCardStore from '../store/library/libraryCard'
-import LibraryCard from '../components/library/LibraryCard';
+import LibraryPage from '../components/library/LibraryPage';
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Library',
   components: {
-    LibraryCard
+    LibraryPage
   },
   watch: {
     '$route.params.id' (val) {
@@ -43,7 +42,7 @@ export default {
 
 <style lang="scss">
 .library {
-  padding: 0 20px;
+  padding: 35px 20px;
 
   h1 {
     text-align: center;

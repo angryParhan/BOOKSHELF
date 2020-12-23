@@ -32,7 +32,7 @@
 
 <style lang="scss">
 .favorites {
-  padding: 0 20px;
+  padding: 35px 20px;
 
 
   &__books {

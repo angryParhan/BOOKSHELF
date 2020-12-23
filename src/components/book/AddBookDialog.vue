@@ -62,7 +62,6 @@ export default {
       text-align: center;
       font-size: 24px;
       cursor: pointer;
-      padding: 20px 0 0 0;
       user-select: none;
       margin-bottom: 0;
     }
@@ -72,7 +71,7 @@ export default {
   &__section {
     max-height: 300px;
     overflow-y: auto;
-    margin: 35px 20px 55px 20px;
+    margin: 15px 20px 25px 20px;
   }
 
   &__btn {

@@ -33,6 +33,10 @@
 <script>
   export default {
     inheritAttrs: false,
+    model: {
+      prop: 'value',
+      event: 'input'
+    },
     props: {
       value: {
         type: String,
@@ -133,7 +137,8 @@
 
     label {
       position: absolute;
-      color: azure;
+      color: #f1d5a2;
+      //color: azure;
       width: fit-content;
       top: 50%;
       transform: translateY(-50%);

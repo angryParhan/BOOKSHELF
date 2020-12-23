@@ -19,6 +19,7 @@ class LibraryModel {
       data: {
         ...params
       },
+      withCredentials: true
     })
   }
 

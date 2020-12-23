@@ -66,7 +66,7 @@
         const routes = this.libraries.map(item => {
           return {
             text: item.title,
-            icon: 'book',
+            icon: 'landmark',
             routeName: 'library-card',
             routeParams: { id: item.id }
           }
@@ -150,7 +150,8 @@
     height: calc(100vh - 70px);
     background: #3e3e3d;
     width: 250px;
-    border-top: 2px solid #2c2c2b;
+    //border-top: 2px solid #2c2c2b;
+    box-shadow: 10px 0px 10px -10px black;
     transition: transform 0.3s linear;
     z-index: 20;
     padding-top: 15px;
