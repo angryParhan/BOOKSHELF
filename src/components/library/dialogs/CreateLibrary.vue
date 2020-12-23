@@ -14,7 +14,6 @@
       <UiKitInput
           v-model="formValues.description.value"
           :error="formValues.description.error"
-          @blur="validateDescription"
           class="create-library__input"
           placeholder="Description"
           style="margin-top: 65px"
@@ -24,11 +23,10 @@
 </template>
 
 <script>
-import LibraryModel from '../../models/library/LibraryModel'
 import { mapActions } from 'vuex'
 
 export default {
-  name: "SignIn",
+  name: 'CreateLibrary',
   data () {
     return {
       errorCheck: false,
@@ -46,11 +44,6 @@ export default {
   },
 
 
-  computed: {
-
-  },
-
-
   mounted () {
     this.$root.$on('create-library', this.signInHandler)
   },
@@ -63,38 +56,26 @@ export default {
 
   methods: {
     ...mapActions({
-      login: 'user/login',
+      createLibrary: 'library/createLibrary'
     }),
     async signInHandler () {
       this.errorCheck = false
       this.validateName()
-      this.validateDescription()
 
       if(!this.errorCheck) {
         //start auth Function
         try {
-          const res = await LibraryModel.create({
+          const res = this.createLibrary({
             name: this.formValues.name.value,
             description: this.formValues.description.value
           })
-          if (res?.data?.library_id) {
-            console.log(res?.data?.library_id)
+          if (res) {
             this.$emit('result', 'success')
           } else {
             this.$emit('result', 'api-error')
           }
         } catch (e) {
           console.error(e)
-          if (e?.response?.data?.message) {
-            if (e.response.data.message === 'Password is not equal!') {
-              this.formValues.description.error = 'Incorrect password'
-            } else if (e.response.data.message === 'There is no user with this data') {
-              this.formValues.name.error = 'There is no such user'
-            }
-            this.$emit('result', 'validation-error')
-            return
-          }
-          this.$emit('result', 'api-error')
         }
       } else {
         this.$emit('result', 'validation-error')
@@ -102,22 +83,13 @@ export default {
     },
 
     validateName () {
-      if (this.formValues.name.value.length <= 3) {
+      if (!this.formValues.name.value.length) {
         this.errorCheck = true
         this.formValues.name.error = 'Enter name'
       } else {
         this.formValues.name.error = false
       }
     },
-
-    validateDescription () {
-      if (this.formValues.description.value.length < 6) {
-        this.errorCheck = true
-        this.formValues.description.error = 'Password must be longer than 6 characters'
-      } else {
-        this.formValues.description.error = false
-      }
-    }
 
   }
 }

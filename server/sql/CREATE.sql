@@ -15,18 +15,18 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`users` (
   PRIMARY KEY (`user_id`));
 
 
-
 CREATE TABLE IF NOT EXISTS `bookshelf`.`libraries` (
   `cdate` TIMESTAMP NOT NULL,
   `library_id` VARCHAR(100) NOT NULL,
   `library_artwork` LONGTEXT NULL,
   `library_name` VARCHAR(50) NOT NULL,
-  `library_description` VARCHAR(5000) NULL,
+  `library_description` LONGTEXT NULL,
   `library_visible` BOOLEAN DEFAULT TRUE,
+  `library_external_info` LONGTEXT NULL,
   `library_creator_id` VARCHAR(100) NOT NULL, -- ID of user which creates this library
   PRIMARY KEY (`library_id`));
-  
-  CREATE TABLE IF NOT EXISTS `bookshelf`.`user_library` (
+
+CREATE TABLE IF NOT EXISTS `bookshelf`.`user_library` (
   `user_library_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `library_id` VARCHAR(100) NOT NULL,
   `user_id` VARCHAR(100) NOT NULL,
@@ -34,20 +34,19 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`libraries` (
   FOREIGN KEY (user_id) REFERENCES users(user_id),
   PRIMARY KEY (`user_library_id`));
 
-
-
 CREATE TABLE IF NOT EXISTS `bookshelf`.`books` (
   `cdate` TIMESTAMP NOT NULL,
   `book_id` VARCHAR(100) NOT NULL,
   `book_library_id` VARCHAR(100),
   `book_name` VARCHAR(150) NOT NULL,
   `book_author` VARCHAR(150) NULL,
-  `book_description` VARCHAR(5000) NULL,
+  `book_description` LONGTEXT NULL,
   `book_artwork` LONGTEXT NULL,
+  `book_external_info` LONGTEXT NULL,
   PRIMARY KEY (`book_id`));
-  
-  
-  CREATE TABLE IF NOT EXISTS `bookshelf`.`library_book` (
+
+
+CREATE TABLE IF NOT EXISTS `bookshelf`.`library_book` (
   `library_book_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `library_id` VARCHAR(100) NOT NULL,
   `book_id` VARCHAR(100) NOT NULL,

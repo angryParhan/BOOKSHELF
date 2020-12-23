@@ -16,24 +16,22 @@ END $
 
 -- CREATE library
 CREATE PROCEDURE createLibrary
-(IN id VARCHAR(100), IN creator_id VARCHAR(100), IN name VARCHAR(50), IN description VARCHAR(5000), IN visible BOOLEAN, IN artwork LONGBLOB)
+(IN id VARCHAR(100), IN creator_id VARCHAR(100), IN name VARCHAR(50), IN description LONGTEXT, IN visible BOOLEAN, IN artwork LONGBLOB, IN external_info LONGTEXT)
 BEGIN
 	INSERT INTO bookshelf.libraries
-	(library_id, library_creator_id, library_name, library_description, library_visible, library_artwork, cdate)
+	(library_id, library_creator_id, library_name, library_description, library_visible, library_artwork, library_external_info, cdate)
 	VALUES
-	(id, creator_id, name, description, visible, artwork, NOW()); -- Create new lib
+	(id, creator_id, name, description, visible, artwork, external_info, NOW()); -- Create new lib
     INSERT INTO bookshelf.user_library (library_id, user_id) VALUES (id, creator_id); -- Add relation with user
 END $
 
 -- CREATE book
 CREATE PROCEDURE createBook
-(IN id VARCHAR(100), IN lib_id VARCHAR(100), IN name VARCHAR(150), IN author VARCHAR(150), IN description VARCHAR(5000), IN artwork LONGTEXT)
+(IN id VARCHAR(100), IN lib_id VARCHAR(100), IN name VARCHAR(150), IN author VARCHAR(150), IN description LONGTEXT, IN artwork LONGTEXT, IN external_info LONGTEXT)
 BEGIN
     INSERT INTO bookshelf.books
-    (book_id, book_name, book_author, book_description, book_artwork, cdate)
+    (book_id, book_name, book_author, book_description, book_artwork, book_external_info, cdate)
     VALUES
-    (id, name, author, description, artwork, NOW()); -- Create new book
-    INSERT INTO bookshelf.library_book (book_id, library_id) VALUES (id, lib_id); -- Add relation with lib
+    (id, name, author, description, artwork, external_info, NOW()); -- Create new book
 END $
 DELIMITER ;
-

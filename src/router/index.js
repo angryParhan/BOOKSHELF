@@ -26,6 +26,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "book-search"*/ '../views/BookSearch.vue')
   },
   {
+    path: '/library/:id',
+    name: 'library-card',
+    component: () => import(/* webpackChunkName: "library-card"*/ '../views/Library.vue'),
+    params: true
+  },
+  {
     path: '/book',
     name: 'book-page',
     component: () => import(/* webpackChunkName: "book-search"*/ '../views/Book.vue')

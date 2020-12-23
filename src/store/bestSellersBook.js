@@ -30,6 +30,7 @@ export default {
       }
     },
     REMOVE_BOOK_FAVORITE (state, book) {
+      book.favorite = false
       const index = state.bestSellingItems.findIndex(item => item.listId === book.category)
       if (index !== -1) {
         const bookIndex = state.bestSellingItems[index].books.findIndex(item => (item.id === book.id && item.category === book.category))

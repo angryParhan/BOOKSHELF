@@ -4,16 +4,16 @@
         v-model="app.activeDialog"
         :fullscreen="$breakpoint.xsOnly"
     >
-      <div class="auth-dialog">
-        <div class="auth-dialog__title">
-          <p>Create own library</p>
+      <div class="edit-library-dialog">
+        <div class="edit-library-dialog__title">
+          <p>Edit '{{ library.title }}' library</p>
         </div>
-        <section class="auth-dialog__active-tab">
-            <CreateLibrary @result="handleCreateResult"/>
+        <section class="edit-library-dialog__section">
+          <EditLibrary @result="handleCreateResult"/>
         </section>
 
-        <div class="auth-dialog__btn">
-          <UiKitBtn text="Create" style="width: 200px" :loading="loading" @click="createHandler"/>
+        <div class="edit-library-dialog__btn">
+          <UiKitBtn text="Edit" style="width: 200px" :loading="loading" @click="createHandler"/>
         </div>
 
       </div>
@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import CreateLibrary from '@/components/library/CreateLibrary'
-import { mapState, mapActions } from 'vuex'
+import EditLibrary from './EditLibrary'
+import {mapState, mapActions, mapGetters} from 'vuex'
 
 export default {
-  name: "AddLibraryDialog",
+  name: 'EditLibraryDialog',
   components: {
-    CreateLibrary
+    EditLibrary
   },
   data() {
     return {
@@ -41,6 +41,9 @@ export default {
   computed: {
     ...mapState({
       app: 'app'
+    }),
+    ...mapGetters({
+      library: 'app/getParams'
     })
   },
   methods: {
@@ -49,7 +52,7 @@ export default {
     }),
     createHandler () {
       this.loading = true
-      this.$root.$emit('create-library')
+      this.$root.$emit('edit-library')
     },
     handleCreateResult (result) {
       if (result === 'validation-error') {
@@ -68,7 +71,7 @@ export default {
 </script>
 
 <style lang="scss">
-.auth-dialog {
+.edit-library-dialog {
   width: 500px;
 
   @media all and (max-width: 600px) {
@@ -159,7 +162,7 @@ export default {
 
   }
 
-  &__active-tab {
+  &__section {
     margin-top: 55px;
   }
 

@@ -11,6 +11,15 @@ class localBooksModel {
       withCredentials: true
     })
   }
+  removeBook (params) {
+    return axios(`${this.resource}/remove`, {
+      method: 'post',
+      data: {
+        ...params
+      },
+      withCredentials: true
+    })
+  }
   createBook (params) {
     return axios(`${this.resource}/create`, {
       method: 'post',

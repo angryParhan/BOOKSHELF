@@ -29,7 +29,15 @@ const book = {
       }
     }
     const bookId = req.body.id || uuid.v4()
-    callProcedure('createBook', [bookId, req.body.library_id, req.body.title, req.body.author, req.body.description, req.body.img])
+    callProcedure('createBook', [
+          bookId,
+          req.body.library_id,
+          replaceQuotes(req.body.title, changingReplacer),
+          replaceQuotes(req.body.author, changingReplacer),
+          replaceQuotes(req.body.description, changingReplacer),
+          req.body.img,
+          req.body.external_info
+    ])
       .then(() => res.send({ bookId }))
       .catch(e => errorHandler(res, e))
   },
@@ -45,6 +53,12 @@ const book = {
       }
     }
     const { query } = await connection
+    let relation = []
+    try {
+      relation = (await query(`SELECT book_id FROM bookshelf.library_book WHERE library_id='${req.body.library_id}';`)).map(item => item.book_id)
+    } catch (e) {
+      console.log(e);
+    }
     query(`
     SELECT DISTINCT
     ${dbSelection.book}
@@ -54,11 +68,60 @@ const book = {
     `)
       .then((data) => {
         data = data.map(book => {
-          book.favorite = true
+          try {
+            book.externalInfo = book.externalInfo ? JSON.parse(book.externalInfo) : {}
+          } catch (e) {
+            book.externalInfo = {}
+          }
+          book.favorite = relation.includes(book.id)
           return book
         })
         return res.send({ success: true, data })
       })
+      .catch(e => errorHandler(res, e))
+  },
+  async getBook (req, res) {
+    if (!req.body.book_id) {
+      errorHandler(res, 'Bed request!')
+    }
+    const { query } = await connection
+    query(`SELECT ${dbSelection.book} FROM books as b WHERE b.book_id='${req.body.book_id}';`)
+      .then(book => {
+        book = book[0]
+        try {
+          book.externalInfo = book.externalInfo ? JSON.parse(book.externalInfo) : {}
+        } catch (e) {
+          book.externalInfo = {}
+        }
+        return res.send({ success: true, book })
+      })
+      .catch(e => errorHandler(res, e))
+  },
+  async remove (req, res) {
+    if (!req.body.library_id) {
+      try {
+        const id = token.getId((req.cookies||{}).token);
+        if (id) {
+          req.body.library_id = (req.body.uid || id) + '-fav'
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    if (!req.body.library_id || !req.body.id) {
+      return errorHandler(res, 'Bad request!')
+    }
+    const { query } = await connection
+    const relation = await query(`SELECT library_book_id FROM bookshelf.library_book WHERE book_id='${req.body.id}' AND library_id='${req.body.library_id}';`)
+    if (!relation.length) {
+      errorHandler(res, 'This relation does not exist.')
+    }
+    const book = await query(`SELECT book_id FROM bookshelf.books WHERE book_id='${req.body.id}';`)
+    if (!book.length) {
+      errorHandler(res, 'This book does not exist.')
+    }
+    query(`DELETE FROM bookshelf.library_book WHERE book_id='${req.body.id}' AND library_id='${req.body.library_id}';`)
+      .then(() => res.send({ success: true }))
       .catch(e => errorHandler(res, e))
   },
   async add (req, res) {
@@ -76,7 +139,7 @@ const book = {
       return errorHandler(res, 'Bad request!')
     }
     const { query } = await connection
-    const relation = await query(`SELECT library_book_id FROM bookshelf.library_book WHERE book_id='${req.body.id}' AND library_id='${req.body.lib_id}';`)
+    const relation = await query(`SELECT library_book_id FROM bookshelf.library_book WHERE book_id='${req.body.id}' AND library_id='${req.body.library_id}';`)
     if (relation.length) {
       errorHandler(res, 'This relation exist.')
     }
@@ -119,7 +182,11 @@ const book = {
           rank: book.rank,
           favorite: relation.includes(id),
           category: req.query.category,
-          id
+          id,
+          externalInfo: {
+            buy_links: book.buy_links,
+            publisher: book.publisher
+          }
         }
       })
     } catch (e) {
@@ -132,5 +199,13 @@ const book = {
 module.exports = book
 
 function generateBookId (book) {
-  return ((book.title||'').replace(/[ '"`]/g, '') + (book.author||'').replace(/[ '"`]/g, '')).toLowerCase()
+  return (replaceQuotes(book.title||'', '', /[ '"`]/g) + replaceQuotes(book.author||'', '', /[ '"`]/g)).toLowerCase()
+}
+
+function replaceQuotes(text = '', replacer = '', regEx = /['"`]/g) {
+  return text.replace(regEx, replacer)
+}
+
+function changingReplacer (text) {
+  return '\\' + text
 }

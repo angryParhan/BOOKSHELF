@@ -14,7 +14,7 @@
   import Dialog from './components/dialog/Dialog'
   import user from '../src/store/user'
   import app from '../src/store/app'
-  import library from '../src/store/library'
+  import library from './store/library/library'
   import UiHeader from './components/header/Header'
   import sidebar from './components/SideBar/Sidebar'
   import { mapGetters, mapActions } from 'vuex'
@@ -80,7 +80,7 @@
 
   .main-content {
     transition: padding 0.3s linear;
-    padding: 72px 0 0 305px;
+    padding: 72px 0 0 255px;
     transition-delay: 0.3s;
 
     &__drawer-off {

@@ -1,6 +1,9 @@
 <template>
-  <section class="book-cart">
-    <span v-show="showRank" class="book-cart__rank"><span>{{ book.rank }}</span></span>
+  <section @mouseover="addBtn = true" @mouseleave="addBtn = false" class="book-cart">
+    <span v-if="addBtn || showRank" @click="addToLibraryHandler" class="book-cart__rank">
+      <span v-if="!addBtn && showRank">{{ book.rank }}</span>
+      <span v-else><font-awesome-icon icon="plus" class="" /></span>
+    </span>
     <div class="book-cart__img-wrapper" @click.self.stop="bookPage(book.id)">
       <img
           :src="book.img"
@@ -44,11 +47,24 @@
       }
     },
 
+    data () {
+      return {
+        addBtn: false
+      }
+    },
+
     methods: {
       ...mapActions({
         addToFavorites: 'library/addFavoriteBook',
-        removeFromFavorites: 'library/removeBookFromFavorites'
+        removeFromFavorites: 'library/removeBookFromFavorites',
+        showDialog: 'app/showDialog',
+        setParams: 'app/setParams'
       }),
+
+      addToLibraryHandler () {
+        this.setParams(this.book)
+        this.showDialog('AddBook')
+      },
 
       bookPage (id) {
         console.log('here')
@@ -68,9 +84,10 @@
   margin-bottom: 20px;
   position: relative;
   cursor: pointer;
-
+  box-shadow: 0px 0px 10px 0px black;
   &:hover {
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 1);
+    //box-shadow: 0 -2px 5px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 20px 0px black;
   }
 
   &__rank {

@@ -91,7 +91,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    z-index: 20;
+    z-index: 21;
+
+    box-shadow: -10px 10px 10px -10px black;
 
     &__first-part {
       display: flex;
