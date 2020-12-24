@@ -13,6 +13,26 @@ class LibraryModel {
     })
   }
 
+  add (params) {
+    return axios(`${this.resource}/add`, {
+      method: 'POST',
+      data: {
+        ...params
+      },
+      withCredentials: true
+    })
+  }
+
+  delete (params) {
+    return axios(`${this.resource}/delete`, {
+      method: 'DELETE',
+      data: {
+        ...params
+      },
+      withCredentials: true
+    })
+  }
+
   edit (params) {
     return axios(`${this.resource}/edit`, {
       method: 'PUT',
@@ -23,8 +43,7 @@ class LibraryModel {
     })
   }
 
-
-  get (params) {
+  get (params = {}) {
     return axios(`${this.resource}/get`, {
       method: 'GET',
       params: {
@@ -34,22 +53,23 @@ class LibraryModel {
     })
   }
 
-  getLibrary (params) {
-    return axios(`${this.resource}/get`, {
+  getAll (params = {}) {
+    return axios(`${this.resource}/getAll`, {
       method: 'GET',
       params: {
         ...params
-      }
+      },
+      withCredentials: true
     })
   }
 
-  getAll (value, field) {
-    return axios(`${this.resource}/getAll`, {
-      method: 'POST',
-      data: {
-        value,
-        field
-      }
+  getLatestLibraries (params) {
+    return axios(`${this.resource}/latest`, {
+      mathod: 'GET',
+      params: {
+        ...params
+      },
+      withCredentials: true
     })
   }
 

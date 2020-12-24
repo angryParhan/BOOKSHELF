@@ -63,7 +63,6 @@ export default {
       } else if (result === 'success') {
         this.loading = false
         this.hideDialog()
-        this.$router.push({ name: 'dashboard' })
       }
     }
   }

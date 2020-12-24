@@ -5,7 +5,7 @@
           v-for="item in items"
           :key="item.text"
           class="sidebar__item"
-          :class="{'sidebar__item-active' : $route.name === item.routeName && (!(item.routeParams||{}) || $route.params.id === (item.routeParams||{}).id)}"
+          :class="{'sidebar__item-active' : $route.name === item.routeName && (!(item.routeQuery||{}) || $route.query.id === (item.routeQuery||{}).id)}"
           @click="onRouteClick(item)"
       >
         <font-awesome-icon :icon="item.icon" class="sidebar__item-icon" /> {{ item.text }}
@@ -15,7 +15,7 @@
           v-for="item in libraryRoutes"
           :key="item.text"
           class="sidebar__item sidebar__item-library"
-          :class="{'sidebar__item-active' : $route.name === item.routeName && (!(item.routeParams||{}) || $route.params.id === (item.routeParams||{}).id)}"
+          :class="{'sidebar__item-active' : $route.name === item.routeName && (!(item.routeQuery||{}) || $route.query.id === (item.routeQuery||{}).id)}"
           @click="onRouteClick(item)"
       >
         <font-awesome-icon :icon="item.icon" class="sidebar__item-icon" /> {{ item.text }}
@@ -63,12 +63,13 @@
         libraries: 'library/getLibraries',
       }),
       libraryRoutes () {
-        const routes = this.libraries.map(item => {
+        console.log(this.libraries);
+        const routes = this.libraries.filter(el => el.my).map(item => {
           return {
             text: item.title,
             icon: 'landmark',
             routeName: 'library-card',
-            routeParams: { id: item.id }
+            routeQuery: { id: item.id }
           }
         })
         routes.unshift({
@@ -127,7 +128,7 @@
       changeRoute (menuItem) {
         this.$router.push({
           name: menuItem.routeName,
-          params: menuItem.routeParams || {}
+          query: menuItem.routeQuery || {}
         }).catch(e => {
           console.log(e)
         })

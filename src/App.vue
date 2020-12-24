@@ -65,6 +65,9 @@
       if (this.$store.state.user) {
         this.$store.unregisterModule('user')
       }
+      if (this.$store.state.library) {
+        this.$store.unregisterModule('library')
+      }
     },
     methods: {
       ...mapActions({

@@ -6,13 +6,16 @@
       <div class="library-page__header-card">
         <libraryCard
             :library="library"
-            info
+            tools
         />
       </div>
 
       <div class="library-page__header__info">
         <h2 class="library-page__header__info-title">{{ library.title }}</h2>
         <h3 class="library-page__header__info-description">{{ library.description }}</h3>
+      </div>
+      <div v-if="library.my" class="library-page__header__remove">
+        <span @click="removeLibraryHandler">DELETE</span>
       </div>
     </header>
 
@@ -24,6 +27,7 @@
               v-for="book of books"
               :book="book"
               :key="book.title"
+              :remove="library.creator"
           />
         </div>
       </template>
@@ -64,8 +68,14 @@ export default {
   methods: {
     ...mapActions({
       showDialog: 'app/showDialog',
-      setParams: 'app/setParams'
+      setParams: 'app/setParams',
+      removeLibrary: 'library/removeLibrary'
     }),
+
+    removeLibraryHandler () {
+      this.removeLibrary(this.library)
+      this.$router.push({ name: 'dashboard' })
+    },
 
     editLibraryHandler () {
       this.setParams(this.library)
@@ -97,6 +107,25 @@ export default {
 
       &-description {
         font-weight: 400;
+      }
+    }
+
+    &__remove {
+      margin: 0 auto;
+      padding: 20px 20px;
+      overflow: hidden;
+      border-radius: 10px;
+      text-align: center;
+      span {
+        font-weight: bold;
+        display: inline-block;
+        padding: 5px 25px;
+        background: #d65454;
+        border-radius: 25px;
+        box-shadow: 0px 0px 5px 0px black;
+        &:hover {
+          box-shadow: 0px 0px 20px 0px black;
+        }
       }
     }
 

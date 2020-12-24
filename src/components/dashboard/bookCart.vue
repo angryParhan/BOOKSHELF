@@ -1,7 +1,8 @@
 <template>
   <section @mouseover="addBtn = true" @mouseleave="addBtn = false" class="book-cart">
-    <span v-if="addBtn || showRank" @click="addToLibraryHandler" class="book-cart__rank">
+    <span v-if="addBtn || showRank" @click="bookHandler" class="book-cart__rank">
       <span v-if="!addBtn && showRank">{{ book.rank }}</span>
+      <span v-else-if="remove"><font-awesome-icon icon="trash" class="" /></span>
       <span v-else><font-awesome-icon icon="plus" class="" /></span>
     </span>
     <div class="book-cart__img-wrapper" @click.self.stop="bookPage(book.id)">
@@ -44,6 +45,10 @@
       showRank: {
         type: Boolean,
         default: false
+      },
+      remove: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -57,17 +62,21 @@
       ...mapActions({
         addToFavorites: 'library/addFavoriteBook',
         removeFromFavorites: 'library/removeBookFromFavorites',
+        removeFromLibrary: 'library/removeFromLibrary',
         showDialog: 'app/showDialog',
         setParams: 'app/setParams'
       }),
 
-      addToLibraryHandler () {
-        this.setParams(this.book)
-        this.showDialog('AddBook')
+      bookHandler () {
+        if (this.remove) {
+          this.removeFromLibrary(this.book)
+        } else {
+          this.setParams(this.book)
+          this.showDialog('AddBook')
+        }
       },
 
       bookPage (id) {
-        console.log('here')
         this.$store.commit('library/SET_CURRENT_BOOK', this.book)
         this.$router.push({path: '/book', query: {id} })
       }

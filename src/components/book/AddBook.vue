@@ -46,11 +46,11 @@ export default {
 
   methods: {
     ...mapActions({
-      addBookToLibrary: 'library/addBookToLibrary'
+      addToLibrary: 'library/addToLibrary'
     }),
     async addHandler (library) {
       try {
-        const res = this.addBookToLibrary({
+        const res = this.addToLibrary({
           book: this.book,
           library: library
         })
