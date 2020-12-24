@@ -147,6 +147,9 @@ export default {
       if (checkSameBook !== -1) return
       try {
         const { library } = (await LibraryModel.create(payload)).data
+        library.my = true
+        library.creator = true
+        library.favorite = false
         commit('ADD_LIBRARY', library)
         return library
       } catch (e) {
