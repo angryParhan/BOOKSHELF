@@ -14,6 +14,7 @@
   import Dialog from './components/dialog/Dialog'
   import user from '../src/store/user'
   import app from '../src/store/app'
+  import bestSellersBooksStore from '../src/store/bestSellersBook'
   import library from './store/library/library'
   import UiHeader from './components/header/Header'
   import sidebar from './components/SideBar/Sidebar'
@@ -43,6 +44,9 @@
       if (!this.$store.state.library) {
         this.$store.registerModule('library', library)
       }
+      if (!this.$store.state.bestSellersBooks) {
+        this.$store.registerModule('bestSellersBooks', bestSellersBooksStore)
+      }
 
     },
     async mounted () {
@@ -64,6 +68,12 @@
       }
       if (this.$store.state.user) {
         this.$store.unregisterModule('user')
+      }
+      if (this.$store.state.library) {
+        this.$store.unregisterModule('library')
+      }
+      if (this.$store.state.bestSellersBooks) {
+        this.$store.unregisterModule('bestSellersBooks')
       }
     },
     methods: {

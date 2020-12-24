@@ -50,10 +50,11 @@
     },
 
     async created () {
+      this.$store.commit('bestSellersBooks/SET_INITIAL')
       if (!this.isBooksSet) {
         await this.getPopularityList()
-        await this.getBestSellersByCategory()
       }
+      await this.getBestSellersByCategory()
     },
 
     mounted () {

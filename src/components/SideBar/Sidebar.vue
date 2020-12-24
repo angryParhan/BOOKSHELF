@@ -81,6 +81,7 @@
     },
     watch: {
       '$breakpoint.mdAndUp' (nv) {
+        console.log('sidebar', nv)
         nv ? this.$store.commit('app/SET_SIDEBAR', true) : this.closeSidebar()
       },
       '$route.path'() {

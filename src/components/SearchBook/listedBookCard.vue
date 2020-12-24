@@ -29,11 +29,12 @@
       <p>{{ book.description }}</p>
       <div class="listed-book__shared">
         <section class="listed-book__shared-add-to-library">
-          <img src="../../assets/icons/plus.svg" alt="library">
+          <img src="../../assets/icons/plus.svg" alt="library" @click="addToLibraryHandler">
         </section>
 
         <section class="listed-book__shared-like">
-          <img src="../dashboard/images/favorite.svg" alt="favorite">
+          <img v-if="book.favorite" src="../dashboard/images/favorite-selected.svg" alt="" @click="handleBookRemove">
+          <img v-else src="../dashboard/images/favorite.svg" alt="" @click="handleAddToFavorites">
         </section>
 
         <section class="listed-book__shared-google-books">
@@ -46,6 +47,9 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
+
+
   export default {
     name: "listedBookCard",
 
@@ -57,10 +61,32 @@
     },
 
     methods: {
+      ...mapActions({
+        showDialog: 'app/showDialog',
+        setParams: 'app/setParams',
+        addToFavorites: 'library/addFavoriteBook',
+        removeFromFavorites: 'library/removeBookFromFavorites',
+      }),
+
       bookPage (id) {
         this.$store.commit('library/SET_CURRENT_BOOK', this.book)
         this.$router.push({path: '/book', query: {id} })
-      }
+      },
+
+      handleBookRemove () {
+        this.$store.commit('bookSearchStore/SET_FAVORITE', {book: this.book, value: false})
+        this.removeFromFavorites(this.book)
+      },
+
+      handleAddToFavorites () {
+        this.$store.commit('bookSearchStore/SET_FAVORITE', {book: this.book, value: true})
+        this.addToFavorites(this.book)
+      },
+
+      addToLibraryHandler () {
+        this.setParams(this.book)
+        this.showDialog('AddBook')
+      },
     }
   }
 </script>

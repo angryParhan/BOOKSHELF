@@ -1,6 +1,7 @@
 <template>
  <section class="book-search">
    <toolbar
+       :mount-value="searchValue"
        @search-book="startSearching"
    />
 
@@ -47,7 +48,8 @@
         booksFound: 'bookSearchStore/getFoundBooks',
         isSearched: 'bookSearchStore/isSearched',
         loading: 'bookSearchStore/loading',
-        error: 'bookSearchStore/getError'
+        error: 'bookSearchStore/getError',
+        searchValue: 'bookSearchStore/getLastSearch'
       }),
       stubText () {
         if (this.error) {
@@ -68,7 +70,7 @@
     },
 
     mounted () {
-      this.$store.commit('bookSearchStore/SET_INITIAL')
+
       window.addEventListener('scroll', this.handleScroll)
     },
 
@@ -88,6 +90,7 @@
         if (payload.initial) {
           this.searchedValue = payload.value
           this.$store.commit('bookSearchStore/SET_INITIAL')
+          this.$store.commit('bookSearchStore/SET_LAST_SEARCH', payload.value)
         }
         if (!this.searchedValue) return
         await this.searchBook({value: this.searchedValue, initial: payload.initial})

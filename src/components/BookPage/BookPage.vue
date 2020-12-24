@@ -30,8 +30,8 @@
         </div>
 
         <div class="book__favorite">
-          <img v-if="!book.favorite" src="../dashboard/images/favorite.svg" alt="" @click="addToFavorites(book)">
-          <img v-else src="../dashboard/images/favorite-selected.svg" alt="" @click="addToFavorites(book)">
+          <img v-if="book.favorite" src="../dashboard/images/favorite-selected.svg" alt="" @click="handleBookRemove">
+          <img v-else src="../dashboard/images/favorite.svg" alt="" @click="handleAddToFavorites">
         </div>
 
         <div class="book__google-link">
@@ -64,6 +64,12 @@
       })
     },
 
+    data () {
+      return {
+        localFavorite: false
+      }
+    },
+
     methods: {
       ...mapActions({
         showDialog: 'app/showDialog',
@@ -76,6 +82,16 @@
         this.setParams(this.book)
         this.showDialog('AddBook')
       },
+
+      handleBookRemove () {
+        this.$store.commit('library/SET_CURRENT_BOOK_FAVORITE', false)
+        this.removeFromFavorites(this.book)
+      },
+
+      handleAddToFavorites () {
+        this.$store.commit('library/SET_CURRENT_BOOK_FAVORITE', true)
+        this.addToFavorites(this.book)
+      }
     },
 
     mounted () {
@@ -86,10 +102,13 @@
 
 <style lang="scss">
   .book {
-    padding: 40px 20px;
+    padding: 20px;
     display: grid;
     grid-template-columns: 327px 1fr;
     gap: 3rem;
+    box-shadow: inset 0 0 10px rgba(0,0,0,.5);
+    margin-top: 50px;
+    border-radius: 6px;
 
     &__info {
       display: flex;
@@ -100,14 +119,11 @@
 
     &__img {
       height: 500px;
-      padding: 20px;
-      background: #646464;
-      text-align: center;
-      border-radius: 5px;
 
       img {
         height: 100%;
         width: 100%;
+        border-radius: 6px;
       }
 
       &-stub {

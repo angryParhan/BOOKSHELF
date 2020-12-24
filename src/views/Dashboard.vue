@@ -7,16 +7,10 @@
 
 <script>
   import bestSellingBooks from  '../components/dashboard/BestSellingBooks'
-  import bestSellersBooksStore from '../store/bestSellersBook'
 
   export default {
     name: "Dashboard",
     components: { bestSellingBooks },
-    beforeCreate () {
-      if (!this.$store.state.bestSellersBooks) {
-        this.$store.registerModule('bestSellersBooks', bestSellersBooksStore)
-      }
-    },
 
   }
 </script>

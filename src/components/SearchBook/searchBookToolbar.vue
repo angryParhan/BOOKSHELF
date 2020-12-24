@@ -19,9 +19,15 @@
 <script>
   export default {
     name: "searchBookToolbar",
+    props: {
+      mountValue: {
+        type: String,
+        default: ''
+      }
+    },
     data () {
       return  {
-        searchValue: '',
+        searchValue: this.mountValue,
         error: ''
       }
     },

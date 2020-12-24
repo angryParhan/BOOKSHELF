@@ -24,6 +24,11 @@ export default {
     SET_CURRENT_BOOK (state, book) {
       state.currentBook = {...book}
     },
+    SET_CURRENT_BOOK_FAVORITE (state, value) {
+      if ('favorite' in state.currentBook) {
+        state.currentBook.favorite = value
+      }
+    },
     RESET_CURRENT_BOOK (state) {
       state.currenBook = null
     },
@@ -68,11 +73,11 @@ export default {
         commit('app/SET_DIALOG', 'Auth', { root: true })
         return
       }
+      commit('bestSellersBooks/REMOVE_BOOK_FAVORITE', payload, { root: true })
+      commit('REMOVE_FAVORITE', payload)
       await localBooksModel.removeBook({
         id: payload.id
       })
-      commit('bestSellersBooks/REMOVE_BOOK_FAVORITE', payload, { root: true })
-      commit('REMOVE_FAVORITE', payload)
     },
     async setFavoritesBooks ({ commit }) {
       try {
