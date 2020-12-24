@@ -6,6 +6,8 @@
         <img src="../../assets/icons/img-stub-icon.svg" alt="stub">
       </div>
     </div>
+
+
     <h3 class="listed-book__title">
       <section class="listed-book__title-firstPart">
         <section class="listed-book__title-name">
