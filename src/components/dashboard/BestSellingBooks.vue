@@ -10,7 +10,7 @@
           <bookCart
               v-for="book of list.books"
               :book="book"
-              :key="book.title"
+              :key="book.id"
               :data-catagery="list.listName"
               show-rank
           />
