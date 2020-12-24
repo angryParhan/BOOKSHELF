@@ -1,10 +1,10 @@
 <template>
   <section :style="{ '--size': size }" @mouseover="hover = true" @mouseleave="hover = false" class="library-card">
 
-    <span v-if="tools && hover" @click="libraryHandler" class="library-card__edit">
-      <span v-if="library.creator"><font-awesome-icon icon="pen" /></span>
+    <span v-if="tools && hover && ((library.creator && !library.favorite) || !library.my || !library.favorite)" @click="libraryHandler" class="library-card__edit">
+      <span v-if="library.creator && !library.favorite"><font-awesome-icon icon="pen" /></span>
       <span v-else-if="!library.my"><font-awesome-icon icon="plus" /></span>
-      <span v-else><font-awesome-icon icon="trash" /></span>
+      <span v-else-if="!library.favorite"><font-awesome-icon icon="trash" /></span>
     </span>
 
     <img class="library-card__img" src="https://asllinea.org/wp-content/uploads/2014/03/BookPileXXXIEdit.jpg"/>

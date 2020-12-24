@@ -55,7 +55,7 @@ export default {
   },
 
   created () {
-    this.setLatest()
+    this.setLatest(this.count)
   }
 }
 </script>

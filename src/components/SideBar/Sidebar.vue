@@ -2,8 +2,8 @@
   <section>
     <aside class="sidebar" :class="{'sidebar__close' : !draw, 'sidebar__opened' : draw}">
       <div
-          v-for="item in items"
-          :key="item.text"
+          v-for="(item, i) in items"
+          :key="item.routeName + (item.routeQuery||{}).id + item.text + i"
           class="sidebar__item"
           :class="{'sidebar__item-active' : $route.name === item.routeName && (!(item.routeQuery||{}) || $route.query.id === (item.routeQuery||{}).id)}"
           @click="onRouteClick(item)"
@@ -12,8 +12,8 @@
       </div>
       <p class="sidebar__divider">Libraries</p>
       <div
-          v-for="item in libraryRoutes"
-          :key="item.text"
+          v-for="(item, i) in libraryRoutes"
+          :key="item.routeName + (item.routeQuery||{}).id + item.text + i"
           class="sidebar__item sidebar__item-library"
           :class="{'sidebar__item-active' : $route.name === item.routeName && (!(item.routeQuery||{}) || $route.query.id === (item.routeQuery||{}).id)}"
           @click="onRouteClick(item)"
@@ -64,7 +64,7 @@
       }),
       libraryRoutes () {
         console.log(this.libraries);
-        const routes = this.libraries.filter(el => el.my).map(item => {
+        const routes = this.libraries.filter(el => el.my && !el.favorite).map(item => {
           return {
             text: item.title,
             icon: 'landmark',

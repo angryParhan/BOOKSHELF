@@ -250,6 +250,7 @@ const library = {
         library.user = (await query(`SELECT ${dbSelection.user} FROM users as u WHERE u.user_id='${library.uid}'`))[0]
         library.creator = library.uid === req.query.uid
         library.my = relationUserLibrary.includes(library.id)
+        library.favorite = library.id === req.query.uid + favSuffix
       }
 
       return res.send({

@@ -1,5 +1,5 @@
 DELETE FROM books;
-DELETE FROM libraries;
+DELETE FROM libraries where library_name='test';
 DELETE FROM library_book;
 DELETE FROM users;
 DELETE FROM user_library;

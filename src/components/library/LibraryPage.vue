@@ -14,7 +14,7 @@
         <h2 class="library-page__header__info-title">{{ library.title }}</h2>
         <h3 class="library-page__header__info-description">{{ library.description }}</h3>
       </div>
-      <div v-if="library.my" class="library-page__header__remove">
+      <div v-if="library.my && !library.favorite" class="library-page__header__remove">
         <span @click="removeLibraryHandler">DELETE</span>
       </div>
     </header>
