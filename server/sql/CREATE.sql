@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`libraries` (
   `library_visible` BOOLEAN DEFAULT TRUE,
   `library_external_info` LONGTEXT NULL,
   `library_creator_id` VARCHAR(100) NOT NULL, -- ID of user which creates this library
+  FOREIGN KEY (library_creator_id) REFERENCES users(user_id) ON DELETE CASCADE,
   PRIMARY KEY (`library_id`));
 
 CREATE TABLE IF NOT EXISTS `bookshelf`.`user_library` (
