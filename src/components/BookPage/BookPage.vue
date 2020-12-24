@@ -35,7 +35,7 @@
         </div>
 
         <div class="book__google-link">
-          <a :href="book.googleLink" target="_blank"><img src="../../assets/icons/google-out.svg" alt="google-books"></a>
+          <a :href="getBuyLink" target="_blank"><img src="../../assets/icons/google-out.svg" alt="google-books"></a>
         </div>
 
       </section>
@@ -61,13 +61,31 @@
     computed: {
       ...mapGetters({
         book: 'library/getCurrentBook'
-      })
+      }),
+      getBuyLink () {
+        if (this.book?.externalInfo?.buy_links[0]?.url) {
+          return this.book.externalInfo.buy_links[0].url
+        }
+        return this.book.googleLink
+      }
+    },
+
+    watch: {
+      '$breakpoint.width' (nv) {
+        if (nv < 1095) {
+          this.$store.commit('app/SET_SIDEBAR', false)
+        }
+      }
     },
 
     data () {
       return {
         localFavorite: false
       }
+    },
+
+    mounted () {
+      console.log('book', this.book)
     },
 
     methods: {
@@ -94,9 +112,6 @@
       }
     },
 
-    mounted () {
-      console.log('id', this.id, this.book)
-    }
   }
 </script>
 
@@ -202,6 +217,45 @@
       width: 60px;
       height: 60px;
       cursor: pointer;
+    }
+  }
+
+
+  @media all and (max-width: 865px) {
+    .book {
+      grid-template-columns: 1fr;
+
+
+      &__img {
+        display: flex;
+        justify-content: center;
+
+        img {
+          width: auto;
+        }
+      }
+
+      &__title {
+
+        &-wrapper {
+          flex-direction: column;
+        }
+      }
+
+      &__rating {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  @media all and (max-width: 600px) {
+    .book {
+
+
+      &__img {
+        height: 350px;
+      }
     }
   }
 

@@ -94,7 +94,7 @@
 <style lang="scss">
   .listed-book {
     width: 100%;
-    background: #3e3e3d;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
     padding: 20px;
     display: grid;
@@ -108,7 +108,6 @@
       grid-area: 1 / 1 / 4 / 2;
       display: flex;
       cursor: pointer;
-      justify-content: center;
       img {
         height: 340px;
         width: 250px;
@@ -202,6 +201,7 @@
 
       &__img {
         grid-area: 1 / 1 / 2 / 2;
+        justify-content: center;
       }
 
       &__title {

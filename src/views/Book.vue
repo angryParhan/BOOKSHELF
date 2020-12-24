@@ -5,7 +5,7 @@
         :id="id"
     />
 
-    <UiKitSlider class="book-page__slider">
+    <UiKitSlider class="book-page__slider" v-if="getSuggestionBook.length">
       <bookCart
           v-for="book of getSuggestionBook"
           :key="book.id"
@@ -42,7 +42,12 @@
         bestSellingItems: 'bestSellersBooks/getBestSellingItems'
       }),
       getSuggestionBook () {
-        return this.favoritesList.filter((month,idx) => idx < this.numberOfSuggestions - 1)
+        let sugestedBooks = []
+        //sugestedBooks = this.favoritesList.filter((month,idx) => idx < this.numberOfSuggestions - 1)
+        if (sugestedBooks.length < this.numberOfSuggestions - 1 && this.bestSellingItems[0]?.books) {
+          sugestedBooks = [...sugestedBooks, ...this.bestSellingItems[0]?.books.filter((month,idx) => idx < this.numberOfSuggestions - 1)]
+        }
+        return sugestedBooks
       }
     },
 
@@ -71,6 +76,13 @@
     .my_items {
       width: 200px;
       height: 400px;
+    }
+  }
+
+
+  @media all and (max-width: 600px) {
+    .book-page {
+      max-width: 100%;
     }
   }
 </style>

@@ -53,6 +53,7 @@
       }
     },
 
+
     methods: {
       ...mapActions({
         addToFavorites: 'library/addFavoriteBook',

@@ -31,7 +31,7 @@
 
 <style lang="scss">
   .slider {
-    box-shadow: inset 0 0 10px #000000;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 0 10px;
     &:hover {
     }
