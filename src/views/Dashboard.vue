@@ -15,20 +15,18 @@
 
   export default {
     name: "Dashboard",
-    components: { bestSellingBooks },
-    name: 'Dashboard',
     components: {
       LatestLibraries,
       bestSellingBooks,
     },
 
-    data () {
+    data() {
       return {
         key: 0
       }
     },
 
-    beforeRouteEnter (to, from, next) {
+    beforeRouteEnter(to, from, next) {
       next(vm => {
         vm.key++
         next();
@@ -44,7 +42,7 @@
       }
     },
 
-    beforeCreate () {
+    beforeCreate() {
       if (!this.$store.state.bestSellersBooks) {
         this.$store.registerModule('bestSellersBooks', bestSellersBooksStore)
       }
