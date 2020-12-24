@@ -15,7 +15,7 @@ export default {
     LibraryPage
   },
   watch: {
-    '$route.params.id' (val) {
+    '$route.query.id' (val) {
       this.setLibrary(val)
     }
   },
@@ -29,13 +29,22 @@ export default {
       setLibrary: 'library/libraryCard/setLibrary'
     })
   },
+
+  beforeDestroy () {
+    if (this.$store.state['library/libraryCard']) {
+      this.$store.unregisterModule('library/libraryCard')
+    }
+  },
+
+
   beforeCreate () {
-    if (!this.$store.state.library?.libraryCard) {
+    if (!this.$store.state['library/libraryCard']) {
       this.$store.registerModule('library/libraryCard', libraryCardStore)
     }
   },
+
   created () {
-    this.setLibrary(this.$route.params.id)
+    this.setLibrary(this.$route.query.id)
   }
 }
 </script>

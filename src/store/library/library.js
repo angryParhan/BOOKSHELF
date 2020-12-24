@@ -6,7 +6,7 @@ export default {
   state: {
     favorites: [],
     libraries: [],
-    currentBook: null
+    currentBook: null,
   },
   mutations: {
     ADD_FAVORITE (state, book) {
@@ -14,6 +14,17 @@ export default {
     },
     SET_FAVORITES (state, payload) {
       state.favorites = payload
+    },
+    SET_LIBRARY (state, payload) {
+      state.libraries = state.libraries.map(item => {
+        if (item.id === payload.id) {
+          return {
+            ...item,
+            ...payload,
+          }
+        }
+        return item
+      })
     },
     REMOVE_FAVORITE (state, book) {
       const index = state.favorites.findIndex(item => item.id === book.id)
@@ -87,18 +98,46 @@ export default {
         console.error(e);
       }
     },
-    async addLibrary ({ commit, rootGetters, state }, payload) { // TODO
+    async removeFromLibrary ({ commit, rootGetters }, payload) { // TODO
       if (!rootGetters['user/isLogin']) {
         commit('app/SET_DIALOG', 'Auth', { root: true })
         return
       }
-      const checkSameBook = state.favorites.findIndex(item => item.id === payload.id)
-      if (checkSameBook !== -1) return
-      await localBooksModel.addBook({
-        id: payload.id
+      await localBooksModel.removeBook({
+        id: payload.id,
+        library_id: rootGetters['library/libraryCard/getData'].id
       })
-      commit('bestSellersBooks/SET_BOOK_FAVORITE', payload, { root: true })
-      commit('ADD_FAVORITE', payload)
+      commit('library/libraryCard/REMOVE_BOOK', payload, { root: true })
+    },
+    async addToLibrary ({ rootGetters }, payload) {
+      if (!rootGetters['user/isLogin']) {
+        return
+      }
+      try {
+        await localBooksModel.createBook(payload.book)
+        await localBooksModel.addBook({
+          id: payload.book.id,
+          library_id: payload.library.id
+        })
+        return true
+      } catch (e) {
+        console.log(e)
+        return false
+      }
+    },
+    async addLibrary ({ commit, rootGetters }, payload) {
+      if (!rootGetters['user/isLogin']) {
+        commit('app/SET_DIALOG', 'Auth', { root: true })
+        return
+      }
+      try {
+        await LibraryModel.add({
+          id: payload.id
+        })
+      } catch (e) {
+        console.log(e)
+      }
+      commit('ADD_LIBRARY', payload)
     },
     async createLibrary ({ commit, rootGetters, state }, payload) {
       if (!rootGetters['user/isLogin']) {
@@ -115,36 +154,44 @@ export default {
         return false
       }
     },
-    async addBookToLibrary ({ rootGetters }, payload) {
-      if (!rootGetters['user/isLogin']) {
-        return
-      }
-      try {
-        await localBooksModel.createBook(payload.book)
-        await localBooksModel.addBook({
-          id: payload.book.id,
-          library_id: payload.library.id
-        })
-        return true
-      } catch (e) {
-        console.log(e)
-        return false
-      }
-    },
-    async removeLibrary ({ commit, rootGetters }, payload) {
+    async removeLibrary ({ commit, dispatch, rootGetters, rootState }, payload) {
       if (!rootGetters['user/isLogin']) {
         commit('app/SET_DIALOG', 'Auth', { root: true })
         return
       }
+      const data = await LibraryModel.delete({
+        id: payload.id
+      })
+      console.log(data);
       commit('REMOVE_LIBRARY', payload)
+      if (rootState['library/libraryCard']) {
+        dispatch('library/libraryCard/removeLibrary', payload, { root: true })
+      }
     },
-    setLibraries ({ commit, rootGetters }) {
-      console.log('here user')
+    async setLibraries ({ commit, rootGetters }) {
       if (!rootGetters['user/isLogin']) {
         return
       }
-      const user = rootGetters['user/getUser']
-      commit('SET_LIBRARIES', (user.libraries || []))
+      try {
+        let libraries = (await LibraryModel.getAll()).data.data
+        commit('SET_LIBRARIES', libraries)
+      } catch (e) {
+        commit('SET_LIBRARIES', [])
+      }
+    },
+    async editLibrary ({ commit, dispatch, rootGetters, rootState }, payload) {
+      if (!rootGetters['user/isLogin']) {
+        commit('app/SET_DIALOG', 'Auth', { root: true })
+        return
+      }
+      await LibraryModel.edit(payload)
+      commit('SET_LIBRARY', payload)
+      if (rootState['library/libraryCard']) {
+        dispatch('library/libraryCard/editLibrary', payload, { root: true })
+      }
+      if (rootState['library/latestLibraries']) {
+        dispatch('library/latestLibraries/editLibrary', payload, { root: true })
+      }
     }
   },
   getters: {

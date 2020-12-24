@@ -8,9 +8,9 @@ import breakpoint from './plugins/breakpointPlugin'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faHeart, faSearch, faHome, faPlus, faBook, faLandmark, faPen
+  faHeart, faSearch, faHome, faPlus, faBook, faLandmark, faPen, faTrash
 } from "@fortawesome/free-solid-svg-icons";
-library.add(faHeart, faSearch, faHome, faPlus, faBook, faLandmark, faPen)
+library.add(faHeart, faSearch, faHome, faPlus, faBook, faLandmark, faPen, faTrash)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import "normalize.css"

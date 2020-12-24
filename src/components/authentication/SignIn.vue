@@ -100,7 +100,7 @@
       },
 
       validateLogin () {
-        if (this.formValues.login.value.length <= 3) {
+        if (this.formValues.login.value.length < 3) {
           this.errorCheck = true
           this.formValues.login.error = 'Login must be longer then 3 characters'
         } else {

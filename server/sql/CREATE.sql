@@ -24,14 +24,15 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`libraries` (
   `library_visible` BOOLEAN DEFAULT TRUE,
   `library_external_info` LONGTEXT NULL,
   `library_creator_id` VARCHAR(100) NOT NULL, -- ID of user which creates this library
+  FOREIGN KEY (library_creator_id) REFERENCES users(user_id) ON DELETE CASCADE,
   PRIMARY KEY (`library_id`));
 
 CREATE TABLE IF NOT EXISTS `bookshelf`.`user_library` (
   `user_library_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `library_id` VARCHAR(100) NOT NULL,
   `user_id` VARCHAR(100) NOT NULL,
-  FOREIGN KEY (library_id) REFERENCES libraries(library_id),
-  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (library_id) REFERENCES libraries(library_id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
   PRIMARY KEY (`user_library_id`));
 
 CREATE TABLE IF NOT EXISTS `bookshelf`.`books` (
@@ -50,6 +51,6 @@ CREATE TABLE IF NOT EXISTS `bookshelf`.`library_book` (
   `library_book_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `library_id` VARCHAR(100) NOT NULL,
   `book_id` VARCHAR(100) NOT NULL,
-  FOREIGN KEY (library_id) REFERENCES libraries(library_id),
-  FOREIGN KEY (book_id) REFERENCES books(book_id),
+  FOREIGN KEY (library_id) REFERENCES libraries(library_id) ON DELETE CASCADE,
+  FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
   PRIMARY KEY (`library_book_id`));

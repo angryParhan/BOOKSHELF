@@ -65,7 +65,7 @@ export default {
 
   methods: {
     ...mapActions({
-      editLibrary: 'library/libraryCard/editLibrary'
+      editLibrary: 'library/editLibrary'
     }),
     async signInHandler () {
       this.errorCheck = false
