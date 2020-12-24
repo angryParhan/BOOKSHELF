@@ -41,11 +41,11 @@ const auth = {
               SELECT DISTINCT
               ${dbSelection.library}
               FROM users as u, libraries as l, user_library as ul 
-              WHERE ul.user_id = '${req.body.uid}'
-                    AND ul.library_id = l.library_id AND l.library_id <> '${req.body.uid + '-fav'}';
+              WHERE ul.user_id = '${user.userId}'
+                    AND ul.library_id = l.library_id AND l.library_id <> '${user.userId + '-fav'}';
               `)
           user.libraries = libraries.map(library => {
-            library.my = library.uid === req.body.uid
+            library.my = library.uid === user.userId
             return library
           })
           res.cookie('token', token.create(user.userEmail, user.userId), { domain: 'localhost', httpOnly: true });

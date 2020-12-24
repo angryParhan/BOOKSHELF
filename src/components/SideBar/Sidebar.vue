@@ -82,12 +82,16 @@
     },
     watch: {
       '$breakpoint.mdAndUp' (nv) {
+        console.log('sidebar', nv)
         nv ? this.$store.commit('app/SET_SIDEBAR', true) : this.closeSidebar()
       },
       '$route.path'() {
         if (!this.$breakpoint.mdAndUp) {
           this.closeSidebar()
         }
+      },
+      libraries (nv) {
+        console.log('libraries', nv)
       },
       async draw (nv) {
         if (!this.$breakpoint.mdAndUp) {

@@ -10,7 +10,7 @@
           <bookCart
               v-for="book of list.books"
               :book="book"
-              :key="book.title"
+              :key="book.id"
               :data-catagery="list.listName"
               show-rank
           />
@@ -50,10 +50,11 @@
     },
 
     async created () {
+      this.$store.commit('bestSellersBooks/SET_INITIAL')
       if (!this.isBooksSet) {
         await this.getPopularityList()
-        await this.getBestSellersByCategory()
       }
+      await this.getBestSellersByCategory()
     },
 
     mounted () {

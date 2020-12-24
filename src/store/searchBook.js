@@ -8,7 +8,8 @@ export default {
     loading: false,
     totalItems: 0,
     searchTriggered: false,
-    error: false
+    error: false,
+    lastSearchValue: ''
   },
   mutations: {
     SET_OFFSET (state, number) {
@@ -17,6 +18,9 @@ export default {
     ADD_BOOKS (state, books) {
       state.booksFound = [...state.booksFound, ...books]
     },
+    SET_LAST_SEARCH (state, value) {
+      state.lastSearchValue = value
+    },
     SET_INITIAL (state) {
       state.booksFound = []
       state.offset = 0
@@ -24,6 +28,13 @@ export default {
       state.totalItems = 0
       state.searchTriggered = false
       state.error = false
+      state.lastSearchValue = ''
+    },
+    SET_FAVORITE (state, payload) {
+      const indx = state.booksFound.findIndex(item => item.id === payload.book.id)
+      if (indx !== -1) {
+        state.booksFound[indx].favorite = payload.value
+      }
     }
   },
   actions: {
@@ -79,6 +90,9 @@ export default {
     },
     getError (state) {
       return state.error
+    },
+    getLastSearch (state) {
+      return state.lastSearchValue
     }
   }
 }

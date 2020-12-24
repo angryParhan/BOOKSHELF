@@ -19,6 +19,10 @@ export default {
     SET_OFFSET (state, value) {
       state.offset = value
     },
+    SET_INITIAL (state) {
+      state.bestSellingItems = []
+      state.offset = 0
+    },
     SET_BOOK_FAVORITE (state, book) {
       const index = state.bestSellingItems.findIndex(item => item.listId === book.category)
       if (index !== -1) {

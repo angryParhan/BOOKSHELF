@@ -55,6 +55,8 @@
 </template>
 
 <script>
+
+  import { mapActions } from 'vuex'
   import UserModel from '../../models/user/UserModel'
 
   export default {
@@ -93,6 +95,10 @@
       this.$root.$off('auth', this.signUpHandler)
     },
     methods: {
+      ...mapActions({
+        login: 'user/login',
+      }),
+
       async signUpHandler () {
         this.errorCheck = false
 
@@ -111,7 +117,11 @@
               user_name: this.formValues.username.value,
               password: this.formValues.password.value
             })).data
-            await UserModel.login({uid})
+            const res = await UserModel.login({uid})
+            if (res?.data?.user) {
+              this.login(res.data.user)
+            }
+            console.log('res', res)
             this.$emit('auth-result', 'success')
           } catch (e) {
             this.$emit('auth-result', 'api-error')
