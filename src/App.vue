@@ -31,15 +31,29 @@
     },
     computed: {
       ...mapGetters({
-        draw: 'app/getSideBar'
+        draw: 'app/getSideBar',
+        isLogin: 'user/isLogin'
       })
     },
-    created () {
-      if (!this.$store.state.app) {
-        this.$store.registerModule('app', app)
+
+    watch: {
+      isLogin (nv) {
+        if (nv) {
+          this.setFavoritesBooks()
+        } else {
+          console.log('here')
+          this.$store.commit('library/SET_FAVORITES', [])
+          this.$store.commit('library/SET_LIBRARIES', [])
+        }
       }
+    },
+
+    beforeCreate () {
       if (!this.$store.state.user) {
         this.$store.registerModule('user', user)
+      }
+      if (!this.$store.state.app) {
+        this.$store.registerModule('app', app)
       }
       if (!this.$store.state.library) {
         this.$store.registerModule('library', library)
@@ -54,7 +68,6 @@
         const res = await UserModel.login()
         if (res?.data?.user) {
           this.login(res.data.user)
-          this.setFavoritesBooks()
         }
         console.log(res.data.user)
       } catch (e) {

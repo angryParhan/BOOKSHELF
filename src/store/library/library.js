@@ -139,6 +139,7 @@ export default {
       commit('REMOVE_LIBRARY', payload)
     },
     setLibraries ({ commit, rootGetters }) {
+      console.log('here user')
       if (!rootGetters['user/isLogin']) {
         return
       }

@@ -89,6 +89,9 @@
           this.closeSidebar()
         }
       },
+      libraries (nv) {
+        console.log('libraries', nv)
+      },
       async draw (nv) {
         if (!this.$breakpoint.mdAndUp) {
           if (nv) {
