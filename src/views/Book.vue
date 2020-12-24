@@ -42,9 +42,10 @@
         bestSellingItems: 'bestSellersBooks/getBestSellingItems'
       }),
       getSuggestionBook () {
+        console.log('lol', this.bestSellingItems)
         let sugestedBooks = []
         //sugestedBooks = this.favoritesList.filter((month,idx) => idx < this.numberOfSuggestions - 1)
-        if (sugestedBooks.length < this.numberOfSuggestions - 1 && this.bestSellingItems[0]?.books) {
+        if (sugestedBooks.length < this.numberOfSuggestions - 1 && this?.bestSellingItems[0]?.books) {
           sugestedBooks = [...sugestedBooks, ...this.bestSellingItems[0]?.books.filter((month,idx) => idx < this.numberOfSuggestions - 1)]
         }
         return sugestedBooks

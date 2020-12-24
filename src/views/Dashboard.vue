@@ -9,9 +9,7 @@
 
 <script>
   import bestSellingBooks from  '../components/dashboard/BestSellingBooks'
-  import bestSellersBooksStore from '../store/bestSellersBook'
-  import library from '../store/library/library';
-  import LatestLibraries from '../components/dashboard/LatestLibraries';
+  import LatestLibraries from '../components/dashboard/LatestLibraries'
 
   export default {
     name: "Dashboard",
@@ -24,32 +22,7 @@
       return {
         key: 0
       }
-    },
-
-    beforeRouteEnter(to, from, next) {
-      next(vm => {
-        vm.key++
-        next();
-      })
-    },
-
-    beforeDestroy() {
-      if (this.$store.state.bestSellersBooks) {
-        this.$store.unregisterModule('bestSellersBooks')
-      }
-      if (this.$store.state.bestSellersBooks) {
-        this.$store.unregisterModule('library')
-      }
-    },
-
-    beforeCreate() {
-      if (!this.$store.state.bestSellersBooks) {
-        this.$store.registerModule('bestSellersBooks', bestSellersBooksStore)
-      }
-      if (!this.$store.state.bestSellersBooks) {
-        this.$store.registerModule('library', library)
-      }
-    },
+    }
 
   }
 </script>
